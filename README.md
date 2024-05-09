@@ -8,6 +8,13 @@ mvn compile
 mvn package
 ```
 
-Then run it using: 
+Run it using: 
+```
 java -jar target/tubes2_singgalangjaya-1.0-SNAPSHOT.jar
+```
+
+Recompile using :
+```
+mvn clean package
+```
 
