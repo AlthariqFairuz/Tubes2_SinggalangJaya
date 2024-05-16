@@ -22,6 +22,7 @@ mvn package
 ```
 java -jar target/tubes2_singgalangjaya-1.0-SNAPSHOT.jar
 ```
+or you could run the `.jar` file
 
 5. Recompile using :
 ```
