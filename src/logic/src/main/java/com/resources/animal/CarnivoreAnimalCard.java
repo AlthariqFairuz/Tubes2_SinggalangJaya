@@ -1,6 +1,4 @@
-package src.logic.card.animal;
-
-import src.logic.card.*;
+package com.resources.animal;
 
 public class CarnivoreAnimalCard extends AnimalCard {
 

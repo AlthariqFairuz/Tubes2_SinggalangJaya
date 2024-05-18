@@ -1,4 +1,4 @@
-package src.logic;
+package com.resources;
 
 public class CardSlot {
 

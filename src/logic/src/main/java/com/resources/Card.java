@@ -1,4 +1,4 @@
-package src.logic.card;
+package com.resources;
 
 public class Card {
     String name;

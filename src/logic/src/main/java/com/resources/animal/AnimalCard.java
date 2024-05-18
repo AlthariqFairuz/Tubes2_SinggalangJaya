@@ -1,6 +1,6 @@
-package src.logic.card.animal;
+package com.resources.animal;
 
-import src.logic.card.Card;
+import com.resources.Card;
 
 public abstract class AnimalCard extends Card {
     enum AnimalType {CARNIVORE, OMNIVORE, HERBIVORE};
