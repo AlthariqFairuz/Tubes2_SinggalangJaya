@@ -1,6 +1,7 @@
 package src.logic;
 
-import card.animal.*;
+
+import src.logic.card.animal.OmnivoreAnimalCard;
 
 public class Main {
     public static void main(String[] args) {

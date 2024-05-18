@@ -1,8 +1,13 @@
 package src.logic.card;
 
 public class Card {
-    string name;
-    string imageLocation;
+    String name;
+    String imageLocation;
+
+    public Card(String name, String imageLocation) {
+        this.name = name;
+        this.imageLocation = imageLocation;
+    }
 
     public void printCard() {
         System.out.println("Name: ");
