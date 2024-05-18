@@ -2,3 +2,7 @@
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
 }
+
+.button:hover{
+    -fx-background-color: #C0C0C0;
+}
