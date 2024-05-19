@@ -1,6 +1,6 @@
 package com.resources;
 
-public class Card {
+public abstract class Card {
     String name;
     String imageLocation;
 
@@ -9,7 +9,5 @@ public class Card {
         this.imageLocation = imageLocation;
     }
 
-    public void printCard() {
-        System.out.println("Name: ");
-    }
+    
 }
