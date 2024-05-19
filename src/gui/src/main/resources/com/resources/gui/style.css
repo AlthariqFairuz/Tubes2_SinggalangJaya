@@ -3,6 +3,37 @@
     -fx-background-radius: 20px;
 }
 
+.button {
+    -fx-background-color:  #9336B4;
+    -fx-border-color: black;
+    -fx-border-radius: 20;
+    -fx-background-radius:  20;
+}
+
 .button:hover{
+    -fx-background-color: #C0C0C0;
+}
+
+.dialog-button {
+    -fx-background-color:  #F2921D;
+    -fx-background-radius: 20;
+    -fx-text-fill:  #FFFFFF;
+    -fx-border-radius: 0;
+    -fx-border-color: transparent;
+}
+
+.dialog-button:hover {
+    -fx-background-color: #C0C0C0;
+}
+
+.panen-button {
+    -fx-background-radius: 3;
+    -fx-background-color:  #F2921D;
+    -fx-text-fill:  #FFFFFF;
+    -fx-border-radius: 0;
+    -fx-border-color: transparent;
+}
+
+.panen-button:hover{
     -fx-background-color: #C0C0C0;
 }

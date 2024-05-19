@@ -325,7 +325,7 @@
                   <DropShadow />
                </effect>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" style="-fx-background-color: #9336B4; -fx-border-color: black; -fx-border-radius: 20; -fx-background-radius: 20;" stylesheets="@style.css" text="Ladangku" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Ladangku" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
@@ -336,7 +336,18 @@
                         <Insets left="50.0" right="35.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" style="-fx-background-color: #9336B4; -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" stylesheets="@style.css" text="Toko" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Load Plugin" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="SansSerif Bold" size="16.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <GridPane.margin>
+                        <Insets left="35.0" right="50.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Load State" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
@@ -347,7 +358,7 @@
                         <Insets left="50.0" right="35.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" style="-fx-background-color: #9336B4; -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" stylesheets="@style.css" text="Ladang Lawan" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
+                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Save State" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
@@ -355,10 +366,10 @@
                         <DropShadow />
                      </effect>
                      <GridPane.margin>
-                        <Insets left="40.0" right="35.0" />
+                        <Insets left="35.0" right="50.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" style="-fx-background-color: #9336B4; -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" stylesheets="@style.css" text="Load State" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="2">
+                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Toko" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
@@ -369,7 +380,7 @@
                         <Insets left="50.0" right="35.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" style="-fx-background-color: #9336B4; -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" stylesheets="@style.css" text="Save State" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Ladang Lawan" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
@@ -377,18 +388,7 @@
                         <DropShadow />
                      </effect>
                      <GridPane.margin>
-                        <Insets left="40.0" right="35.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" style="-fx-background-color: #9336B4; -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" stylesheets="@style.css" text="Load Plugin" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="SansSerif Bold" size="16.0" />
-                     </font>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                     <GridPane.margin>
-                        <Insets left="40.0" right="35.0" />
+                        <Insets left="35.0" right="50.0" />
                      </GridPane.margin>
                   </Button>
                </children>
@@ -406,7 +406,7 @@
                         <Font name="SansSerif Bold" size="32.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="198.0" style="-fx-background-color: #9336B4; -fx-background-radius: 20; -fx-border-color: black; -fx-border-radius: 20;" stylesheets="@style.css" text="Next" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="198.0" stylesheets="@style.css" text="Next" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
