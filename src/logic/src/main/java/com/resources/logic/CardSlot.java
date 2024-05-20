@@ -29,5 +29,4 @@ public class CardSlot {
     public boolean hasCard() {
         return card != null;
     }
-    
 }

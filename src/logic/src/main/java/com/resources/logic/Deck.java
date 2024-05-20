@@ -2,16 +2,40 @@ package com.resources.logic;
 
 public class Deck {
     private int totalDeckSize; // Non-active + active
-    private int totalActiveCards; // Active only
-    private Card[] nonActiveCards; // Size is totalDeckSize - totalActiveCards
-    private Card[] ActiveCards; // Size is totalActiveCards
+    private int totalActiveDeckSize; // Active only
+    private CardSlot[] nonActiveCards; // Size is totalDeckSize - totalActiveCards
+    private CardSlot[] ActiveCards; // Size is totalActiveCards
 
-    public Deck(int totalDeckSize, int totalActiveCards) {
+    public Deck(int totalDeckSize, int totalActiveDeckCards) {
         this.totalDeckSize = totalDeckSize;
-        this.totalActiveCards = totalActiveCards;
+        this.totalActiveDeckSize = totalActiveDeckCards;
 
-        nonActiveCards = new Card[totalDeckSize - totalActiveCards];
-        ActiveCards = new Card[totalActiveCards];
+        nonActiveCards = new CardSlot[totalDeckSize - totalActiveDeckCards];
+        ActiveCards = new CardSlot[totalActiveDeckCards];
     }
-    
+
+    public int countEmptySlotsInActiveDeck() {
+        int count = 0;
+        for (int i = 0; i < totalActiveDeckSize; i++) {
+            if (!ActiveCards[i].hasCard()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public boolean isAvailable() {
+        return countEmptySlotsInActiveDeck() > 0;
+    }
+
+    public void addCardToActiveDeck(Card card) {
+        for (int i = 0; i < totalActiveDeckSize; i++) {
+            if (!ActiveCards[i].hasCard()) {
+                ActiveCards[i].setCard(card);
+                return;
+
+            }
+        }
+    }
+
 }

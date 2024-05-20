@@ -43,4 +43,25 @@ public class Game {
         }
     }
 
+    public boolean harvest(int row, int col) {
+        CardSlot cardSlot = getCurrentPlayer().getLand().getCardSlots()[row][col];
+        if (!cardSlot.hasCard()) {
+            System.out.println("Can't harvest from empty slot");
+            return false;
+        }
+        if (!cardSlot.getCard().canHarvest()) {
+            System.out.println("Can't harvest from this card");
+            return false;
+        }
+        if (!getCurrentPlayer().getDeck().isAvailable()) {
+            System.out.println("Can't harvest from full deck");
+            return false;
+        }
+        Card card = cardSlot.popCard();
+
+        getCurrentPlayer().getDeck().addCardToActiveDeck(card.getHarvestProduct());
+        return true;
+    }
+
+
 }

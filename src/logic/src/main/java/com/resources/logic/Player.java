@@ -7,7 +7,7 @@ public class Player {
 
     public Player() {
         this.gold = 0;
-        this.land = new Land();
+        this.land = new Land(4, 5);
         this.deck = new Deck(40, 5);
     }
 
@@ -17,5 +17,9 @@ public class Player {
 
     public Land getLand() {
         return land;
+    }
+
+    public Deck getDeck() {
+        return deck;
     }
 }
