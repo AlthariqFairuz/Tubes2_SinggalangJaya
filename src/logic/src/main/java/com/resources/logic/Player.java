@@ -22,4 +22,8 @@ public class Player {
     public Deck getDeck() {
         return deck;
     }
+
+    public void addGold(int amount) {
+        gold += amount;
+    }
 }

@@ -8,14 +8,20 @@ public abstract class Card {
     protected ProductCard harvestProduct;
     protected int totalAccelerate;
     protected int totalDelay;
+    protected int price;
 
 
-    public Card(String name, String imageLocation, ProductCard harvestProduct) {
+    public Card(String name, String imageLocation, ProductCard harvestProduct, int price) {
         this.name = name;
         this.imageLocation = imageLocation;
         this.harvestProduct = harvestProduct;
         this.totalAccelerate = 0;
         this.totalDelay = 0;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public ProductCard getHarvestProduct() {
@@ -28,6 +34,10 @@ public abstract class Card {
 
     public int getTotalDelay() {
         return totalDelay;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     public int getNumber() {

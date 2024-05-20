@@ -5,7 +5,7 @@ import com.resources.logic.Card;
 public abstract class ItemCard extends Card {
 
     public ItemCard(String name, String imageLocation) {
-        super(name, imageLocation, null);
+        super(name, imageLocation, null, 0);
     }
 
 

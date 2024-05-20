@@ -14,7 +14,7 @@ public abstract class AnimalCard extends Card {
 
 
     public AnimalCard(String name, String imageLocation, AnimalType animalType, int currentWeight, int harvestWeight, ProductCard harvestProduct) {
-        super(name, imageLocation, harvestProduct);
+        super(name, imageLocation, harvestProduct, 0);
         this.animalType = animalType;
         this.currentWeight = currentWeight;
         this.harvestWeight = harvestWeight;

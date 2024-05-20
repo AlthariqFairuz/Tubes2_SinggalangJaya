@@ -17,23 +17,23 @@ public class CardAssets {
     public static Card toCard(String name) {
         // Produk
         if (name.equals("LABU")) {
-            return new ProductCard(name, "resources/Produk/pumpkin.png");
+            return new ProductCard(name, "resources/Produk/pumpkin.png", 500);
         } else if (name.equals("JAGUNG")) {
-            return new ProductCard(name, "resources/Produk/corn.png");
+            return new ProductCard(name, "resources/Produk/corn.png", 150);
         } else if (name.equals("STROBERI")) {
-            return new ProductCard(name, "resources/Produk/strawberry.png");
+            return new ProductCard(name, "resources/Produk/strawberry.png", 350);
         } else if (name.equals("SUSU")) {
-            return new ProductCard(name, "resources/Produk/susu.png");
+            return new ProductCard(name, "resources/Produk/susu.png", 100);
         } else if (name.equals("TELUR")) {
-            return new ProductCard(name, "resources/Produk/telur.png");
+            return new ProductCard(name, "resources/Produk/telur.png", 50);
         } else if (name.equals("SIRIP_HIU")) {
-            return new ProductCard(name, "resources/Produk/shark-fin.png");
+            return new ProductCard(name, "resources/Produk/shark-fin.png", 500);
         } else if (name.equals("DAGING_KUDA")) {
-            return new ProductCard(name, "resources/Produk/Daging Kuda.png");
+            return new ProductCard(name, "resources/Produk/Daging Kuda.png", 150);
         } else if (name.equals("DAGING_DOMBA")) {
-            return new ProductCard(name, "resources/Produk/Daging Domba.png");
+            return new ProductCard(name, "resources/Produk/Daging Domba.png", 120);
         } else if (name.equals("DAGING_BERUANG")) {
-            return new ProductCard(name, "resources/Produk/Daging Beruang.png");
+            return new ProductCard(name, "resources/Produk/Daging Beruang.png", 500);
         }
 
         // Hewan

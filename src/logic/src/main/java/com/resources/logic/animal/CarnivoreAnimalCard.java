@@ -1,6 +1,5 @@
 package com.resources.logic.animal;
 
-import java.util.ArrayList;
 
 import com.resources.logic.product.ProductCard;
 

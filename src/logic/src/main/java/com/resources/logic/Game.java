@@ -1,5 +1,7 @@
 package com.resources.logic;
 
+import com.resources.logic.product.ProductCard;
+
 public class Game {
     private static Game instance;
     private Player player1;
@@ -63,5 +65,17 @@ public class Game {
         return true;
     }
 
-    
+    public boolean sellFromActiveDeck(int idx) {
+        if (!getCurrentPlayer().getDeck().getActiveCards()[idx].hasCard()) {
+            System.out.println("Can't sell from empty slot");
+            return false;
+        }
+
+        CardSlot cardSlot = getCurrentPlayer().getDeck().getActiveCards()[idx];
+        if (cardSlot.getCard() instanceof ProductCard) {
+            getCurrentPlayer().addGold(cardSlot.getCard().getPrice());
+            Shop.getInstance().sellShopItem((ProductCard)cardSlot.popCard());
+        }
+        return true;
+    }
 }

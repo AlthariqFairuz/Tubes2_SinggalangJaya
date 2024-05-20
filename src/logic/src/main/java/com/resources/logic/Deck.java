@@ -13,6 +13,14 @@ public class Deck {
         ActiveCards = new CardSlot[totalActiveDeckCards];
     }
 
+    public CardSlot[] getNonActiveCards() {
+        return nonActiveCards;
+    }
+
+    public CardSlot[] getActiveCards() {
+        return ActiveCards;
+    }
+
     public int countEmptySlotsInActiveDeck() {
         int count = 0;
         for (int i = 0; i < totalActiveDeckSize; i++) {

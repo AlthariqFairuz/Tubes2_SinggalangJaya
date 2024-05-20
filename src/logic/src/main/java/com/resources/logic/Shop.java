@@ -1,10 +1,15 @@
 package com.resources.logic;
 
+import java.util.ArrayList;
+
+import com.resources.logic.product.ProductCard;
+
 public class Shop {
     private static Shop instance;
+    private ArrayList<ShopItem> shopItems;
 
     private Shop() {
-        
+        shopItems = new ArrayList<>();
     }
 
     public static Shop getInstance() {
@@ -13,30 +18,31 @@ public class Shop {
         }
         return instance;
     }
-}
 
-class ShopItem {
-    private Card item;
-    private int frequency;
-
-    public ShopItem(Card item, int frequency) {
-        this.item = item;
-        this.frequency = frequency;
+    public ArrayList<ShopItem> getShopItems() {
+        return shopItems;
     }
 
-    public Card getItem() {
-        return item;
+    public boolean buyShopItem(String name) {
+        for (ShopItem item : shopItems) {
+            if (item.getItem().getName().equals(name)) {
+                item.setFrequency(item.getFrequency() - 1);
+                if (item.getFrequency() == 0) {
+                    shopItems.remove(item);
+                }
+                return true;                
+            }
+        }
+        return false;
     }
 
-    public int getFrequency() {
-        return frequency;
-    }
-
-    public void setItem(Card item) {
-        this.item = item;
-    }
-
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
+    public void sellShopItem(ProductCard card) {
+        for (ShopItem item : shopItems) {
+            if (item.getItem().getName().equals(card.getName())) {
+                item.setFrequency(item.getFrequency() + 1);
+                return;
+            }
+        }
+        shopItems.add(new ShopItem(card, 1));
     }
 }

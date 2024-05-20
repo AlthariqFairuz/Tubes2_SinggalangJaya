@@ -6,7 +6,7 @@ public class ProductCard extends Card {
     private int gold;
     private int addedWeight;
 
-    public ProductCard(String name, String imageLocation) {
-        super(name, imageLocation, null);
+    public ProductCard(String name, String imageLocation, int price) {
+        super(name, imageLocation, null, price);
     }
 }
