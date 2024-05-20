@@ -1,4 +1,4 @@
-package com.resources;
+package com.resources.logic;
 
 public class CardSlot {
     private Card card;
@@ -26,9 +26,8 @@ public class CardSlot {
         this.card = card;
     }
 
-    public boolean isEmpty() {
-        return card == null;
+    public boolean hasCard() {
+        return card != null;
     }
-
     
 }

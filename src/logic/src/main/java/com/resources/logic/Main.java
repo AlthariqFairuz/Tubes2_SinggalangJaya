@@ -1,4 +1,4 @@
-package com.resources;
+package com.resources.logic;
 
 public class Main {
     public static void main(String[] args) {

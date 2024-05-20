@@ -1,4 +1,4 @@
-package com.resources;
+package com.resources.logic;
 
 public class Deck {
     private int totalDeckSize; // Non-active + active

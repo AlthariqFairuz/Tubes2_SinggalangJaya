@@ -1,4 +1,4 @@
-package com.resources;
+package com.resources.logic;
 
 public class Shop {
     private static Shop instance;

@@ -1,6 +1,6 @@
-package com.resources.product;
+package com.resources.logic.product;
 
-import com.resources.Card;
+import com.resources.logic.Card;
 
 public class ProductCard extends Card {
     private int gold;

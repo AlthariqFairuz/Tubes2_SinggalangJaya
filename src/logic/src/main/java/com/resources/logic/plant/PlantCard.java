@@ -1,6 +1,6 @@
-package com.resources.plant;
+package com.resources.logic.plant;
 
-import com.resources.Card;
+import com.resources.logic.Card;
 
 public class PlantCard extends Card {
     private int totalTurns;

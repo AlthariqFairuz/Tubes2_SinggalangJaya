@@ -1,4 +1,4 @@
-package com.resources;
+package com.resources.logic;
 
 public class Game {
     private static Game instance;
@@ -23,5 +23,24 @@ public class Game {
         return instance;
     }
 
-    
+    public int getTotalTurns() {
+        return totalTurns;
+    }
+
+    public Player getCurrentPlayer() {
+        if (isPlayer1Turn) {
+            return player1;
+        } else {
+            return player2;
+        }
+    }
+
+    public Player getOtherPlayer() {
+        if (isPlayer1Turn) {
+            return player2;
+        } else {
+            return player1;
+        }
+    }
+
 }

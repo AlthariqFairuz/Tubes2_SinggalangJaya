@@ -1,4 +1,4 @@
-package com.resources;
+package com.resources.logic;
 
 import java.util.ArrayList;
 
