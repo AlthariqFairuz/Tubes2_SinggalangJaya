@@ -3,8 +3,8 @@ package com.resources.logic.item;
 
 public class Delay extends ItemCard {
 
-    public Delay(String name, String imageLocation) {
-        super(name, imageLocation);
+    public Delay() {
+        super("DELAY", "resources/Item/Delay.png");
     }
     
 }
