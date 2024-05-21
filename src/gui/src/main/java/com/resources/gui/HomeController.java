@@ -17,10 +17,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+
 import com.resources.logic.Game;
 import com.resources.logic.CardSlot;
 import com.resources.logic.Deck;
 import com.resources.logic.Card;
+import com.resources.logic.Land;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,6 +52,9 @@ public class HomeController implements Initializable {
     private Label cardActiveLabel0, cardActiveLabel1, cardActiveLabel2, cardActiveLabel3, cardActiveLabel4, cardActiveLabel5;
 
     @FXML
+    private GridPane cardLandGrid;
+
+    @FXML
     private Deck deck;
 
     @Override
@@ -56,6 +63,7 @@ public class HomeController implements Initializable {
         initializeScores(); // Call the method to initialize the scores
         // startScoreIncrementing(); // Start the timelines to increment scores every second
         updateActiveCards();
+        updateLandCard();
     }
 
     private void initializeScores() {
@@ -208,6 +216,29 @@ public class HomeController implements Initializable {
                 cardActiveLabels[i].setText("Empty");
                 imgActiveCards[i].setImage(null);
 //                imgActiveCards[i].setImage(new Image("/faq.png"));
+            }
+        }
+    }
+
+    private void updateLandCard() {
+        Land land = Game.getInstance().getPlayer1().getLand();
+        CardSlot[][] cardSlots = land.getCardSlots();
+
+        for (int row = 0; row < cardSlots.length; row++) {
+            for (int col = 0; col < cardSlots[row].length; col++) {
+                Pane pane = (Pane) cardLandGrid.getChildren().get(row * cardSlots[row].length + col);
+                Label label = (Label) pane.getChildren().get(1);
+                ImageView imageView = (ImageView) pane.getChildren().get(0);
+
+                // Initialize the card slot if necessary
+                if (cardSlots[row][col] == null) {
+//                    cardSlots[row][col] = new CardSlot();  // Assuming a constructor for CardSlot
+                    label.setText("Empty");
+                }
+
+                // Set label and image based on the card slot (this is just a placeholder)
+                label.setText("Slot " + (row * cardSlots[row].length + col + 1));
+                imageView.setImage(null);  // Set the image as per your logic
             }
         }
     }
