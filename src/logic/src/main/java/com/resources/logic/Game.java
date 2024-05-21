@@ -25,6 +25,14 @@ public class Game {
         return instance;
     }
 
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
+
     public int getTotalTurns() {
         return totalTurns;
     }
@@ -93,4 +101,6 @@ public class Game {
         getCurrentPlayer().getDeck().addCardToActiveDeck(CardAssets.toCard(name));
         return true;
     }
+
+    
 }
