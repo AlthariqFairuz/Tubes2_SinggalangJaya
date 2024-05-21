@@ -31,6 +31,10 @@ public class GridOnClickController {
             dialogStage.initStyle(StageStyle.TRANSPARENT);
             dialogStage.setScene(new Scene(loader.load()));
 
+            // Get the controller and set the dialog reference
+            DialogBoxController controller = loader.getController();
+            controller.setDialog(dialogStage);
+
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
             if(event.getClickCount() == 2) {
