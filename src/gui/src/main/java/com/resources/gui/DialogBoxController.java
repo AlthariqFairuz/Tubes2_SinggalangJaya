@@ -13,7 +13,6 @@ public class DialogBoxController {
 
     @FXML
     public void onClickBackButtonDialogBox(MouseEvent event) {
-        System.out.println("Back button clicked");
         if (dialog != null) {
             dialog.close();
         }

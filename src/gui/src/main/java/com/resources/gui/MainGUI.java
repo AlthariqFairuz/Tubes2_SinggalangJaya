@@ -20,7 +20,7 @@ public class MainGUI extends Application {
 
         // Set FXMLLoader as its root
         FXMLLoader fxmlLoader = new FXMLLoader(MainGUI.class.getResource("player1.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 1920, 1080);
 
         // Set title and icon
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Logo.jpg")));
@@ -33,8 +33,6 @@ public class MainGUI extends Application {
 
         // Set player name
 
-
-        stage.setFullScreen(true);
         stage.setScene(scene);
         stage.show();
     }
