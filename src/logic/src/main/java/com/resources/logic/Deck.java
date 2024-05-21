@@ -31,7 +31,7 @@ public class Deck {
         return count;
     }
 
-    public boolean isAvailable() {
+    public boolean isActiveDeckAvailable() {
         return countEmptySlotsInActiveDeck() > 0;
     }
 
@@ -40,7 +40,6 @@ public class Deck {
             if (!ActiveCards[i].hasCard()) {
                 ActiveCards[i].setCard(card);
                 return;
-
             }
         }
     }
