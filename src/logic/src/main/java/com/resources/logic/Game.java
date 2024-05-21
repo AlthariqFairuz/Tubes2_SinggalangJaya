@@ -45,8 +45,7 @@ public class Game {
         }
     }
 
-    public boolean harvest(int row, int col) {
-        CardSlot cardSlot = getCurrentPlayer().getLand().getCardSlots()[row][col];
+    public boolean harvest(CardSlot cardSlot) {
         if (!cardSlot.hasCard()) {
             System.out.println("Can't harvest from empty slot");
             return false;
@@ -55,7 +54,7 @@ public class Game {
             System.out.println("Can't harvest from this card");
             return false;
         }
-        if (!getCurrentPlayer().getDeck().isAvailable()) {
+        if (!getCurrentPlayer().getDeck().isActiveDeckAvailable()) {
             System.out.println("Can't harvest from full deck");
             return false;
         }
@@ -65,17 +64,33 @@ public class Game {
         return true;
     }
 
-    public boolean sellFromActiveDeck(int idx) {
-        if (!getCurrentPlayer().getDeck().getActiveCards()[idx].hasCard()) {
+    public boolean sell(CardSlot cardSlot) {
+        if (!cardSlot.hasCard()) {
             System.out.println("Can't sell from empty slot");
             return false;
         }
-
-        CardSlot cardSlot = getCurrentPlayer().getDeck().getActiveCards()[idx];
-        if (cardSlot.getCard() instanceof ProductCard) {
-            getCurrentPlayer().addGold(cardSlot.getCard().getPrice());
-            Shop.getInstance().sellShopItem((ProductCard)cardSlot.popCard());
+        if (!(cardSlot.getCard() instanceof ProductCard)) {
+            System.out.println("Can't sell a non product card");
+            return false;
         }
+
+        getCurrentPlayer().addGold(cardSlot.getCard().getPrice());
+        Shop.getInstance().sellShopItem((ProductCard) cardSlot.popCard());
+
+        return true;
+    }
+
+    public boolean buy(String name) {
+        if (!getCurrentPlayer().getDeck().isActiveDeckAvailable()) {
+            System.out.println("Can't buy because the active deck is full");
+            return false;
+        }
+        boolean result = Shop.getInstance().buyShopItem(name);
+        if (!result) {
+            System.out.println("Can't buy because there is no card in the shop with the specified name " + name);
+            return false;
+        }
+        getCurrentPlayer().getDeck().addCardToActiveDeck(CardAssets.toCard(name));
         return true;
     }
 }
