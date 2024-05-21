@@ -89,6 +89,12 @@ public class HomeController implements Initializable {
 
             // Create the dialog stage
             Stage dialogStage = new Stage();
+
+            // Set title and icon
+            Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Logo.jpg")));
+            dialogStage.getIcons().add(icon);
+            dialogStage.setTitle("Item");
+
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initStyle(StageStyle.TRANSPARENT);
             dialogStage.setScene(new Scene(loader.load()));
@@ -159,8 +165,33 @@ public class HomeController implements Initializable {
         stage.show();
     }
 
-    public void updateTurn() {
+    public void shopClicked(MouseEvent event) {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("shop.fxml"));
 
+            // Create the dialog stage
+            Stage shopStage = new Stage();
+
+            // Set title and icon
+            Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Logo.jpg")));
+            shopStage.getIcons().add(icon);
+            shopStage.setTitle("Shop");
+
+            shopStage.initModality(Modality.WINDOW_MODAL);
+            shopStage.initStyle(StageStyle.TRANSPARENT);
+            shopStage.setScene(new Scene(loader.load()));
+
+            // Get the controller and set the dialog reference
+            ShopController controller = loader.getController();
+            controller.setShop(shopStage);
+
+            // Show the dialog and wait until the user closes it
+            shopStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateActiveCards() {
