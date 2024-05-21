@@ -2,10 +2,13 @@ package com.resources.gui;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,16 +19,16 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GridOnClickController implements Initializable {
     @FXML
-    private ImageView myImageView;
-    @FXML
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
     private Label scoreLabelPlayer1; // Add the Label with @FXML annotation
-    @FXML
     private Label scoreLabelPlayer2; // Add the Label with @FXML annotation
-
     private Timeline timelinePlayer1;
     private Timeline timelinePlayer2;
 
@@ -115,5 +118,25 @@ public class GridOnClickController implements Initializable {
 
     private void updateLabel(Label label, Integer newScore) {
         label.setText(String.valueOf(newScore));
+    }
+
+    public void switchToPlayer1(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("player1.fxml")));
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToPlayer2(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("player2.fxml")));
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void updateTurn() {
+
     }
 }

@@ -406,7 +406,7 @@
                         <Font name="SansSerif Bold" size="32.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="198.0" stylesheets="@style.css" text="Next" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#switchToPlayer2" prefHeight="58.0" prefWidth="198.0" stylesheets="@style.css" text="Next" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
