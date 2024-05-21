@@ -1,25 +1,60 @@
 package com.resources.gui;
 
-import javafx.event.ActionEvent;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class GridOnClickController {
+public class GridOnClickController implements Initializable {
     @FXML
     private ImageView myImageView;
-    private static TextField textArea;
-    private static Timer timer;
+    @FXML
+    private Label scoreLabelPlayer1; // Add the Label with @FXML annotation
+    @FXML
+    private Label scoreLabelPlayer2; // Add the Label with @FXML annotation
+
+    private Timeline timelinePlayer1;
+    private Timeline timelinePlayer2;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initializeScores(); // Call the method to initialize the scores
+        startScoreIncrementing(); // Start the timelines to increment scores every second
+    }
+
+    private void initializeScores() {
+        if (scoreLabelPlayer1 != null) {
+            scoreLabelPlayer1.setText("0");
+        }
+        if (scoreLabelPlayer2 != null) {
+            scoreLabelPlayer2.setText("0");
+        }
+    }
+
+    private void startScoreIncrementing() {
+        // Create a Timeline that increments the score for player 1 every second
+        timelinePlayer1 = new Timeline(new KeyFrame(Duration.seconds(1), event -> incrementScorePlayer1()));
+        timelinePlayer1.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
+        timelinePlayer1.play(); // Start the timeline for player 1
+
+        // Create a Timeline that increments the score for player 2 every second
+        timelinePlayer2 = new Timeline(new KeyFrame(Duration.seconds(1), event -> incrementScorePlayer2()));
+        timelinePlayer2.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
+        timelinePlayer2.play(); // Start the timeline for player 2
+    }
 
     public void onGridOnClick(MouseEvent event) {
         try {
@@ -38,43 +73,47 @@ public class GridOnClickController {
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void initialize(ActionEvent event, String gold) {
-
-        // Initialize the text area with some initial text
-        GridOnClickController.updateAutomatically(gold);
-    }
-
-    public static void updateAutomatically(String newGold) {
-        // Start updating the text area every 2 seconds
-        stopUpdating();
-        if (newGold != null) {
-            timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    // Update the text area every 2 seconds
-                    updateTextArea(newGold);
-                }
-            }, 0, 2000);
+    private void incrementScorePlayer1() {
+        if (scoreLabelPlayer1 != null) {
+            // Get the current score from the label
+            String currentScoreText = scoreLabelPlayer1.getText();
+            try {
+                // Parse the current score to an integer
+                int currentScore = Integer.parseInt(currentScoreText);
+                // Increment the score
+                currentScore++;
+                // Set the updated score back to the label
+                updateLabel(scoreLabelPlayer1, currentScore);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private static void stopUpdating() {
-        // Stop the timer if running
-        if (timer != null) {
-            timer.cancel();
-            timer.purge();
+    private void incrementScorePlayer2() {
+        if (scoreLabelPlayer2 != null) {
+            // Get the current score from the label
+            String currentScoreText = scoreLabelPlayer2.getText();
+            try {
+                // Parse the current score to an integer
+                int currentScore = Integer.parseInt(currentScoreText);
+                // Increment the score
+                currentScore++;
+                // Set the updated score back to the label
+                updateLabel(scoreLabelPlayer2, currentScore);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private static void updateTextArea(String newGold) {
-        // Update the text area with the new value
-        textArea.setText(newGold);
+    private void updateLabel(Label label, Integer newScore) {
+        label.setText(String.valueOf(newScore));
     }
 }
