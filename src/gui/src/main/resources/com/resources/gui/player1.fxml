@@ -369,7 +369,7 @@
                         <Insets left="35.0" right="50.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Toko" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onMouseClicked="#shopClicked" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Toko" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
