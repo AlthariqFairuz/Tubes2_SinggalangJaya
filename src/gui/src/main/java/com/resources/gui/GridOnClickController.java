@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import com.resources.logic.Game;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +28,11 @@ public class GridOnClickController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+
+    @FXML
     private Label scoreLabelPlayer1; // Add the Label with @FXML annotation
+
+    @FXML
     private Label scoreLabelPlayer2; // Add the Label with @FXML annotation
     private Timeline timelinePlayer1;
     private Timeline timelinePlayer2;
@@ -40,10 +45,12 @@ public class GridOnClickController implements Initializable {
 
     private void initializeScores() {
         if (scoreLabelPlayer1 != null) {
-            scoreLabelPlayer1.setText("0");
+            int goldPlayer1 = Game.getInstance().getPlayer1().getGold();
+            scoreLabelPlayer1.setText(String.valueOf(goldPlayer1));
         }
         if (scoreLabelPlayer2 != null) {
-            scoreLabelPlayer2.setText("0");
+            int goldPlayer2 = Game.getInstance().getPlayer2().getGold();
+            scoreLabelPlayer2.setText(String.valueOf(goldPlayer2));
         }
     }
 
