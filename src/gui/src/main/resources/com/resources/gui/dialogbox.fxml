@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane onMouseClicked="#onClickBackButtonDialogBox" prefHeight="400.0" prefWidth="658.0" style="-fx-background-color: B15EFF; -fx-border-color: black; -fx-border: 0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.resources.gui.DialogBoxController">
+<Pane onMouseClicked="#onClickBackButtonDialogBox" prefHeight="400.0" prefWidth="658.0" style="-fx-background-color: #9336B4; -fx-border-color: black; -fx-border: 0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.resources.gui.DialogBoxController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2cd5c" height="361.0" layoutX="14.0" layoutY="25.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" width="396.0" />
       <Button layoutX="556.0" layoutY="324.0" mnemonicParsing="false" onMouseClicked="#onClickBackButtonDialogBox" prefHeight="41.0" prefWidth="76.0" styleClass="dialog-button" stylesheets="@style.css" text="Back">
