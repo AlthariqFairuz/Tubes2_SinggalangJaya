@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -17,13 +18,16 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import com.resources.logic.Game;
+import com.resources.logic.CardSlot;
+import com.resources.logic.Deck;
+import com.resources.logic.Card;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class GridOnClickController implements Initializable {
+public class HomeController implements Initializable {
     @FXML
     private Stage stage;
     private Scene scene;
@@ -37,10 +41,21 @@ public class GridOnClickController implements Initializable {
     private Timeline timelinePlayer1;
     private Timeline timelinePlayer2;
 
+    @FXML
+    private ImageView imgActiveCard0, imgActiveCard1, imgActiveCard2, imgActiveCard3, imgActiveCard4, imgActiveCard5; 
+    
+    @FXML
+    private Label cardActiveLabel0, cardActiveLabel1, cardActiveLabel2, cardActiveLabel3, cardActiveLabel4, cardActiveLabel5;
+
+    @FXML
+    private Deck deck;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        deck = Game.getInstance().getPlayer1().getDeck();
         initializeScores(); // Call the method to initialize the scores
-        startScoreIncrementing(); // Start the timelines to increment scores every second
+        // startScoreIncrementing(); // Start the timelines to increment scores every second
+        updateActiveCards();
     }
 
     private void initializeScores() {
@@ -53,6 +68,7 @@ public class GridOnClickController implements Initializable {
             scoreLabelPlayer2.setText(String.valueOf(goldPlayer2));
         }
     }
+    
 
     private void startScoreIncrementing() {
         // Create a Timeline that increments the score for player 1 every second
@@ -146,4 +162,23 @@ public class GridOnClickController implements Initializable {
     public void updateTurn() {
 
     }
+
+    private void updateActiveCards() {
+        Deck deck = Game.getInstance().getPlayer1().getDeck(); // Adjust to get the correct player deck
+        CardSlot[] activeCards = deck.getActiveCards();
+        Label[] cardActiveLabels = {cardActiveLabel0, cardActiveLabel1, cardActiveLabel2, cardActiveLabel3, cardActiveLabel4, cardActiveLabel5};
+        ImageView[] imgActiveCards = {imgActiveCard0, imgActiveCard1, imgActiveCard2, imgActiveCard3, imgActiveCard4, imgActiveCard5};
+
+        for (int i = 0; i < activeCards.length && i < cardActiveLabels.length; i++) {
+            if (activeCards[i] != null) {
+                Card card = activeCards[i].getCard();
+                cardActiveLabels[i].setText(card.getName());
+            } else {
+                cardActiveLabels[i].setText("Empty");
+                imgActiveCards[i].setImage(null);
+//                imgActiveCards[i].setImage(new Image("/faq.png"));
+            }
+        }
+    }
+
 }
