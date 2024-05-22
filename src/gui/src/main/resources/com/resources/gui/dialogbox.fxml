@@ -20,7 +20,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Label alignment="CENTER" layoutX="34.0" layoutY="41.0" prefHeight="37.0" prefWidth="363.0" style="-fx-background-color: F2CD5C; -fx-border-radius: 20; -fx-background-radius: 20;" text="Nama Asset" textAlignment="CENTER" textFill="#b15eff">
+      <Label fx:id="assetNameLabel" alignment="CENTER" layoutX="34.0" layoutY="41.0" prefHeight="37.0" prefWidth="363.0" style="-fx-background-color: F2CD5C; -fx-border-radius: 20; -fx-background-radius: 20;" text="Nama Asset" textAlignment="CENTER" textFill="#b15eff">
          <font>
             <Font name="SansSerif Bold" size="24.0" />
          </font>

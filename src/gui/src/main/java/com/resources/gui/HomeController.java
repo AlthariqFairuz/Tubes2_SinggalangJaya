@@ -91,6 +91,10 @@ public class HomeController implements Initializable {
     }
 
     public void onGridOnClick(MouseEvent event) {
+        Pane clickedPane = (Pane) event.getSource();
+        Integer col = (GridPane.getColumnIndex(clickedPane) == null) ?  0 : (GridPane.getColumnIndex(clickedPane));
+        Integer row = (GridPane.getRowIndex(clickedPane) == null) ? 0 : (GridPane.getRowIndex(clickedPane));
+        String slot = "Slot " + ("(" + row + "," + col + ")");
         try {
             // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("dialogbox.fxml"));
@@ -110,6 +114,7 @@ public class HomeController implements Initializable {
             // Get the controller and set the dialog reference
             DialogBoxController controller = loader.getController();
             controller.setDialog(dialogStage);
+            controller.setAssetName(slot);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
@@ -224,9 +229,9 @@ public class HomeController implements Initializable {
         Land land = Game.getInstance().getPlayer1().getLand();
         CardSlot[][] cardSlots = land.getCardSlots();
 
-        for (int row = 0; row < cardSlots.length; row++) {
-            for (int col = 0; col < cardSlots[row].length; col++) {
-                Pane pane = (Pane) cardLandGrid.getChildren().get(row * cardSlots[row].length + col);
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 5; col++) {
+                Pane pane = (Pane) cardLandGrid.getChildren().get(row * 5 + col);
                 Label label = (Label) pane.getChildren().get(1);
                 ImageView imageView = (ImageView) pane.getChildren().get(0);
 
@@ -237,7 +242,7 @@ public class HomeController implements Initializable {
                 }
 
                 // Set label and image based on the card slot (this is just a placeholder)
-                label.setText("Slot " + (row * cardSlots[row].length + col + 1));
+                label.setText("Slot " + (row * 5 + col + 1));
                 imageView.setImage(null);  // Set the image as per your logic
             }
         }
