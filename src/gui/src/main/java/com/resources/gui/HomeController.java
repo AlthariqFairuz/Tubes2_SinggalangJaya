@@ -31,7 +31,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable {
+public class HomeController {
     @FXML
     private Stage stage;
     private Scene scene;
@@ -57,14 +57,14 @@ public class HomeController implements Initializable {
     @FXML
     private Deck deck;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        deck = Game.getInstance().getPlayer1().getDeck();
-        initializeScores(); // Call the method to initialize the scores
-        // startScoreIncrementing(); // Start the timelines to increment scores every second
-        updateActiveCards();
-        updateLandCard();
-    }
+    // @Override
+    // public void initialize(URL location, ResourceBundle resources) {
+    //     deck = Game.getInstance().getPlayer1().getDeck();
+    //     initializeScores(); // Call the method to initialize the scores
+    //     // startScoreIncrementing(); // Start the timelines to increment scores every second
+    //     updateActiveCards();
+    //     updateLandCard();
+    // }
 
     private void initializeScores() {
         if (scoreLabelPlayer1 != null) {
@@ -91,10 +91,6 @@ public class HomeController implements Initializable {
     }
 
     public void onGridOnClick(MouseEvent event) {
-        Pane clickedPane = (Pane) event.getSource();
-        Integer col = (GridPane.getColumnIndex(clickedPane) == null) ?  0 : (GridPane.getColumnIndex(clickedPane));
-        Integer row = (GridPane.getRowIndex(clickedPane) == null) ? 0 : (GridPane.getRowIndex(clickedPane));
-        String slot = "Slot " + ("(" + row + "," + col + ")");
         try {
             // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("dialogbox.fxml"));
@@ -114,7 +110,6 @@ public class HomeController implements Initializable {
             // Get the controller and set the dialog reference
             DialogBoxController controller = loader.getController();
             controller.setDialog(dialogStage);
-            controller.setAssetName(slot);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
@@ -295,46 +290,46 @@ public class HomeController implements Initializable {
         }
     }
 
-    private void updateActiveCards() {
-        Deck deck = Game.getInstance().getPlayer1().getDeck(); // Adjust to get the correct player deck
-        CardSlot[] activeCards = deck.getActiveCards();
-        Label[] cardActiveLabels = {cardActiveLabel0, cardActiveLabel1, cardActiveLabel2, cardActiveLabel3, cardActiveLabel4, cardActiveLabel5};
-        ImageView[] imgActiveCards = {imgActiveCard0, imgActiveCard1, imgActiveCard2, imgActiveCard3, imgActiveCard4, imgActiveCard5};
+//     private void updateActiveCards() {
+//         Deck deck = Game.getInstance().getPlayer1().getDeck(); // Adjust to get the correct player deck
+//         CardSlot[] activeCards = deck.getActiveCards();
+//         Label[] cardActiveLabels = {cardActiveLabel0, cardActiveLabel1, cardActiveLabel2, cardActiveLabel3, cardActiveLabel4, cardActiveLabel5};
+//         ImageView[] imgActiveCards = {imgActiveCard0, imgActiveCard1, imgActiveCard2, imgActiveCard3, imgActiveCard4, imgActiveCard5};
 
-        for (int i = 0; i < activeCards.length && i < cardActiveLabels.length; i++) {
-            if (activeCards[i] != null) {
-                Card card = activeCards[i].getCard();
-                cardActiveLabels[i].setText(card.getName());
-            } else {
-                cardActiveLabels[i].setText("Empty");
-                imgActiveCards[i].setImage(null);
-//                imgActiveCards[i].setImage(new Image("/faq.png"));
-            }
-        }
-    }
+//         for (int i = 0; i < activeCards.length && i < cardActiveLabels.length; i++) {
+//             if (activeCards[i] != null) {
+//                 Card card = activeCards[i].getCard();
+//                 cardActiveLabels[i].setText(card.getName());
+//             } else {
+//                 cardActiveLabels[i].setText("Empty");
+//                 imgActiveCards[i].setImage(null);
+// //                imgActiveCards[i].setImage(new Image("/faq.png"));
+//             }
+//         }
+//     }
 
-    private void updateLandCard() {
-        Land land = Game.getInstance().getPlayer1().getLand();
-        CardSlot[][] cardSlots = land.getCardSlots();
+//     private void updateLandCard() {
+//         Land land = Game.getInstance().getPlayer1().getLand();
+//         CardSlot[][] cardSlots = land.getCardSlots();
 
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 5; col++) {
-                Pane pane = (Pane) cardLandGrid.getChildren().get(row * 5 + col);
-                Label label = (Label) pane.getChildren().get(1);
-                ImageView imageView = (ImageView) pane.getChildren().get(0);
+//         for (int row = 0; row < 4; row++) {
+//             for (int col = 0; col < 5; col++) {
+//                 Pane pane = (Pane) cardLandGrid.getChildren().get(row * 5 + col);
+//                 Label label = (Label) pane.getChildren().get(1);
+//                 ImageView imageView = (ImageView) pane.getChildren().get(0);
 
-                // Initialize the card slot if necessary
-                if (cardSlots[row][col] == null) {
-//                    cardSlots[row][col] = new CardSlot();  // Assuming a constructor for CardSlot
-                    label.setText("Empty");
-                }
+//                 // Initialize the card slot if necessary
+//                 if (cardSlots[row][col] == null) {
+// //                    cardSlots[row][col] = new CardSlot();  // Assuming a constructor for CardSlot
+//                     label.setText("Empty");
+//                 }
 
-                // Set label and image based on the card slot (this is just a placeholder)
-                label.setText("Slot " + (row * 5 + col + 1));
-                imageView.setImage(null);  // Set the image as per your logic
-            }
-        }
-    }
+//                 // Set label and image based on the card slot (this is just a placeholder)
+//                 label.setText("Slot " + (row * 5 + col + 1));
+//                 imageView.setImage(null);  // Set the image as per your logic
+//             }
+//         }
+//     }
 
     public void ladangLawanPressed(ActionEvent event) {
         try {
