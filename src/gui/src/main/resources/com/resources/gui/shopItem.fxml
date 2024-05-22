@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="itemImage" fitHeight="123.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="itemLabel" prefHeight="122.0" prefWidth="421.0" text="Label" />
+   </children>
+</HBox>
