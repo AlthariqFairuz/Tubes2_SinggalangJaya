@@ -32,7 +32,7 @@
             <DropShadow />
          </effect>
       </Label>
-      <Label alignment="CENTER" layoutX="45.0" layoutY="187.0" prefHeight="39.0" prefWidth="224.0" style="-fx-background-color: #FFE79B; -fx-background-radius: 20;" text="Choose File" textFill="#9336b4">
+      <Label alignment="CENTER" layoutX="45.0" layoutY="187.0" onMouseClicked="#onPluginButtonClicked" prefHeight="39.0" prefWidth="224.0" style="-fx-background-color: #FFE79B; -fx-background-radius: 20;" text="Choose File" textFill="#9336b4">
          <font>
             <Font name="SansSerif Bold" size="18.0" />
          </font>
@@ -40,7 +40,7 @@
             <DropShadow />
          </effect>
       </Label>
-      <Label layoutX="313.0" layoutY="187.0" prefHeight="39.0" prefWidth="693.0" textFill="WHITE">
+      <Label fx:id="fileName" layoutX="313.0" layoutY="187.0" prefHeight="39.0" prefWidth="693.0" textFill="WHITE">
          <font>
             <Font name="SansSerif Bold" size="18.0" />
          </font>

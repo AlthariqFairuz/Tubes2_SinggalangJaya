@@ -17,5 +17,10 @@ public class SaveController {
         if (save != null) {
             save.close();
         }
-    } 
+    }
+    
+    @FXML
+    public void onSaveButtonClicked(MouseEvent event) {
+        // Save the game
+    }
 }
