@@ -336,4 +336,28 @@ public class HomeController implements Initializable {
         }
     }
 
+    public void ladangLawanPressed(ActionEvent event) {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("player2.fxml"));
+
+            // Load the scene from the FXML
+            Scene newScene = new Scene(loader.load());
+
+            // Get the current stage (window)
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Optionally, set title and icon for the stage
+            Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Logo.jpg")));
+            currentStage.getIcons().add(icon);
+            currentStage.setTitle("Enemy's Land");
+
+            // Set the new scene to the current stage
+            currentStage.setScene(newScene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
