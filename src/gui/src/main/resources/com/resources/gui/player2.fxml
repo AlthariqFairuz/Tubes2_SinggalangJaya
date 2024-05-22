@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #9336B4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.resources.gui.GridOnClickController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #9336B4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.resources.gui.HomeController">
    <children>
       <GridPane layoutX="134.0" layoutY="41.0" prefHeight="826.0" prefWidth="865.0">
          <columnConstraints>
@@ -408,7 +408,7 @@
                         <Font name="SansSerif Bold" size="32.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" onAction="#switchToPlayer1" prefHeight="58.0" prefWidth="198.0" stylesheets="@style.css" text="Next" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onMouseClicked="#switchToPlayer1" prefHeight="58.0" prefWidth="198.0" stylesheets="@style.css" text="Next" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
