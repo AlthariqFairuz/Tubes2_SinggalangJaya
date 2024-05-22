@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="1028.0" style="-fx-background-color: #9336B4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="1028.0" style="-fx-background-color: #9336B4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.resources.gui.PluginController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onClickBackButtonDialogBox" prefHeight="49.0" prefWidth="106.0" styleClass="dialog-button" stylesheets="@style.css" text="Back">
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onClickBackButtonPluginBox" prefHeight="49.0" prefWidth="106.0" styleClass="dialog-button" stylesheets="@style.css" text="Back">
          <font>
             <Font name="SansSerif Regular" size="14.0" />
          </font>
@@ -16,7 +16,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button layoutX="13.0" layoutY="383.0" mnemonicParsing="false" onMouseClicked="#onClickBackButtonDialogBox" prefHeight="49.0" prefWidth="1002.0" styleClass="dialog-button" stylesheets="@style.css" text="Upload">
+      <Button layoutX="13.0" layoutY="383.0" mnemonicParsing="false" onMouseClicked="#onClickBackButtonPluginBox" prefHeight="49.0" prefWidth="1002.0" styleClass="dialog-button" stylesheets="@style.css" text="Upload">
          <font>
             <Font name="SansSerif Regular" size="14.0" />
          </font>

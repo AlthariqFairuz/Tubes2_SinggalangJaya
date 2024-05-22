@@ -207,6 +207,94 @@ public class HomeController implements Initializable {
         }
     }
 
+    public void loadClicked(MouseEvent event) {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("load.fxml"));
+
+            // Create the dialog stage
+            Stage loadStage = new Stage();
+
+            // Set title and icon
+            Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Logo.jpg")));
+            loadStage.getIcons().add(icon);
+            loadStage.setTitle("Load");
+
+            loadStage.initModality(Modality.WINDOW_MODAL);
+            loadStage.initStyle(StageStyle.TRANSPARENT);
+            loadStage.setScene(new Scene(loader.load()));
+
+            // Get the controller and set the dialog reference
+            LoadController controller = loader.getController();
+            controller.setLoad(loadStage);
+
+            // Show the dialog and wait until the user closes it
+            loadStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    public void saveClicked(MouseEvent event) {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("save.fxml"));
+
+            // Create the dialog stage
+            Stage saveStage = new Stage();
+
+            // Set title and icon
+            Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Logo.jpg")));
+            saveStage.getIcons().add(icon);
+            saveStage.setTitle("Save");
+
+            saveStage.initModality(Modality.WINDOW_MODAL);
+            saveStage.initStyle(StageStyle.TRANSPARENT);
+            saveStage.setScene(new Scene(loader.load()));
+
+            // Get the controller and set the dialog reference
+            SaveController controller = loader.getController();
+            controller.setSave(saveStage);
+
+            // Show the dialog and wait until the user closes it
+            saveStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void pluginClicked(MouseEvent event) {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("plugin.fxml"));
+
+            // Create the dialog stage
+            Stage pluginStage = new Stage();
+
+            // Set title and icon
+            Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Logo.jpg")));
+            pluginStage.getIcons().add(icon);
+            pluginStage.setTitle("Plugins");
+
+            pluginStage.initModality(Modality.WINDOW_MODAL);
+            pluginStage.initStyle(StageStyle.TRANSPARENT);
+            pluginStage.setScene(new Scene(loader.load()));
+
+            // Get the controller and set the dialog reference
+            PluginController controller = loader.getController();
+            controller.setPlugin(pluginStage);
+
+            // Show the dialog and wait until the user closes it
+            pluginStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void updateActiveCards() {
         Deck deck = Game.getInstance().getPlayer1().getDeck(); // Adjust to get the correct player deck
         CardSlot[] activeCards = deck.getActiveCards();

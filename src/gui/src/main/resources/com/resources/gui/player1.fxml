@@ -515,7 +515,7 @@
                         <Insets left="50.0" right="35.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Load Plugin" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button mnemonicParsing="false" onMouseClicked="#pluginClicked" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Load Plugin" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
@@ -526,7 +526,7 @@
                         <Insets left="35.0" right="50.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Load State" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="2">
+                  <Button mnemonicParsing="false" onMouseClicked="#loadClicked" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Load State" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
@@ -537,7 +537,7 @@
                         <Insets left="50.0" right="35.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Save State" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onMouseClicked="#saveClicked" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Save State" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="SansSerif Bold" size="16.0" />
                      </font>
