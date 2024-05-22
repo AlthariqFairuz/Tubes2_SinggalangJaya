@@ -22,33 +22,6 @@
             <DropShadow />
          </effect>
       </Button>
-      <VBox fx:id="listShopItem" layoutX="16.0" layoutY="154.0" prefHeight="466.0" prefWidth="574.0">
-         <children>
-            <Label fx:id="shopItemLabel" alignment="CENTER" prefHeight="160.0" prefWidth="731.0" style="-fx-background-color: #9336B4; -fx-background-radius: 20; -fx-border-radius: 20;" text="product" textAlignment="CENTER">
-               <font>
-                  <Font name="SansSerif Bold" size="24.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Label>
-            <Label fx:id="shopItemLabel1" alignment="CENTER" prefHeight="160.0" prefWidth="731.0" style="-fx-background-color: #9336B4; -fx-background-radius: 20; -fx-border-radius: 20;" text="product" textAlignment="CENTER">
-               <font>
-                  <Font name="SansSerif Bold" size="24.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Label>
-            <Label fx:id="shopItemLabel2" alignment="CENTER" prefHeight="160.0" prefWidth="731.0" style="-fx-background-color: #9336B4; -fx-background-radius: 20; -fx-border-radius: 20;" text="product" textAlignment="CENTER">
-               <font>
-                  <Font name="SansSerif Bold" size="24.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Label>
-         </children>
-      </VBox>
+      <VBox fx:id="listShopItem" layoutX="16.0" layoutY="154.0" prefHeight="466.0" prefWidth="574.0" />
    </children>
 </AnchorPane>
