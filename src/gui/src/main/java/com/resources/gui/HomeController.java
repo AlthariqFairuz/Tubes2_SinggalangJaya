@@ -1,5 +1,6 @@
 package com.resources.gui;
 
+import com.resources.logic.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -19,12 +20,6 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-
-import com.resources.logic.Game;
-import com.resources.logic.CardSlot;
-import com.resources.logic.Deck;
-import com.resources.logic.Card;
-import com.resources.logic.Land;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,6 +51,11 @@ public class HomeController {
 
     @FXML
     private Deck deck;
+
+    @FXML
+    private ImageView img_hewan_bear, img_hewan_ayam, img_hewan_cow, img_hewan_hiu, img_hewan_horse, img_hewan_sheep, img_produk_corn, img_produk_daging_beruang, img_produk_daging_domba, img_daging_kuda, img_produk_pumpkin, img_produk_sirip, img_produk_stroberi, img_produk_susu, img_produk_telur, img_tanaman_corn_seed, img_tanaman_pumpkin_seed, img_tanaman_strawberry_seed, img_item_accelerate, img_item_trap, img_item_delay, img_item_destroy, img_item_instant_harvest, img_item_protect;
+
+
 
     // @Override
     // public void initialize(URL location, ResourceBundle resources) {
@@ -91,6 +91,37 @@ public class HomeController {
     }
 
     public void onGridOnClick(MouseEvent event) {
+        ImageView clickedImageView = (ImageView) event.getSource();
+        String cardName = "";
+        String imageURL = "";
+
+        if (clickedImageView == img_hewan_bear) {
+            cardName = "BERUANG";
+            imageURL = "@hewan_bear.png";
+        } else if (clickedImageView == img_hewan_cow) {
+            cardName = "SAPI";
+            imageURL = "@hewan_cow.png";
+        } else if (clickedImageView == img_hewan_horse) {
+            cardName = "KUDA";
+            imageURL = "@hewan_horse.png";
+        } else if (clickedImageView == img_hewan_sheep) {
+            cardName = "DOMBA";
+            imageURL = "@hewan_sheep.png";
+        } else if (clickedImageView == img_produk_corn) {
+            cardName = "JAGUNG";
+            imageURL = "@produk_corn.png";
+        } else if (clickedImageView == img_produk_stroberi) {
+            cardName = "STROBERI";
+            imageURL = "@produk_stroberi.png";
+        }
+
+        Card card = CardAssets.toCard(cardName);
+
+        showDialog(card.getName(), card.getNumber(), card.getImageLocation());
+
+    }
+
+    private void showDialog(String cardName, int ageCard, String imageURL) {
         try {
             // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("dialogbox.fxml"));
@@ -109,6 +140,9 @@ public class HomeController {
 
             // Get the controller and set the dialog reference
             DialogBoxController controller = loader.getController();
+            controller.setAssetName(cardName);
+//            controller.setAssetImage(imageURL);
+            controller.setAgeLabel(ageCard);
             controller.setDialog(dialogStage);
 
             // Show the dialog and wait until the user closes it
@@ -118,6 +152,7 @@ public class HomeController {
             e.printStackTrace();
         }
     }
+
 
     private void incrementScorePlayer1() {
         if (scoreLabelPlayer1 != null) {

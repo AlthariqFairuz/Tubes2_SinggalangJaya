@@ -24,6 +24,8 @@ public abstract class Card {
         return name;
     }
 
+    public String getImageLocation() { return imageLocation; }
+
     public ProductCard getHarvestProduct() {
         return harvestProduct;
     }

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -42,8 +43,8 @@
             <DropShadow />
          </effect>
       </Button>
-      <ImageView fitHeight="187.0" fitWidth="202.0" layoutX="428.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="58.0" layoutY="114.0" prefHeight="36.0" prefWidth="227.0" text="Umur :">
+      <ImageView fx:id="assetImageView" fitHeight="187.0" fitWidth="202.0" layoutX="428.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="ageLabel" layoutX="58.0" layoutY="114.0" prefHeight="36.0" prefWidth="227.0" text="Umur :">
          <font>
             <Font size="16.0" />
          </font>
