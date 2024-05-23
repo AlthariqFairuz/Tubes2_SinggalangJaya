@@ -5,10 +5,16 @@ import com.resources.logic.product.ProductCard;
 public class ShopItem {
     private ProductCard item;
     private int frequency;
+    private int price;
 
-    public ShopItem(ProductCard item, int frequency) {
+    public ShopItem(ProductCard item, int frequency, int price) {
         this.item = item;
         this.frequency = frequency;
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     public ProductCard getItem() {

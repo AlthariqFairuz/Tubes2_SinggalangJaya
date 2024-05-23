@@ -1,6 +1,7 @@
 package com.resources.logic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.resources.logic.product.ProductCard;
 
@@ -19,7 +20,11 @@ public class Shop {
         return instance;
     }
 
-    public ArrayList<ShopItem> getShopItems() {
+    public void setShopItems(ArrayList<ShopItem> shopItems) {
+        this.shopItems = shopItems;
+    }
+
+    public List<ShopItem> getShopItems() {
         return shopItems;
     }
 
@@ -30,7 +35,7 @@ public class Shop {
                 if (item.getFrequency() == 0) {
                     shopItems.remove(item);
                 }
-                return true;                
+                return true;
             }
         }
         return false;
@@ -43,6 +48,6 @@ public class Shop {
                 return;
             }
         }
-        shopItems.add(new ShopItem(card, 1));
+        shopItems.add(new ShopItem(card, 1, card.getPrice()));
     }
 }
