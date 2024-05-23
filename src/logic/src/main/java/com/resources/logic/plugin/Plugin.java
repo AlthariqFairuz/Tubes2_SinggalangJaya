@@ -7,5 +7,5 @@ public interface Plugin {
 
     void saveState(Game state, String filePath);
 
-    Game loadState(String filePath);
+    void loadState(String filePath);
 }

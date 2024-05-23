@@ -1,0 +1,113 @@
+{
+  "currentTurn": 1,
+  "shopItemCount": 5,
+  "shopItems": [
+    {
+      "item": "SIRIP_HIU",
+      "harga": 100,
+      "jumlah": 3
+    },
+    {
+      "item": "ACCELERATE",
+      "harga": 50,
+      "jumlah": 3
+    },
+    {
+      "item": "DELAY",
+      "harga": 50,
+      "jumlah": 3
+    },
+    {
+      "item": "PROTECT",
+      "harga": 50,
+      "jumlah": 3
+    },
+    {
+      "item": "REBORN",
+      "harga": 100,
+      "jumlah": 3
+    }
+  ],
+  "guldenPlayer1": 500,
+  "jumlahDeckPlayer1": 39,
+  "jumlahDeckAktifPlayer1": 1,
+  "deckAktifPlayer1": [
+    {
+      "lokasi": "A01",
+      "kartu": "Domba"
+    },
+    {
+      "lokasi": "A02",
+      "kartu": "Kuda"
+    },
+    {
+      "lokasi": "A03",
+      "kartu": "Kambing"
+    }
+  ],
+  "jumlahKartuLadangPlayer1": 3,
+  "kartuLadangPlayer1": [
+    {
+      "lokasi": "A01",
+      "kartu": "Domba",
+      "umur": 5,
+      "jumlahItemAktif": 3,
+      "itemAktif": ["ACCELERATE", "DELAY", "PROTECT"]
+    },
+    {
+      "lokasi": "A02",
+      "kartu": "Kuda",
+      "umur": 3,
+      "jumlahItemAktif": 2,
+      "itemAktif": ["ACCELERATE", "DELAY"]
+    },
+    {
+      "lokasi": "A03",
+      "kartu": "Kambing",
+      "umur": 1,
+      "jumlahItemAktif": 1,
+      "itemAktif": ["ACCELERATE"]
+    }
+  ],
+  "guldenPlayer2": 500,
+  "jumlahDeckPlayer2": 39,
+  "jumlahDeckAktifPlayer2": 1,
+  "deckAktifPlayer2": [
+    {
+      "lokasi": "A01",
+      "kartu": "Domba"
+    },
+    {
+      "lokasi": "A02",
+      "kartu": "Kuda"
+    },
+    {
+      "lokasi": "A03",
+      "kartu": "Kambing"
+    }
+  ],
+  "jumlahKartuLadangPlayer2": 3,
+  "kartuLadangPlayer2": [
+    {
+      "lokasi": "A01",
+      "kartu": "Domba",
+      "umur": 5,
+      "jumlahItemAktif": 3,
+      "itemAktif": ["ACCELERATE", "DELAY", "PROTECT"]
+    },
+    {
+      "lokasi": "A02",
+      "kartu": "Kuda",
+      "umur": 3,
+      "jumlahItemAktif": 2,
+      "itemAktif": ["ACCELERATE", "DELAY"]
+    },
+    {
+      "lokasi": "A03",
+      "kartu": "Kambing",
+      "umur": 1,
+      "jumlahItemAktif": 1,
+      "itemAktif": ["ACCELERATE"]
+    }
+  ]
+}

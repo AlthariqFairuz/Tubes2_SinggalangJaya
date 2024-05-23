@@ -53,6 +53,26 @@ public class Game {
         }
     }
 
+    public void setPlayer1(Player player1) {
+        this.player1 = player1;
+    }
+
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public void setPlayer1Turn(boolean isPlayer1Turn) {
+        this.isPlayer1Turn = isPlayer1Turn;
+    }
+
+    public void setTotalTurns(int totalTurns) {
+        this.totalTurns = totalTurns;
+    }
+
     public boolean harvest(CardSlot cardSlot) {
         if (!cardSlot.hasCard()) {
             System.out.println("Can't harvest from empty slot");
@@ -102,5 +122,4 @@ public class Game {
         return true;
     }
 
-    
 }

@@ -12,6 +12,20 @@ public class Land {
         this.cardSlots = new CardSlot[row][col];
     }
 
+    public Land(int row, int col, CardSlot[][] cardSlots) {
+        this.row = row;
+        this.col = col;
+        this.cardSlots = cardSlots;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
     public CardSlot[][] getCardSlots() {
         return cardSlots;
     }

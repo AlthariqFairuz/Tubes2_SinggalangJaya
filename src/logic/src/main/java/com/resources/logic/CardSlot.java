@@ -11,7 +11,6 @@ public class CardSlot {
         this.card = card;
     }
 
-
     public Card getCard() {
         return card;
     }

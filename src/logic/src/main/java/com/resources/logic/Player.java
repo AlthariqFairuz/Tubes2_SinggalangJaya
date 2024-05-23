@@ -11,6 +11,12 @@ public class Player {
         this.deck = new Deck(40, 6);
     }
 
+    public Player(int gold, Land land, Deck deck) {
+        this.gold = gold;
+        this.land = land;
+        this.deck = deck;
+    }
+
     public int getGold() {
         return gold;
     }
