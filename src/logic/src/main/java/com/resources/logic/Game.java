@@ -53,6 +53,10 @@ public class Game {
         }
     }
 
+    public boolean getIsPlayer1Turn() {
+        return isPlayer1Turn;
+    }
+
     public void setPlayer1(Player player1) {
         this.player1 = player1;
     }

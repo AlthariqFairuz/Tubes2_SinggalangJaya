@@ -9,4 +9,12 @@ public class ProductCard extends Card {
     public ProductCard(String name, String imageLocation, int price) {
         super(name, imageLocation, null, price);
     }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public int getAddedWeight() {
+        return addedWeight;
+    }
 }

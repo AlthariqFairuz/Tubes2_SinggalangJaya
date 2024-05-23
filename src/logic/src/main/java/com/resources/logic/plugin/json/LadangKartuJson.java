@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class LadangKartuJson {
+    // Attributes
     @SerializedName("lokasi")
     private String lokasi;
 
@@ -19,6 +20,15 @@ public class LadangKartuJson {
 
     @SerializedName("itemAktif")
     private List<String> itemAktif;
+
+    // Constructor
+    public LadangKartuJson(String lokasi, String kartu, int umur, int jumlahItemAktif, List<String> itemAktif) {
+        this.lokasi = lokasi;
+        this.kartu = kartu;
+        this.umur = umur;
+        this.jumlahItemAktif = jumlahItemAktif;
+        this.itemAktif = itemAktif;
+    }
 
     // Getters and setters (optional)
     public String getLokasi() {
