@@ -50,23 +50,23 @@
     {
       "lokasi": "A01",
       "kartu": "DOMBA",
-      "umur": 5,
-      "jumlahItemAktif": 3,
-      "itemAktif": ["ACCELERATE", "DELAY", "PROTECT"]
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
     },
     {
       "lokasi": "A02",
       "kartu": "KUDA",
-      "umur": 3,
-      "jumlahItemAktif": 2,
-      "itemAktif": ["ACCELERATE", "DELAY"]
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
     },
     {
       "lokasi": "A03",
       "kartu": "AYAM",
-      "umur": 1,
-      "jumlahItemAktif": 1,
-      "itemAktif": ["ACCELERATE"]
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
     }
   ],
   "guldenPlayer2": 500,
@@ -91,23 +91,23 @@
     {
       "lokasi": "A01",
       "kartu": "DOMBA",
-      "umur": 5,
-      "jumlahItemAktif": 3,
-      "itemAktif": ["ACCELERATE", "DELAY", "PROTECT"]
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
     },
     {
       "lokasi": "A02",
       "kartu": "KUDA",
-      "umur": 3,
-      "jumlahItemAktif": 2,
-      "itemAktif": ["ACCELERATE", "DELAY"]
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
     },
     {
       "lokasi": "A03",
       "kartu": "AYAM",
-      "umur": 1,
-      "jumlahItemAktif": 1,
-      "itemAktif": ["ACCELERATE"]
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
     }
   ]
 }

@@ -98,9 +98,7 @@ public class JsonLoader implements Plugin {
         state.setDeckAktifPlayer1(deckAktifPlayer1);
 
         // Land state player 1
-        int jumlahKartuLadangPlayer1 = player1.getLand().getCardSlots().length;
-        state.setJumlahKartuLadangPlayer1(jumlahKartuLadangPlayer1);
-
+        int jumlahKartuLadangPlayer1 = 0;
         // Kartu ladang player 1
         List<LadangKartuJson> kartuLadangPlayer1 = new ArrayList<>();
         // Iterate through all card slots
@@ -113,6 +111,9 @@ public class JsonLoader implements Plugin {
 
                 // If card exists
                 if (cardSlot.hasCard()) {
+                    // Increment jumlah kartu ladang player 1
+                    jumlahKartuLadangPlayer1++;
+
                     // Get coordinate
                     Coordinate co = new Coordinate(i, j);
                     String code = Coordinate.CoordinateToCode(co);
@@ -136,11 +137,16 @@ public class JsonLoader implements Plugin {
                     LadangKartuJson ladangKartuJson = new LadangKartuJson(code, cardName, age, activeCount,
                             activeItems);
                     kartuLadangPlayer1.add(ladangKartuJson);
+
+                    // DEBUG
+                    System.out.println(card.getName() + " " + code + " " + age + " " + activeCount + " " + activeItems);
                 }
             }
         }
         // Set kartu ladang player 1
         state.setKartuLadangPlayer1(kartuLadangPlayer1);
+        // Set jumlah kartu ladang player 1
+        state.setJumlahKartuLadangPlayer1(jumlahKartuLadangPlayer1);
 
         // Player 2 state
         Player player2 = Game.getInstance().getPlayer2();
@@ -188,10 +194,7 @@ public class JsonLoader implements Plugin {
         state.setDeckAktifPlayer2(deckAktifPlayer2);
 
         // Land state player 2
-        int jumlahKartuLadangPlayer2 = player2.getLand().getCardSlots().length;
-
-        // Set jumlah kartu ladang player 2
-        state.setJumlahKartuLadangPlayer2(jumlahKartuLadangPlayer2);
+        int jumlahKartuLadangPlayer2 = 0;
 
         // Kartu ladang player 2
         List<LadangKartuJson> kartuLadangPlayer2 = new ArrayList<>();
@@ -205,6 +208,9 @@ public class JsonLoader implements Plugin {
 
                 // If card exists
                 if (cardSlot.hasCard()) {
+                    //
+                    jumlahKartuLadangPlayer2++;
+
                     // Get coordinate
                     Coordinate co = new Coordinate(i, j);
                     String code = Coordinate.CoordinateToCode(co);
@@ -230,6 +236,8 @@ public class JsonLoader implements Plugin {
         }
         // Set kartu ladang player 2
         state.setKartuLadangPlayer2(kartuLadangPlayer2);
+        // Set jumlah kartu ladang player 2
+        state.setJumlahKartuLadangPlayer2(jumlahKartuLadangPlayer2);
 
         // Convert state to json
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -316,7 +324,7 @@ public class JsonLoader implements Plugin {
             DeckItemJson deckItemJson = state.getDeckAktifPlayer1().get(i);
 
             // Get coordinate
-            String lokasi = state.getDeckAktifPlayer1().get(i).getLokasi();
+            String lokasi = deckItemJson.getLokasi();
             Coordinate co = Coordinate.CodeToCoordinate(lokasi);
             int col = co.getCol();
 
@@ -332,8 +340,8 @@ public class JsonLoader implements Plugin {
         }
 
         // Land state
-        CardSlot[][] cardSlotsPlayer1State = new CardSlot[4][5];
         int ladangPlayer1State = state.getJumlahKartuLadangPlayer1();
+        Land landPlayer1State = new Land(4, 5);
         for (int i = 0; i < ladangPlayer1State; i++) {
             // Get item
             LadangKartuJson ladangKartuJson = state.getKartuLadangPlayer1().get(i);
@@ -358,13 +366,12 @@ public class JsonLoader implements Plugin {
             List<String> foo = ladangKartuJson.getItemAktif();
             // TODO: TAMBAHIN TEMPAT PENYIMPANAN STATE ITEM DIMANA??
 
-            cardSlotsPlayer1State[row][col] = new CardSlot(card);
+            landPlayer1State.setLandSlot(row, col, card);
 
             // DEBUG
             System.out.println(card.getName() + " " + lokasi + " " + age + " " + activeCount + " " + foo);
         }
         // Set to instance
-        Land landPlayer1State = new Land(4, 5, cardSlotsPlayer1State);
         Player player1 = new Player(goldPlayer1State, landPlayer1State, deckPlayer1State);
         Game.getInstance().setPlayer1(player1);
 
@@ -406,9 +413,8 @@ public class JsonLoader implements Plugin {
         }
 
         // Land state
-        CardSlot[][] cardSlotsPlayer2State = new CardSlot[4][5];
-
         int ladangPlayer2State = state.getJumlahKartuLadangPlayer2();
+        Land landPlayer2State = new Land(4, 5);
         for (int i = 0; i < ladangPlayer2State; i++) {
             // Get item
             LadangKartuJson ladangKartuJson = state.getKartuLadangPlayer2().get(i);
@@ -430,13 +436,12 @@ public class JsonLoader implements Plugin {
 
             // Get active
             // TODO: TAMBAHIN TEMPAT PENYIMPANAN STATE ITEM DIMANA??
-            cardSlotsPlayer2State[row][col] = new CardSlot(card);
+            landPlayer2State.setLandSlot(row, col, card);
 
             // DEBUG
             System.out.println(card.getName() + " " + ladangKartuJson.getLokasi() + " " + age + " " + activeCount);
         }
         // Set to instance
-        Land landPlayer2State = new Land(4, 5, cardSlotsPlayer2State);
         Player player2 = new Player(goldPlayer2State, landPlayer2State, deckPlayer2State);
         Game.getInstance().setPlayer2(player2);
 
