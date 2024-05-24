@@ -1,11 +1,14 @@
 package com.resources.logic.state;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 import com.resources.logic.Card;
 import com.resources.logic.CardAssets;
+import com.resources.logic.CardSlot;
 import com.resources.logic.Deck;
 import com.resources.logic.Game;
 import com.resources.logic.Land;
@@ -29,7 +32,170 @@ public class TextLoaderSaver implements LoaderSaver {
     @Override
     public void saveState(String filePath) {
         // Save the text to a file
+        try {
+            // Initialize writer
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
 
+            // Save current turn
+            int totalTurn = Game.getInstance().getTotalTurns();
+            writer.write(totalTurn + "\n");
+
+            // Save shop items
+            // Item shop count
+            int shopItemCount = Shop.getInstance().getShopItems().size();
+            writer.write(shopItemCount + "\n");
+
+            // Shop items
+            for (ShopItem si : Shop.getInstance().getShopItems()) {
+                writer.write(si.getItem().getName() + " " + si.getFrequency() + "\n");
+            }
+
+            // Jumlah gulden player 1
+            int guldenPlayer1 = Game.getInstance().getPlayer1().getGold();
+            writer.write(guldenPlayer1 + "\n");
+
+            // Jumlah deck player 1
+            int jumlahDeckPlayer1 = Game.getInstance().getPlayer1().getDeck().getActiveCards().length
+                    + Game.getInstance().getPlayer1().getDeck().getNonActiveCards().length;
+            writer.write(jumlahDeckPlayer1 + "\n");
+
+            // Jumlah deck aktif player 1
+            int jumlahDeckAktifPlayer1 = Game.getInstance().getPlayer1().getDeck().getActiveCards().length;
+            writer.write(jumlahDeckAktifPlayer1 + "\n");
+
+            // Deck player 1
+            Deck deckPlayer1 = Game.getInstance().getPlayer1().getDeck();
+            int index = 0;
+            for (CardSlot cs : deckPlayer1.getActiveCards()) {
+                if (cs.hasCard()) {
+                    // Get card location
+                    Coordinate co = new Coordinate(0, index);
+                    String lokasi = Coordinate.CoordinateToCode(co);
+
+                    // Get name
+                    String cardName = cs.getCard().getName();
+
+                    // Write to file
+                    writer.write(lokasi + " " + cardName + "\n");
+                }
+                index++;
+            }
+
+            // Land player 1
+            Land landPlayer1 = Game.getInstance().getPlayer1().getLand();
+
+            // Jumlah kartu ladang player 1
+            int jumlahKartuLadangPlayer1 = landPlayer1.getFilledSlotCount();
+            writer.write(jumlahKartuLadangPlayer1 + "\n");
+
+            // Kartu ladang player 1
+            for (int i = 0; i < landPlayer1.getRow(); i++) {
+                for (int j = 0; j < landPlayer1.getCol(); j++) {
+                    CardSlot cs = landPlayer1.getCardSlots()[i][j];
+                    if (cs.hasCard()) {
+                        // Get card location
+                        Coordinate co = new Coordinate(i, j);
+                        String lokasi = Coordinate.CoordinateToCode(co);
+
+                        // Get name
+                        String cardName = cs.getCard().getName();
+
+                        // Get umur
+                        int umur = 0;
+
+                        // Get jumlah item aktif
+                        int jumlahItemAktif = 0;
+
+                        // List item aktif
+                        ArrayList<ProductCard> listItemAktif = new ArrayList<>();
+
+                        // Write to file
+                        // TODO: CONNECT PENYIMPANAN EFEK ITEM LADANG
+                        writer.write(lokasi + " " + cardName + " " + umur + " " + jumlahItemAktif);
+                        for (ProductCard item : listItemAktif) {
+                            writer.write(" " + item.getName());
+                        }
+                        writer.write("\n");
+                    }
+                }
+            }
+
+            // Jumlah gulden player 2
+            int guldenPlayer2 = Game.getInstance().getPlayer2().getGold();
+            writer.write(guldenPlayer2 + "\n");
+
+            // Jumlah deck player 2
+            int jumlahDeckPlayer2 = Game.getInstance().getPlayer2().getDeck().getActiveCards().length
+                    + Game.getInstance().getPlayer2().getDeck().getNonActiveCards().length;
+            writer.write(jumlahDeckPlayer2 + "\n");
+
+            // Jumlah deck aktif player 2
+            int jumlahDeckAktifPlayer2 = Game.getInstance().getPlayer2().getDeck().getActiveCards().length;
+            writer.write(jumlahDeckAktifPlayer2 + "\n");
+
+            // Deck player 2
+            Deck deckPlayer2 = Game.getInstance().getPlayer2().getDeck();
+            index = 0;
+            for (CardSlot cs : deckPlayer2.getActiveCards()) {
+                if (cs.hasCard()) {
+                    // Get card location
+                    Coordinate co = new Coordinate(0, index);
+                    String lokasi = Coordinate.CoordinateToCode(co);
+
+                    // Get name
+                    String cardName = cs.getCard().getName();
+
+                    // Write to file
+                    writer.write(lokasi + " " + cardName + "\n");
+                }
+                index++;
+            }
+
+            // Land player 2
+            Land landPlayer2 = Game.getInstance().getPlayer2().getLand();
+
+            // Jumlah kartu ladang player 2
+            int jumlahKartuLadangPlayer2 = landPlayer2.getFilledSlotCount();
+            writer.write(jumlahKartuLadangPlayer2 + "\n");
+
+            // Kartu ladang player 2
+
+            for (int i = 0; i < landPlayer2.getRow(); i++) {
+                for (int j = 0; j < landPlayer2.getCol(); j++) {
+                    CardSlot cs = landPlayer2.getCardSlots()[i][j];
+                    if (cs.hasCard()) {
+                        // Get card location
+                        Coordinate co = new Coordinate(i, j);
+                        String lokasi = Coordinate.CoordinateToCode(co);
+
+                        // Get name
+                        String cardName = cs.getCard().getName();
+
+                        // Get umur
+                        int umur = 0;
+
+                        // Get jumlah item aktif
+                        int jumlahItemAktif = 0;
+
+                        // List item aktif
+                        ArrayList<ProductCard> listItemAktif = new ArrayList<>();
+
+                        // Write to file
+                        // TODO: CONNECT PENYIMPANAN EFEK ITEM LADANG
+                        writer.write(lokasi + " " + cardName + " " + umur + " " + jumlahItemAktif);
+                        for (ProductCard item : listItemAktif) {
+                            writer.write(" " + item.getName());
+                        }
+                        writer.write("\n");
+                    }
+                }
+            }
+
+            // Close writer
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
