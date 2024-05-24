@@ -32,7 +32,8 @@ public abstract class LoadTxt {
         
         // Game state
         currentTurn = Integer.parseInt(lines[lineIndex++].trim());
-        
+        Game.getInstance().setTotalTurns(lineIndex);
+
         // Shop
         totalShopProducts = Integer.parseInt(lines[lineIndex++].trim());
         shopProducts = new ArrayList<>();
@@ -47,12 +48,17 @@ public abstract class LoadTxt {
         player1Gold = Integer.parseInt(lines[lineIndex++].trim());
         player1TotalCards = Integer.parseInt(lines[lineIndex++].trim());
         player1TotalActiveCards = Integer.parseInt(lines[lineIndex++].trim());
+        Player player1 = new Player(player1Gold, new Land(4, 5), new Deck(player1TotalCards, player1TotalActiveCards));
         player1ActiveCards = new ArrayList<>();
         for (int i = 0; i < player1TotalActiveCards; i++) {
             String[] activeCardData = lines[lineIndex++].split(" ");
             String location = activeCardData[0];
+            Integer location_x = Integer.parseInt(location.split(",")[0]);
+            Integer location_y = Integer.parseInt(location.split(",")[1]);
             String cardName = activeCardData[1];
+            Card card = CardAssets.toCard(cardName);
             player1ActiveCards.add(new LoadCard(location, cardName));
+            player1.getLand().setLandSlot(location_x, location_y, card);
         }
         player1TotalFarmCards = Integer.parseInt(lines[lineIndex++].trim());
         player1FarmCards = new ArrayList<>();
@@ -67,18 +73,26 @@ public abstract class LoadTxt {
                 items.add(cardInLandData[4 + j]);
             }
             player1FarmCards.add(new LoadCard(location, cardName, ageOrWeight, items));
+            
         }
+        
+        Game.getInstance().setPlayer1(player1);
         
         // Player 2
         player2Gold = Integer.parseInt(lines[lineIndex++].trim());
         player2TotalCards = Integer.parseInt(lines[lineIndex++].trim());
         player2TotalActiveCards = Integer.parseInt(lines[lineIndex++].trim());
+        Player player2 = new Player(player2Gold, new Land(4, 5), new Deck(player2TotalCards, player2TotalActiveCards));
         player2ActiveCards = new ArrayList<>();
         for (int i = 0; i < player2TotalActiveCards; i++) {
             String[] activeCardData = lines[lineIndex++].split(" ");
             String location = activeCardData[0];
+            Integer location_x = Integer.parseInt(location.split(",")[0]);
+            Integer location_y = Integer.parseInt(location.split(",")[1]);
             String cardName = activeCardData[1];
+            Card card = CardAssets.toCard(cardName);
             player2ActiveCards.add(new LoadCard(location, cardName));
+            player2.getLand().setLandSlot(location_x, location_y, card);
         }
         player2TotalFarmCards = Integer.parseInt(lines[lineIndex++].trim());
         player2FarmCards = new ArrayList<>();
