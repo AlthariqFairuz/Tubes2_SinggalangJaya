@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class DeckItemJson {
     // Attributes
     @SerializedName("lokasi")
-    private String lokasi;
+    public String lokasi;
 
     @SerializedName("kartu")
-    private String kartu;
+    public String kartu;
 
     // Constructor
     public DeckItemJson(String lokasi, String kartu) {

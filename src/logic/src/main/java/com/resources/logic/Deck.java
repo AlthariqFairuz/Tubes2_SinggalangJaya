@@ -12,6 +12,14 @@ public class Deck {
 
         nonActiveCards = new CardSlot[totalDeckSize - totalActiveDeckCards];
         ActiveCards = new CardSlot[totalActiveDeckCards];
+
+        for (int i = 0; i < totalDeckSize - totalActiveDeckCards; i++) {
+            nonActiveCards[i] = new CardSlot();
+        }
+
+        for (int i = 0; i < totalActiveDeckCards; i++) {
+            ActiveCards[i] = new CardSlot();
+        }
     }
 
     public CardSlot[] getNonActiveCards() {
@@ -46,18 +54,20 @@ public class Deck {
     }
 
     public void addCardToActiveDeck(Card card, int index) {
-        // If index is out of bounds, throw error
-        if (index < 0 || index >= totalActiveDeckSize) {
-            throw new IndexOutOfBoundsException("Index out of bounds");
-        }
+        // // If index is out of bounds, throw error
+        // if (index < 0 || index >= totalActiveDeckSize) {
+        // throw new IndexOutOfBoundsException("Index out of bounds");
+        // }
 
-        // If already has card, throw error
-        if (ActiveCards[index].hasCard()) {
-            throw new IllegalArgumentException("Card slot already has card");
-        }
+        // // If already has card, throw error
+        // if (ActiveCards[index].hasCard()) {
+        // throw new IllegalArgumentException("Card slot already has card");
+        // }
 
-        // Set card
-        ActiveCards[index].setCard(card);
+        if (index >= 0 && index < totalActiveDeckSize && !ActiveCards[index].hasCard()) {
+            // Set card
+            ActiveCards[index].setCard(card);
+        }
     }
 
     public void shuffle() {

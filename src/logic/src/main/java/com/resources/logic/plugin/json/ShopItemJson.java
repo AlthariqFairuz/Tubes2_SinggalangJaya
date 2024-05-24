@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class ShopItemJson {
     // Attributes
     @SerializedName("item")
-    private String item;
+    public String item;
 
     @SerializedName("harga")
-    private int harga;
+    public int harga;
 
     @SerializedName("jumlah")
-    private int jumlah;
+    public int jumlah;
 
     // Constructor
     public ShopItemJson(String item, int harga, int jumlah) {

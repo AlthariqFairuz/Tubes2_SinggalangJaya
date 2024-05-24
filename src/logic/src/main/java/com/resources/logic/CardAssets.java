@@ -50,7 +50,7 @@ public class CardAssets {
             return new HerbivoreAnimalCard(name, "resources/Hewan/horse.png", 0, 14,
                     (ProductCard) toCard("DAGING_KUDA"));
         } else if (name.equals("AYAM")) {
-            return new OmnivoreAnimalCard(name, "resources/Hewan/chicken.png", 0, 5, (ProductCard) toCard("telur"));
+            return new OmnivoreAnimalCard(name, "resources/Hewan/chicken.png", 0, 5, (ProductCard) toCard("TELUR"));
         } else if (name.equals("BERUANG")) {
             return new OmnivoreAnimalCard(name, "resources/Hewan/bear.png", 0, 25,
                     (ProductCard) toCard("DAGING_BERUANG"));

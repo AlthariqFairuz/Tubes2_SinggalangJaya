@@ -6,49 +6,49 @@ import java.util.List;
 public class StateJson {
     // Attributes
     @SerializedName("currentTurn")
-    private int currentTurn;
+    public int currentTurn;
 
     @SerializedName("shopItemCount")
-    private int shopItemCount;
+    public int shopItemCount;
 
     @SerializedName("shopItems")
-    private List<ShopItemJson> shopItems;
+    public List<ShopItemJson> shopItems;
 
     @SerializedName("guldenPlayer1")
-    private int guldenPlayer1;
+    public int guldenPlayer1;
 
     @SerializedName("jumlahDeckPlayer1")
-    private int jumlahDeckPlayer1;
+    public int jumlahDeckPlayer1;
 
     @SerializedName("jumlahDeckAktifPlayer1")
-    private int jumlahDeckAktifPlayer1;
+    public int jumlahDeckAktifPlayer1;
 
     @SerializedName("deckAktifPlayer1")
-    private List<DeckItemJson> deckAktifPlayer1;
+    public List<DeckItemJson> deckAktifPlayer1;
 
     @SerializedName("jumlahKartuLadangPlayer1")
-    private int jumlahKartuLadangPlayer1;
+    public int jumlahKartuLadangPlayer1;
 
     @SerializedName("kartuLadangPlayer1")
-    private List<LadangKartuJson> kartuLadangPlayer1;
+    public List<LadangKartuJson> kartuLadangPlayer1;
 
     @SerializedName("guldenPlayer2")
-    private int guldenPlayer2;
+    public int guldenPlayer2;
 
     @SerializedName("jumlahDeckPlayer2")
-    private int jumlahDeckPlayer2;
+    public int jumlahDeckPlayer2;
 
     @SerializedName("jumlahDeckAktifPlayer2")
-    private int jumlahDeckAktifPlayer2;
+    public int jumlahDeckAktifPlayer2;
 
     @SerializedName("deckAktifPlayer2")
-    private List<DeckItemJson> deckAktifPlayer2;
+    public List<DeckItemJson> deckAktifPlayer2;
 
     @SerializedName("jumlahKartuLadangPlayer2")
-    private int jumlahKartuLadangPlayer2;
+    public int jumlahKartuLadangPlayer2;
 
     @SerializedName("kartuLadangPlayer2")
-    private List<LadangKartuJson> kartuLadangPlayer2;
+    public List<LadangKartuJson> kartuLadangPlayer2;
 
     // Getters
     public int getCurrentTurn() {
