@@ -55,12 +55,12 @@ public class TextLoaderSaver implements LoaderSaver {
             writer.write(guldenPlayer1 + "\n");
 
             // Jumlah deck player 1
-            int jumlahDeckPlayer1 = Game.getInstance().getPlayer1().getDeck().getActiveCards().length
-                    + Game.getInstance().getPlayer1().getDeck().getNonActiveCards().length;
+            int jumlahDeckPlayer1 = Game.getInstance().getPlayer1().getDeck().getActiveCardsCount()
+                    + Game.getInstance().getPlayer1().getDeck().getNonActiveCardsCount();
             writer.write(jumlahDeckPlayer1 + "\n");
 
             // Jumlah deck aktif player 1
-            int jumlahDeckAktifPlayer1 = Game.getInstance().getPlayer1().getDeck().getActiveCards().length;
+            int jumlahDeckAktifPlayer1 = Game.getInstance().getPlayer1().getDeck().getActiveCardsCount();
             writer.write(jumlahDeckAktifPlayer1 + "\n");
 
             // Deck player 1
@@ -125,12 +125,12 @@ public class TextLoaderSaver implements LoaderSaver {
             writer.write(guldenPlayer2 + "\n");
 
             // Jumlah deck player 2
-            int jumlahDeckPlayer2 = Game.getInstance().getPlayer2().getDeck().getActiveCards().length
-                    + Game.getInstance().getPlayer2().getDeck().getNonActiveCards().length;
+            int jumlahDeckPlayer2 = Game.getInstance().getPlayer2().getDeck().getActiveCardsCount()
+                    + Game.getInstance().getPlayer2().getDeck().getNonActiveCardsCount();
             writer.write(jumlahDeckPlayer2 + "\n");
 
             // Jumlah deck aktif player 2
-            int jumlahDeckAktifPlayer2 = Game.getInstance().getPlayer2().getDeck().getActiveCards().length;
+            int jumlahDeckAktifPlayer2 = Game.getInstance().getPlayer2().getDeck().getActiveCardsCount();
             writer.write(jumlahDeckAktifPlayer2 + "\n");
 
             // Deck player 2
@@ -159,7 +159,6 @@ public class TextLoaderSaver implements LoaderSaver {
             writer.write(jumlahKartuLadangPlayer2 + "\n");
 
             // Kartu ladang player 2
-
             for (int i = 0; i < landPlayer2.getRow(); i++) {
                 for (int j = 0; j < landPlayer2.getCol(); j++) {
                     CardSlot cs = landPlayer2.getCardSlots()[i][j];
@@ -257,11 +256,11 @@ public class TextLoaderSaver implements LoaderSaver {
             // DEBUG
             System.out.println("Jumlah deck aktif player 1: " + jumlahDeckAktifPlayer1);
 
-            // Initialize deck
-            Deck deckPlayer1 = new Deck(jumlahDeckPlayer1, jumlahDeckAktifPlayer1);
+            // Initialize player 1 deck
+            Deck deckPlayer1 = new Deck();
 
             // Get deck player 1
-            for (int i = 0; i < jumlahDeckPlayer1; i++) {
+            for (int i = 0; i < jumlahDeckAktifPlayer1; i++) {
                 // Get deck
                 line = reader.readLine();
                 String[] deck = line.split(" ");
@@ -274,11 +273,19 @@ public class TextLoaderSaver implements LoaderSaver {
 
                 // Add deck to list
                 Card card = CardAssets.toCard(cardName);
-                deckPlayer1.addCardToActiveDeck(card, col);
+                deckPlayer1.setCardToActiveDeck(card, col);
 
                 // DEBUG
                 System.out.println(card.getName() + " " + lokasi);
             }
+
+            // Generate nonactive cards in player 1 deck
+            for (int i = 0; i < jumlahDeckPlayer1 - jumlahDeckAktifPlayer1; i++) {
+                Card randCard = CardAssets.getRandomCard();
+                deckPlayer1.addCardToNonActiveDeck(randCard);
+            }
+            // DEBUG
+            System.out.println("Jumlah kartu nonaktif player 1: " + deckPlayer1.getNonActiveCardsCount());
 
             // Land state
             // Jumlah kartu ladang player 1
@@ -288,7 +295,7 @@ public class TextLoaderSaver implements LoaderSaver {
             System.out.println("Jumlah kartu ladang player 1: " + jumlahKartuLadangPlayer1);
 
             // Get kartu ladang player 1
-            Land landPlayer1 = new Land(4, 5);
+            Land landPlayer1 = new Land();
             for (int i = 0; i < jumlahKartuLadangPlayer1; i++) {
                 // Get kartu ladang
                 line = reader.readLine();
@@ -297,6 +304,8 @@ public class TextLoaderSaver implements LoaderSaver {
                 // Lokasi
                 String lokasi = kartuLadang[0];
                 Coordinate co = Coordinate.CodeToCoordinate(lokasi);
+                int row = co.getRow();
+                int col = co.getCol();
 
                 // Card
                 String cardName = kartuLadang[1];
@@ -309,19 +318,19 @@ public class TextLoaderSaver implements LoaderSaver {
                 int jumlahItemAktif = Integer.parseInt(kartuLadang[3]);
 
                 // List item aktif
-                ArrayList<ProductCard> listItemAktif = new ArrayList<>();
-                for (int j = 0; j < jumlahItemAktif; j++) {
-                    String itemName = kartuLadang[4 + j];
-                    ProductCard item = (ProductCard) CardAssets.toCard(itemName);
-                    listItemAktif.add(item);
-                }
+                // ArrayList<ProductCard> listItemAktif = new ArrayList<>();
+                // for (int j = 0; j < jumlahItemAktif; j++) {
+                // String itemName = kartuLadang[4 + j];
+                // ProductCard item = (ProductCard) CardAssets.toCard(itemName);
+                // listItemAktif.add(item);
+                // }
 
                 // TODO: PENYIMPANAN EFEK ITEM LADANG
-                landPlayer1.setLandSlot(jumlahDeckAktifPlayer1, jumlahKartuLadangPlayer1, card);
+                landPlayer1.setLandSlot(row, col, card);
 
                 // DEBUG
                 System.out.println(
-                        card.getName() + " " + lokasi + " " + umur + " " + jumlahItemAktif + " " + listItemAktif);
+                        card.getName() + " " + lokasi + " " + umur + " " + jumlahItemAktif + " ");
             }
             // Connect to game instance
             Player player1 = new Player(guldenPlayer1, landPlayer1, deckPlayer1);
@@ -347,10 +356,10 @@ public class TextLoaderSaver implements LoaderSaver {
             System.out.println("Jumlah deck aktif player 2: " + jumlahDeckAktifPlayer2);
 
             // Initialize deck
-            Deck deckPlayer2 = new Deck(jumlahDeckPlayer2, jumlahDeckAktifPlayer2);
+            Deck deckPlayer2 = new Deck();
 
             // Get deck player 2
-            for (int i = 0; i < jumlahDeckPlayer2; i++) {
+            for (int i = 0; i < jumlahDeckAktifPlayer2; i++) {
                 // Get deck
                 line = reader.readLine();
                 String[] deck = line.split(" ");
@@ -363,10 +372,16 @@ public class TextLoaderSaver implements LoaderSaver {
 
                 // Add deck to list
                 Card card = CardAssets.toCard(cardName);
-                deckPlayer2.addCardToActiveDeck(card, col);
+                deckPlayer2.setCardToActiveDeck(card, col);
 
                 // DEBUG
                 System.out.println(card.getName() + " " + lokasi);
+            }
+
+            // Generate nonactive cards in player 2 deck
+            for (int i = 0; i < jumlahDeckPlayer2 - jumlahDeckAktifPlayer2; i++) {
+                Card randCard = CardAssets.getRandomCard();
+                deckPlayer2.addCardToNonActiveDeck(randCard);
             }
 
             // Land state
@@ -377,7 +392,7 @@ public class TextLoaderSaver implements LoaderSaver {
             System.out.println("Jumlah kartu ladang player 2: " + jumlahKartuLadangPlayer2);
 
             // Get kartu ladang player 2
-            Land landPlayer2 = new Land(4, 5);
+            Land landPlayer2 = new Land();
             for (int i = 0; i < jumlahKartuLadangPlayer2; i++) {
                 // Get kartu ladang
                 line = reader.readLine();
@@ -386,6 +401,8 @@ public class TextLoaderSaver implements LoaderSaver {
                 // Lokasi
                 String lokasi = kartuLadang[0];
                 Coordinate co = Coordinate.CodeToCoordinate(lokasi);
+                int row = co.getRow();
+                int col = co.getCol();
 
                 // Card
                 String cardName = kartuLadang[1];
@@ -398,19 +415,19 @@ public class TextLoaderSaver implements LoaderSaver {
                 int jumlahItemAktif = Integer.parseInt(kartuLadang[3]);
 
                 // List item aktif
-                ArrayList<ProductCard> listItemAktif = new ArrayList<>();
-                for (int j = 0; j < jumlahItemAktif; j++) {
-                    String itemName = kartuLadang[4 + j];
-                    ProductCard item = (ProductCard) CardAssets.toCard(itemName);
-                    listItemAktif.add(item);
-                }
+                // ArrayList<ProductCard> listItemAktif = new ArrayList<>();
+                // for (int j = 0; j < jumlahItemAktif; j++) {
+                // String itemName = kartuLadang[4 + j];
+                // ProductCard item = (ProductCard) CardAssets.toCard(itemName);
+                // listItemAktif.add(item);
+                // }
 
                 // TODO: PENYIMPANAN EFEK ITEM LADANG
-                landPlayer2.setLandSlot(jumlahDeckAktifPlayer1, jumlahKartuLadangPlayer1, card);
+                landPlayer2.setLandSlot(row, col, card);
 
                 // DEBUG
                 System.out.println(
-                        card.getName() + " " + lokasi + " " + umur + " " + jumlahItemAktif + " " + listItemAktif);
+                        card.getName() + " " + lokasi + " " + umur + " " + jumlahItemAktif + " ");
             }
             // Connect to game instance
             Player player2 = new Player(guldenPlayer2, landPlayer2, deckPlayer2);

@@ -20,34 +20,32 @@ public class Coordinate {
     }
 
     public static String CoordinateToCode(Coordinate coordinate) {
-        // 0, 0 -> A01
-        // 0, 1 -> A02
-        // 1, 0 -> B01
-        // 1, 1 -> B02
-        // ...
+        // r,c = 0,0 -> A01
+        // r,c = 0, 1 -> B01
+        // r,c = 1, 0 -> A01
+        // r,c = 1, 1 -> B01
 
-        // Convert row to character
-        char row = (char) ('A' + coordinate.getRow());
+        // Convert column to character
+        char colChar = (char) (coordinate.getCol() + 'A');
 
-        // Convert col to number
-        int col = coordinate.getCol() + 1;
+        // Convert row to number
+        int row = coordinate.getRow() + 1;
 
-        return String.format("%c%02d", row, col);
+        return String.format("%c%02d", colChar, row);
     }
 
     public static Coordinate CodeToCoordinate(String code) {
-        // A01 -> 0, 0
-        // A02 -> 0, 1
-        // B01 -> 1, 0
-        // B02 -> 1, 1
-        // ...
+        // r,c = 0,0 -> A01
+        // r,c = 0, 1 -> B01
+        // r,c = 1, 0 -> A01
+        // r,c = 1, 1 -> B01
 
-        // Convert character to row
-        String codeChar = code.substring(0, 1);
-        int row = codeChar.charAt(0) - 'A';
+        // Get column alphabet
+        String colStr = code.substring(0, 1);
+        int col = colStr.charAt(0) - 'A';
 
-        // Convert number to col
-        int col = Integer.parseInt(code.substring(1)) - 1;
+        // Get row number
+        int row = Integer.parseInt(code.substring(1, 3)) - 1;
 
         return new Coordinate(row, col);
     }

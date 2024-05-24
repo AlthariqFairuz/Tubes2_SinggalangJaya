@@ -6,9 +6,9 @@ public class Land {
 
     private CardSlot[][] cardSlots;
 
-    public Land(int row, int col) {
-        this.row = row;
-        this.col = col;
+    public Land() {
+        this.row = 4;
+        this.col = 5;
         this.cardSlots = new CardSlot[row][col];
 
         for (int i = 0; i < row; i++) {
@@ -16,12 +16,6 @@ public class Land {
                 cardSlots[i][j] = new CardSlot();
             }
         }
-    }
-
-    public Land(int row, int col, CardSlot[][] cardSlots) {
-        this.row = row;
-        this.col = col;
-        this.cardSlots = cardSlots;
     }
 
     public void setLandSlot(int row, int col, Card card) {

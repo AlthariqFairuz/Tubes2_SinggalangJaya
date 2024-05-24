@@ -6,18 +6,18 @@ public class Deck {
     private CardSlot[] nonActiveCards; // Size is totalDeckSize - totalActiveCards
     private CardSlot[] ActiveCards; // Size is totalActiveCards
 
-    public Deck(int totalDeckSize, int totalActiveDeckCards) {
-        this.totalDeckSize = totalDeckSize;
-        this.totalActiveDeckSize = totalActiveDeckCards;
+    public Deck() {
+        this.totalDeckSize = 40;
+        this.totalActiveDeckSize = 6;
 
-        nonActiveCards = new CardSlot[totalDeckSize - totalActiveDeckCards];
-        ActiveCards = new CardSlot[totalActiveDeckCards];
+        nonActiveCards = new CardSlot[totalDeckSize - totalActiveDeckSize];
+        ActiveCards = new CardSlot[totalActiveDeckSize];
 
-        for (int i = 0; i < totalDeckSize - totalActiveDeckCards; i++) {
+        for (int i = 0; i < totalDeckSize - totalActiveDeckSize; i++) {
             nonActiveCards[i] = new CardSlot();
         }
 
-        for (int i = 0; i < totalActiveDeckCards; i++) {
+        for (int i = 0; i < totalActiveDeckSize; i++) {
             ActiveCards[i] = new CardSlot();
         }
     }
@@ -53,18 +53,37 @@ public class Deck {
         }
     }
 
-    public void addCardToActiveDeck(Card card, int index) {
-        // // If index is out of bounds, throw error
-        // if (index < 0 || index >= totalActiveDeckSize) {
-        // throw new IndexOutOfBoundsException("Index out of bounds");
-        // }
+    public void addCardToNonActiveDeck(Card card) {
+        for (int i = 0; i < totalDeckSize - totalActiveDeckSize; i++) {
+            if (!nonActiveCards[i].hasCard()) {
+                nonActiveCards[i].setCard(card);
+                return;
+            }
+        }
+    }
 
-        // // If already has card, throw error
-        // if (ActiveCards[index].hasCard()) {
-        // throw new IllegalArgumentException("Card slot already has card");
-        // }
+    public int getActiveCardsCount() {
+        int count = 0;
+        for (int i = 0; i < totalActiveDeckSize; i++) {
+            if (ActiveCards[i].hasCard()) {
+                count++;
+            }
+        }
+        return count;
+    }
 
-        if (index >= 0 && index < totalActiveDeckSize && !ActiveCards[index].hasCard()) {
+    public int getNonActiveCardsCount() {
+        int count = 0;
+        for (int i = 0; i < totalDeckSize - totalActiveDeckSize; i++) {
+            if (nonActiveCards[i].hasCard()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public void setCardToActiveDeck(Card card, int index) {
+        if (index >= 0 && index < totalActiveDeckSize) {
             // Set card
             ActiveCards[index].setCard(card);
         }
