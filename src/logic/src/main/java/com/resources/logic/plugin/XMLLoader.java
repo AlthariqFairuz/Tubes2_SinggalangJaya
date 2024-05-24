@@ -15,6 +15,7 @@ import com.resources.logic.Player;
 import com.resources.logic.Shop;
 import com.resources.logic.ShopItem;
 import com.resources.logic.lib.Coordinate;
+import com.resources.logic.state.LoaderSaver;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,9 +29,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
-public class XMLLoader implements Plugin {
+public class XMLLoader implements LoaderSaver {
     public void onLoad() {
-        System.out.println("XMLParser loaded");
+        System.out.println("XMLParser loading");
+    }
+
+    public void onSave() {
+        System.out.println("XMLParser saving");
     }
 
     public void saveState(String filePath) {

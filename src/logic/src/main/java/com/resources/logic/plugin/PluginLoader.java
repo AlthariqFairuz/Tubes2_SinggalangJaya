@@ -10,9 +10,11 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.lang.reflect.InvocationTargetException;
 
+import com.resources.logic.state.LoaderSaver;
+
 public class PluginLoader {
     // Load a plugin from a JAR file
-    public Plugin loadPlugin(String jarFilePath) {
+    public LoaderSaver loadPlugin(String jarFilePath) {
 
         URLClassLoader classLoader = null;
         JarFile jarFile = null;
@@ -46,9 +48,9 @@ public class PluginLoader {
                     Class<?> pluginClass = classLoader.loadClass(className);
 
                     // Check if the class is a plugin
-                    if (Plugin.class.isAssignableFrom(pluginClass)) {
+                    if (LoaderSaver.class.isAssignableFrom(pluginClass)) {
                         // Create an instance of the plugin
-                        Plugin plugin = (Plugin) pluginClass.getDeclaredConstructor().newInstance();
+                        LoaderSaver plugin = (LoaderSaver) pluginClass.getDeclaredConstructor().newInstance();
 
                         // Call the onLoad method of the plugin
                         plugin.onLoad();

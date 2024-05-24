@@ -22,11 +22,17 @@ import com.resources.logic.plugin.json.LadangKartuJson;
 import com.resources.logic.plugin.json.ShopItemJson;
 import com.resources.logic.plugin.json.StateJson;
 import com.resources.logic.product.ProductCard;
+import com.resources.logic.state.LoaderSaver;
 
-public class JsonLoader implements Plugin {
+public class JsonLoader implements LoaderSaver {
     @Override
     public void onLoad() {
         System.out.println("Loading JSON plugin");
+    }
+
+    @Override
+    public void onSave() {
+        System.out.println("Saving JSON plugin");
     }
 
     @Override
