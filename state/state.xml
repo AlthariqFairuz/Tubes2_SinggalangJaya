@@ -1,30 +1,25 @@
 <gameState>
-  <currentTurn>1</currentTurn>
+  <currentTurn>3</currentTurn>
   <shopItemCount>5</shopItemCount>
   <shopItems>
     <item>
       <name>SIRIP_HIU</name>
-      <harga>100</harga>
       <jumlah>3</jumlah>
     </item>
     <item>
-      <name>ACCELERATE</name>
-      <harga>50</harga>
+      <name>SUSU</name>
       <jumlah>3</jumlah>
     </item>
     <item>
-      <name>DELAY</name>
-      <harga>50</harga>
+      <name>DAGING_DOMBA</name>
       <jumlah>3</jumlah>
     </item>
     <item>
-      <name>PROTECT</name>
-      <harga>50</harga>
+      <name>DAGING_KUDA</name>
       <jumlah>3</jumlah>
     </item>
     <item>
-      <name>REBORN</name>
-      <harga>100</harga>
+      <name>DAGING_BERUANG</name>
       <jumlah>3</jumlah>
     </item>
   </shopItems>

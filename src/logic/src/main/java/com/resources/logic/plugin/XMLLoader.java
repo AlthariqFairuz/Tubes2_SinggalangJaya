@@ -46,8 +46,8 @@ public class XMLLoader implements Plugin {
 
             // Current Turn
             Element currentTurnNode = document.createElement("currentTurn");
-            String turn = Game.getInstance().getIsPlayer1Turn() ? "1" : "2";
-            currentTurnNode.appendChild(document.createTextNode(turn));
+            String currentTurn = Integer.toString(Game.getInstance().getTotalTurns());
+            currentTurnNode.appendChild(document.createTextNode(currentTurn));
             root.appendChild(currentTurnNode);
 
             // Shop Item Count
@@ -321,7 +321,7 @@ public class XMLLoader implements Plugin {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File("state.xml"));
+            StreamResult streamResult = new StreamResult(new File(filePath));
             transformer.transform(domSource, streamResult);
 
             // Output to console for testing
@@ -348,8 +348,8 @@ public class XMLLoader implements Plugin {
 
             // Parsing currentTurn
             Node currentTurnNode = doc.getElementsByTagName("currentTurn").item(0);
-            boolean isPlayer1Turn = currentTurnNode.getTextContent().equals("1");
-            Game.getInstance().setPlayer1Turn(isPlayer1Turn);
+            int currentTurn = Integer.parseInt(currentTurnNode.getTextContent());
+            Game.getInstance().setTotalTurns(currentTurn);
             // DEBUG
             System.out.println("Current Turn: " + currentTurnNode.getTextContent());
 
@@ -373,9 +373,6 @@ public class XMLLoader implements Plugin {
 
                     // Get card
                     Card card = CardAssets.toCard(name);
-
-                    // Get price
-                    int price = Integer.parseInt(element.getElementsByTagName("harga").item(0).getTextContent());
 
                     // Get frequency
                     int frequency = Integer.parseInt(element.getElementsByTagName("jumlah").item(0).getTextContent());

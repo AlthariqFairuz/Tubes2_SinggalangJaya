@@ -37,7 +37,9 @@ public class JsonLoader implements Plugin {
         StateJson state = new StateJson();
 
         // Get current turn
-        int currentTurn = Game.getInstance().getIsPlayer1Turn() ? 1 : 2;
+        int currentTurn = Game.getInstance().getTotalTurns();
+        // DEBUG
+        System.out.println(currentTurn);
         state.setCurrentTurn(currentTurn);
 
         // Get shop items
@@ -52,7 +54,7 @@ public class JsonLoader implements Plugin {
         for (ShopItem shopItem : shopItems) {
             ShopItemJson shopItemJson = new ShopItemJson(
                     shopItem.getItem().getName(),
-                    shopItem.getPrice());
+                    shopItem.getFrequency());
             shopItemsJson.add(shopItemJson);
         }
         state.setShopItems(shopItemsJson);
@@ -278,10 +280,11 @@ public class JsonLoader implements Plugin {
         // System.out.println(state);
 
         // Current Turn
-        boolean turnState = state.getCurrentTurn() == 1;
-        Game.getInstance().setPlayer1Turn(turnState);
+        int turnState = state.getCurrentTurn();
+        Game.getInstance().setTotalTurns(turnState);
         // DEBUG
         System.out.println(turnState);
+        System.out.println(Game.getInstance().getTotalTurns());
 
         // Shop item count
         int shopItemCountState = state.getShopItemCount();
@@ -291,18 +294,19 @@ public class JsonLoader implements Plugin {
         // Shop state
         ArrayList<ShopItem> shopItemsState = new ArrayList<>();
         for (int i = 0; i < shopItemCountState; i++) {
+            // Get item
             ShopItemJson shopItemJson = state.getShopItems().get(i);
             Card card = CardAssets.toCard(shopItemJson.getItem());
-            ProductCard proudctCardJson = new ProductCard(shopItemJson.getItem(), null, card.getPrice());
+
             ShopItem shopItem = new ShopItem(
-                    proudctCardJson,
-                    shopItemJson.getJumlah()
-                    );
+                    (ProductCard) card,
+                    shopItemJson.getJumlah());
+
             shopItemsState.add(shopItem);
 
             // DEBUG
             System.out
-                    .println(shopItem.getItem().getName() + " " + shopItem.getFrequency() + " " + shopItem.getPrice());
+                    .println(shopItem.getItem().getName() + " " + shopItem.getFrequency());
         }
         Shop.getInstance().setShopItems(shopItemsState);
 
