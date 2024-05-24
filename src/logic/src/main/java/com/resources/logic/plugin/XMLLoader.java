@@ -18,6 +18,11 @@ import com.resources.logic.lib.Coordinate;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import java.io.File;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -30,6 +35,301 @@ public class XMLLoader implements Plugin {
 
     public void saveState(String filePath) {
         System.out.println("XMLParser saveState");
+        try {
+            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
+
+            // Root element
+            Element root = document.createElement("gameState");
+            document.appendChild(root);
+
+            // Current Turn
+            Element currentTurnNode = document.createElement("currentTurn");
+            String turn = Game.getInstance().getIsPlayer1Turn() ? "1" : "2";
+            currentTurnNode.appendChild(document.createTextNode(turn));
+            root.appendChild(currentTurnNode);
+
+            // Shop Item Count
+            Element shopItemCountNode = document.createElement("shopItemCount");
+            String count = Integer.toString(Shop.getInstance().getShopItems().size());
+            shopItemCountNode.appendChild(document.createTextNode(count));
+            root.appendChild(shopItemCountNode);
+
+            // Shop Items
+            Element shopItemsNodeList = document.createElement("shopItems");
+            for (ShopItem shopItem : Shop.getInstance().getShopItems()) {
+                // Create item node
+                Element itemNode = document.createElement("item");
+
+                // Create name node
+                Element nameNode = document.createElement("name");
+                String name = shopItem.getItem().getName();
+
+                // Append name to item
+                nameNode.appendChild(document.createTextNode(name));
+                itemNode.appendChild(nameNode);
+
+                // Create harga node
+                Element hargaNode = document.createElement("harga");
+                String harga = Integer.toString(shopItem.getPrice());
+                hargaNode.appendChild(document.createTextNode(harga));
+                itemNode.appendChild(hargaNode);
+
+                // Create jumlah node
+                Element jumlah = document.createElement("jumlah");
+                String jumlahStr = Integer.toString(shopItem.getFrequency());
+                jumlah.appendChild(document.createTextNode(jumlahStr));
+                itemNode.appendChild(jumlah);
+
+                shopItemsNodeList.appendChild(itemNode);
+            }
+            root.appendChild(shopItemsNodeList);
+
+            // Player 1
+            Element player1Node = document.createElement("player1");
+            Player player1 = Game.getInstance().getPlayer1();
+
+            // Gulden player1
+            Element guldenPlayer1Node = document.createElement("gulden");
+            String guldenPlayer1 = Integer.toString(player1.getGold());
+            guldenPlayer1Node.appendChild(document.createTextNode(guldenPlayer1));
+            player1Node.appendChild(guldenPlayer1Node);
+
+            int activeCardsPlayer1Count = player1.getDeck().getActiveCards().length;
+            int nonActiveCardsPlayer1Count = player1.getDeck().getNonActiveCards().length;
+
+            // Jumlah deck player1
+            Element jumlahDeckPlayer1Node = document.createElement("jumlahDeck");
+            String jumlahDeckPlayer1 = Integer.toString(activeCardsPlayer1Count + nonActiveCardsPlayer1Count);
+            jumlahDeckPlayer1Node.appendChild(document.createTextNode(jumlahDeckPlayer1));
+            player1Node.appendChild(jumlahDeckPlayer1Node);
+
+            // Jumlah deck aktif player1
+            Element jumlahDeckAktifPlayer1Node = document.createElement("jumlahDeckAktif");
+            String jumlahDeckAktifPlayer1 = Integer.toString(activeCardsPlayer1Count);
+            jumlahDeckAktifPlayer1Node.appendChild(document.createTextNode(jumlahDeckAktifPlayer1));
+            player1Node.appendChild(jumlahDeckAktifPlayer1Node);
+
+            // Deck aktif player1
+            Element deckAktifPlayer1Node = document.createElement("deckAktif");
+
+            // iterate player 1 deck
+            int index = 0;
+            for (CardSlot cardSlot : player1.getDeck().getActiveCards()) {
+                if (cardSlot.hasCard()) {
+                    Element cardNode = document.createElement("card");
+
+                    // Lokasi
+                    Element lokasiNode = document.createElement("lokasi");
+                    Coordinate co = new Coordinate(0, index);
+                    String lokasi = Coordinate.CoordinateToCode(co);
+                    lokasiNode.appendChild(document.createTextNode(lokasi));
+                    cardNode.appendChild(lokasiNode);
+
+                    // Kartu
+                    Element kartuNode = document.createElement("kartu");
+                    String kartu = cardSlot.getCard().getName();
+                    kartuNode.appendChild(document.createTextNode(kartu));
+                    cardNode.appendChild(kartuNode);
+
+                    deckAktifPlayer1Node.appendChild(cardNode);
+                }
+                index++;
+            }
+            player1Node.appendChild(deckAktifPlayer1Node);
+
+            // Kartu ladang player1
+            Element kartuLadangPlayer1Node = document.createElement("kartuLadang");
+
+            // Jumlah kartu ladang player1
+            Element jumlahKartuLadangPlayer1Node = document.createElement("jumlahKartuLadang");
+            int jumlahKartuLadangPlayer1 = 0;
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 5; j++) {
+                    CardSlot cardSlot = player1.getLand().getCardSlots()[i][j];
+                    if (cardSlot.hasCard()) {
+                        // Update count
+                        jumlahKartuLadangPlayer1++;
+
+                        // Create card node
+                        Element cardNode = document.createElement("card");
+
+                        // Lokasi
+                        Element lokasiNode = document.createElement("lokasi");
+                        Coordinate co = new Coordinate(i, j);
+                        String lokasi = Coordinate.CoordinateToCode(co);
+                        lokasiNode.appendChild(document.createTextNode(lokasi));
+                        cardNode.appendChild(lokasiNode);
+
+                        // Kartu
+                        Element kartuNode = document.createElement("kartu");
+                        String kartu = cardSlot.getCard().getName();
+                        kartuNode.appendChild(document.createTextNode(kartu));
+                        cardNode.appendChild(kartuNode);
+
+                        // Umur
+                        Element umurNode = document.createElement("umur");
+                        String age = Integer.toString(cardSlot.getCard().getHarvestProduct().getAddedWeight());
+                        umurNode.appendChild(document.createTextNode(age));
+                        cardNode.appendChild(umurNode);
+
+                        // Jumlah item aktif
+                        // TODO: STATE INI MASIH BLM JELAS DISIMPEN DIMANA.
+                        Element jumlahItemAktifNode = document.createElement("jumlahItemAktif");
+                        int jumlahItemAktif = 5;
+                        jumlahItemAktifNode.appendChild(document.createTextNode(Integer.toString(jumlahItemAktif)));
+                        cardNode.appendChild(jumlahItemAktifNode);
+
+                        // Item aktif
+                        Element itemAktifNode = document.createElement("itemAktif");
+                        for (int k = 0; k < jumlahItemAktif; k++) {
+                            // TODO: STATE INI MASIH BLM JELAS DISIMPEN DIMANA.
+                            Element itemNode = document.createElement("item");
+                            itemNode.appendChild(document.createTextNode("item"));
+                            itemAktifNode.appendChild(itemNode);
+                        }
+                        cardNode.appendChild(itemAktifNode);
+                    }
+                }
+            }
+            jumlahKartuLadangPlayer1Node
+                    .appendChild(document.createTextNode(Integer.toString(jumlahKartuLadangPlayer1)));
+            player1Node.appendChild(jumlahKartuLadangPlayer1Node);
+            player1Node.appendChild(kartuLadangPlayer1Node);
+            root.appendChild(player1Node);
+
+            // Player 2
+
+            // DO SIMILIAR LIKE BEFORE
+
+            Element player2Node = document.createElement("player2");
+            Player player2 = Game.getInstance().getPlayer2();
+
+            // Gulden player2
+            Element guldenPlayer2Node = document.createElement("gulden");
+            String guldenPlayer2 = Integer.toString(player2.getGold());
+            guldenPlayer2Node.appendChild(document.createTextNode(guldenPlayer2));
+            player2Node.appendChild(guldenPlayer2Node);
+
+            int activeCardsPlayer2Count = player2.getDeck().getActiveCards().length;
+            int nonActiveCardsPlayer2Count = player2.getDeck().getNonActiveCards().length;
+
+            // Jumlah deck player2
+            Element jumlahDeckPlayer2Node = document.createElement("jumlahDeck");
+            String jumlahDeckPlayer2 = Integer.toString(activeCardsPlayer2Count + nonActiveCardsPlayer2Count);
+            jumlahDeckPlayer2Node.appendChild(document.createTextNode(jumlahDeckPlayer2));
+            player2Node.appendChild(jumlahDeckPlayer2Node);
+
+            // Jumlah deck aktif player2
+            Element jumlahDeckAktifPlayer2Node = document.createElement("jumlahDeckAktif");
+            String jumlahDeckAktifPlayer2 = Integer.toString(activeCardsPlayer2Count);
+            jumlahDeckAktifPlayer2Node.appendChild(document.createTextNode(jumlahDeckAktifPlayer2));
+            player2Node.appendChild(jumlahDeckAktifPlayer2Node);
+
+            // Deck aktif player2
+            Element deckAktifPlayer2Node = document.createElement("deckAktif");
+
+            // iterate player 2 deck
+            index = 0;
+            for (CardSlot cardSlot : player2.getDeck().getActiveCards()) {
+                if (cardSlot.hasCard()) {
+                    Element cardNode = document.createElement("card");
+
+                    // Lokasi
+                    Element lokasiNode = document.createElement("lokasi");
+                    Coordinate co = new Coordinate(0, index);
+                    String lokasi = Coordinate.CoordinateToCode(co);
+                    lokasiNode.appendChild(document.createTextNode(lokasi));
+                    cardNode.appendChild(lokasiNode);
+
+                    // Kartu
+                    Element kartuNode = document.createElement("kartu");
+                    String kartu = cardSlot.getCard().getName();
+                    kartuNode.appendChild(document.createTextNode(kartu));
+                    cardNode.appendChild(kartuNode);
+
+                    deckAktifPlayer2Node.appendChild(cardNode);
+                }
+                index++;
+            }
+            player2Node.appendChild(deckAktifPlayer2Node);
+
+            // Kartu ladang player2
+            Element kartuLadangPlayer2Node = document.createElement("kartuLadang");
+
+            // Jumlah kartu ladang player2
+            Element jumlahKartuLadangPlayer2Node = document.createElement("jumlahKartuLadang");
+
+            int jumlahKartuLadangPlayer2 = 0;
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 5; j++) {
+                    CardSlot cardSlot = player2.getLand().getCardSlots()[i][j];
+                    if (cardSlot.hasCard()) {
+                        // Update count
+                        jumlahKartuLadangPlayer2++;
+
+                        // Create card node
+                        Element cardNode = document.createElement("card");
+
+                        // Lokasi
+                        Element lokasiNode = document.createElement("lokasi");
+                        Coordinate co = new Coordinate(i, j);
+                        String lokasi = Coordinate.CoordinateToCode(co);
+                        lokasiNode.appendChild(document.createTextNode(lokasi));
+                        cardNode.appendChild(lokasiNode);
+
+                        // Kartu
+                        Element kartuNode = document.createElement("kartu");
+                        String kartu = cardSlot.getCard().getName();
+                        kartuNode.appendChild(document.createTextNode(kartu));
+                        cardNode.appendChild(kartuNode);
+
+                        // Umur
+                        Element umurNode = document.createElement("umur");
+                        String age = Integer.toString(cardSlot.getCard().getHarvestProduct().getAddedWeight());
+                        umurNode.appendChild(document.createTextNode(age));
+                        cardNode.appendChild(umurNode);
+
+                        // Jumlah item aktif
+                        // TODO: STATE INI MASIH BLM JELAS DISIMPEN DIMANA.
+                        Element jumlahItemAktifNode = document.createElement("jumlahItemAktif");
+                        int jumlahItemAktif = 5;
+                        jumlahItemAktifNode.appendChild(document.createTextNode(Integer.toString(jumlahItemAktif)));
+                        cardNode.appendChild(jumlahItemAktifNode);
+
+                        // Item aktif
+                        Element itemAktifNode = document.createElement("itemAktif");
+                        for (int k = 0; k < jumlahItemAktif; k++) {
+                            // TODO: STATE INI MASIH BLM JELAS DISIMPEN DIMANA.
+                            Element itemNode = document.createElement("item");
+                            itemNode.appendChild(document.createTextNode("item"));
+                            itemAktifNode.appendChild(itemNode);
+                        }
+                        cardNode.appendChild(itemAktifNode);
+                    }
+                }
+            }
+            jumlahKartuLadangPlayer2Node
+                    .appendChild(document.createTextNode(Integer.toString(jumlahKartuLadangPlayer2)));
+            player2Node.appendChild(jumlahKartuLadangPlayer2Node);
+            player2Node.appendChild(kartuLadangPlayer2Node);
+            root.appendChild(player2Node);
+
+            // Write the content into XML file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            StreamResult streamResult = new StreamResult(new File("state.xml"));
+            transformer.transform(domSource, streamResult);
+
+            // Output to console for testing
+            System.out.println("Done creating XML File");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadState(String filePath) {
