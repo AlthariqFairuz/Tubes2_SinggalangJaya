@@ -1,5 +1,5 @@
 <gameState>
-  <currentTurn>1</currentTurn>
+  <currentTurn>3</currentTurn>
   <shopItemCount>5</shopItemCount>
   <shopItems>
     <item>
@@ -7,19 +7,19 @@
       <jumlah>3</jumlah>
     </item>
     <item>
-      <name>ACCELERATE</name>
+      <name>SUSU</name>
       <jumlah>3</jumlah>
     </item>
     <item>
-      <name>DELAY</name>
+      <name>DAGING_DOMBA</name>
       <jumlah>3</jumlah>
     </item>
     <item>
-      <name>PROTECT</name>
+      <name>DAGING_KUDA</name>
       <jumlah>3</jumlah>
     </item>
     <item>
-      <name>REBORN</name>
+      <name>DAGING_BERUANG</name>
       <jumlah>3</jumlah>
     </item>
   </shopItems>
