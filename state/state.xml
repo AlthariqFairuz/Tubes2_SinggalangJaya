@@ -4,27 +4,22 @@
   <shopItems>
     <item>
       <name>SIRIP_HIU</name>
-      <harga>100</harga>
       <jumlah>3</jumlah>
     </item>
     <item>
       <name>ACCELERATE</name>
-      <harga>50</harga>
       <jumlah>3</jumlah>
     </item>
     <item>
       <name>DELAY</name>
-      <harga>50</harga>
       <jumlah>3</jumlah>
     </item>
     <item>
       <name>PROTECT</name>
-      <harga>50</harga>
       <jumlah>3</jumlah>
     </item>
     <item>
       <name>REBORN</name>
-      <harga>100</harga>
       <jumlah>3</jumlah>
     </item>
   </shopItems>

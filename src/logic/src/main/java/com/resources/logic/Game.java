@@ -6,15 +6,11 @@ public class Game {
     private static Game instance;
     private Player player1;
     private Player player2;
-    private Shop shop;
-    private boolean isPlayer1Turn;
     private int totalTurns;
 
     private Game() {
         this.player1 = new Player();
         this.player2 = new Player();
-        this.shop = Shop.getInstance();
-        this.isPlayer1Turn = true;
         this.totalTurns = 0;
     }
 
@@ -38,7 +34,7 @@ public class Game {
     }
 
     public Player getCurrentPlayer() {
-        if (isPlayer1Turn) {
+        if (getIsPlayer1Turn()) {
             return player1;
         } else {
             return player2;
@@ -46,7 +42,7 @@ public class Game {
     }
 
     public Player getOtherPlayer() {
-        if (isPlayer1Turn) {
+        if (getIsPlayer1Turn()) {
             return player2;
         } else {
             return player1;
@@ -54,7 +50,11 @@ public class Game {
     }
 
     public boolean getIsPlayer1Turn() {
-        return isPlayer1Turn;
+        if (totalTurns % 2 == 1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void setPlayer1(Player player1) {
@@ -63,14 +63,6 @@ public class Game {
 
     public void setPlayer2(Player player2) {
         this.player2 = player2;
-    }
-
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    }
-
-    public void setPlayer1Turn(boolean isPlayer1Turn) {
-        this.isPlayer1Turn = isPlayer1Turn;
     }
 
     public void setTotalTurns(int totalTurns) {
