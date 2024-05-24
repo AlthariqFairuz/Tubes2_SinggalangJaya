@@ -1,6 +1,8 @@
 package com.resources.gui;
 
 import com.resources.logic.*;
+import com.resources.logic.item.ItemCard;
+import com.resources.logic.product.ProductCard;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -179,9 +181,11 @@ public class HomeController implements Initializable {
                 newImageView.setOnDragDropped(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
 //                        System.out.println("onDragDropped");
-                        ImageView sourceImageView = (ImageView)event.getGestureSource();
+                        ImageView sourceImageView = (ImageView) event.getGestureSource();
                         CardSlot sourceSlot;
+                        boolean fromDeck = false;
                         if (isOnDeck(sourceImageView)) {
+                            fromDeck = true;
 //                            System.out.println("On deck");
                             Pair sourceDeck = getLocFromGridPane2(deck, (Node) event.getGestureSource());
 //                            System.out.println("Found at " + sourceDeck.getFirst() + " and " + sourceDeck.getSecond());
@@ -190,22 +194,63 @@ public class HomeController implements Initializable {
 //                            System.out.println("On land");
                             Pair sourceLand = getLocFromGridPane(cardLandGrid, (Node) event.getGestureSource());
 //                            System.out.println("Found at " + sourceLand.getFirst() + " and " + sourceLand.getSecond());
-                            sourceSlot = Game.getInstance().getCurrentPlayer().getLand().getCardSlots()[sourceLand.getFirst()][sourceLand.getSecond()];
+                            sourceSlot = getCurrentLadangShownPlayer().getLand().getCardSlots()[sourceLand.getFirst()][sourceLand.getSecond()];
 //                            System.out.println("This one... " + Boolean.valueOf(sourceSlot.hasCard()));
                         }
 
                         Pair destinationLand = getLocFromGridPane(cardLandGrid, newImageView);
                         CardSlot landSlot = getCurrentLadangShownPlayer().getLand().getCardSlots()[destinationLand.getFirst()][destinationLand.getSecond()];
 //                        System.out.println("Destionation " + destinationLand.getFirst() + "  " + destinationLand.getSecond());
+                        Card sourceCard = sourceSlot.getCard();
 
-                        if (landSlot.hasCard()) {
-//                            System.out.println("Can't move because the destination is not an empty slot");
-                        } else if (!sourceSlot.hasCard()) {
-//                            System.out.println("Can't move because the source is empty");
+
+                        if (ladangku) {
+                            if (fromDeck) {
+                                if (!landSlot.hasCard()) {
+                                    landSlot.setCard(sourceSlot.popCard());
+                                } else {
+                                    Card destinationCard = landSlot.getCard();
+
+                                    if (sourceCard instanceof ProductCard) {
+                                        if (destinationCard.canEat((ProductCard) sourceCard)) {
+                                            destinationCard.eat((ProductCard) sourceCard);
+                                            sourceSlot.popCard();
+                                        } else {
+                                            System.out.println("Can't eat that product");
+                                        }
+                                    } else if (sourceCard instanceof ItemCard) {
+                                        if (destinationCard.canReceiveItem((ItemCard) sourceCard)) {
+                                            destinationCard.receiveItem((ItemCard) sourceCard);
+                                            sourceSlot.popCard();
+                                        } else {
+                                            System.out.println("Can't receive that item");
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (!landSlot.hasCard()) {
+                                    landSlot.setCard(sourceSlot.popCard());
+                                }
+                            }
                         } else {
-//                            System.out.println("Popping " + sourceSlot.getCard().getName());
-                            landSlot.setCard(sourceSlot.popCard());
+                            if (fromDeck) {
+                                if (!landSlot.hasCard()) {
+
+                                }
+                            } else {
+
+                            }
                         }
+
+//                        if (landSlot.hasCard()) {
+////                            System.out.println("Can't move because the destination is not an empty slot");
+//                        } else if (!sourceSlot.hasCard()) {
+////                            System.out.println("Can't move because the source is empty");
+//                        } else {
+////                            System.out.println("Popping " + sourceSlot.getCard().getName());
+//                            landSlot.setCard(sourceSlot.popCard());
+//
+//                        }
 
                         event.setDropCompleted(true);
                         event.consume();
@@ -329,7 +374,7 @@ public class HomeController implements Initializable {
 
     private boolean isOnDeck(ImageView imageView) {
         for (Node node : deck.getChildren()) {
-            if (node instanceof ImageView && (ImageView)node == imageView) {
+            if (node instanceof ImageView && (ImageView) node == imageView) {
                 return true;
             }
         }
@@ -338,7 +383,7 @@ public class HomeController implements Initializable {
 
     private boolean isOnLand(ImageView imageView) {
         for (Node node : cardLandGrid.getChildren()) {
-            if (node instanceof ImageView && (ImageView)node == imageView) {
+            if (node instanceof ImageView && (ImageView) node == imageView) {
                 return true;
             }
         }
