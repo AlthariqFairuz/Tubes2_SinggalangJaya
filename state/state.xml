@@ -35,22 +35,22 @@
     <deckAktif>
       <card>
         <lokasi>A01</lokasi>
-        <kartu>Domba</kartu>
+        <kartu>DOMBA</kartu>
       </card>
       <card>
         <lokasi>A02</lokasi>
-        <kartu>Kuda</kartu>
+        <kartu>KUDA</kartu>
       </card>
       <card>
         <lokasi>A03</lokasi>
-        <kartu>Kambing</kartu>
+        <kartu>AYAM</kartu>
       </card>
     </deckAktif>
     <jumlahKartuLadang>3</jumlahKartuLadang>
     <kartuLadang>
       <card>
         <lokasi>A01</lokasi>
-        <kartu>Domba</kartu>
+        <kartu>DOMBA</kartu>
         <umur>5</umur>
         <jumlahItemAktif>3</jumlahItemAktif>
         <itemAktif>
@@ -61,7 +61,7 @@
       </card>
       <card>
         <lokasi>A02</lokasi>
-        <kartu>Kuda</kartu>
+        <kartu>KUDA</kartu>
         <umur>3</umur>
         <jumlahItemAktif>2</jumlahItemAktif>
         <itemAktif>
@@ -71,7 +71,7 @@
       </card>
       <card>
         <lokasi>A03</lokasi>
-        <kartu>Kambing</kartu>
+        <kartu>AYAM</kartu>
         <umur>1</umur>
         <jumlahItemAktif>1</jumlahItemAktif>
         <itemAktif>
@@ -87,22 +87,22 @@
     <deckAktif>
       <card>
         <lokasi>A01</lokasi>
-        <kartu>Domba</kartu>
+        <kartu>DOMBA</kartu>
       </card>
       <card>
         <lokasi>A02</lokasi>
-        <kartu>Kuda</kartu>
+        <kartu>KUDA</kartu>
       </card>
       <card>
         <lokasi>A03</lokasi>
-        <kartu>Kambing</kartu>
+        <kartu>AYAM</kartu>
       </card>
     </deckAktif>
     <jumlahKartuLadang>3</jumlahKartuLadang>
     <kartuLadang>
       <card>
         <lokasi>A01</lokasi>
-        <kartu>Domba</kartu>
+        <kartu>DOMBA</kartu>
         <umur>5</umur>
         <jumlahItemAktif>3</jumlahItemAktif>
         <itemAktif>
@@ -113,7 +113,7 @@
       </card>
       <card>
         <lokasi>A02</lokasi>
-        <kartu>Kuda</kartu>
+        <kartu>KUDA</kartu>
         <umur>3</umur>
         <jumlahItemAktif>2</jumlahItemAktif>
         <itemAktif>
@@ -123,7 +123,7 @@
       </card>
       <card>
         <lokasi>A03</lokasi>
-        <kartu>Kambing</kartu>
+        <kartu>AYAM</kartu>
         <umur>1</umur>
         <jumlahItemAktif>1</jumlahItemAktif>
         <itemAktif>

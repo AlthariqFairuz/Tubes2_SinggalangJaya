@@ -344,19 +344,20 @@ public class XMLLoader implements Plugin {
             doc.getDocumentElement().normalize();
 
             // // Print root element
-            // System.out.println("Root element: " +
-            // doc.getDocumentElement().getNodeName());
+            System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
 
             // Parsing currentTurn
             Node currentTurnNode = doc.getElementsByTagName("currentTurn").item(0);
             boolean isPlayer1Turn = currentTurnNode.getTextContent().equals("1");
             Game.getInstance().setPlayer1Turn(isPlayer1Turn);
-            // System.out.println("Current Turn: " +
-            // currentTurnNode.item(0).getTextContent());
+            // DEBUG
+            System.out.println("Current Turn: " + currentTurnNode.getTextContent());
 
             // Parsing shop item count
             Node shopItemCountNode = doc.getElementsByTagName("shopItemCount").item(0);
             int shopItemCount = Integer.parseInt(shopItemCountNode.getTextContent());
+            // DEBUG
+            System.out.println("Shop Item Count: " + shopItemCount);
 
             // Parsing shop items
             ArrayList<ShopItem> shopItemsState = new ArrayList<>();
@@ -384,12 +385,15 @@ public class XMLLoader implements Plugin {
 
                     // Add to shop
                     shopItemsState.add(shopItem);
-                    // System.out.println("Item Name: " +
-                    // element.getElementsByTagName("name").item(0).getTextContent());
-                    // System.out.println("Harga: " +
-                    // element.getElementsByTagName("harga").item(0).getTextContent());
-                    // System.out.println("Jumlah: " +
-                    // element.getElementsByTagName("jumlah").item(0).getTextContent());
+
+                    // DEBUG
+                    System.out.print("Item Name: " +
+                            element.getElementsByTagName("name").item(0).getTextContent() + " ");
+                    System.out.print("Harga: " +
+                            element.getElementsByTagName("harga").item(0).getTextContent() + " ");
+                    System.out.print("Jumlah: " +
+                            element.getElementsByTagName("jumlah").item(0).getTextContent() + " ");
+                    System.out.println();
                 }
             }
             Shop.getInstance().setShopItems(shopItemsState);
@@ -398,30 +402,28 @@ public class XMLLoader implements Plugin {
             Node player1Node = doc.getElementsByTagName("player1").item(0);
             if (player1Node.getNodeType() == Node.ELEMENT_NODE) {
                 Element player1Element = (Element) player1Node;
-                // System.out.println(
-                // "\nPlayer 1 Gulden: " +
-                // player1Element.getElementsByTagName("gulden").item(0).getTextContent());
-                // System.out.println("Player 1 Jumlah Deck: "
-                // +
-                // player1Element.getElementsByTagName("jumlahDeck").item(0).getTextContent());
-
                 // Parsing gulden
                 int guldenPlayer1 = Integer
                         .parseInt(player1Element.getElementsByTagName("gulden").item(0).getTextContent());
+                // DEBUG
+                System.out.println("Player 1 Gulden: " + guldenPlayer1);
 
                 // Parse jumlah dek total
                 int jumlahDeckPlayer1 = Integer
                         .parseInt(player1Element.getElementsByTagName("jumlahDeck").item(0).getTextContent());
+                // DEBUG
+                System.out.println("Player 1 Jumlah Deck: " + jumlahDeckPlayer1);
 
                 // Parse jumlah dek aktif
                 int jumlahDeckAktifPlayer1 = Integer
                         .parseInt(player1Element.getElementsByTagName("jumlahDeckAktif").item(0).getTextContent());
+                // DEBUG
+                System.out.println("Player 1 Jumlah Deck Aktif: " + jumlahDeckAktifPlayer1);
 
                 // Parse deck aktif
                 Node deckAktifPlayer1Node = player1Element.getElementsByTagName("deckAktif").item(0);
                 NodeList deckAktifList = deckAktifPlayer1Node.getChildNodes();
                 // Parsing deckAktif for player1
-                // System.out.println("\nPlayer 1 Deck Aktif:");
                 Deck deckPlayer1State = new Deck(jumlahDeckPlayer1, jumlahDeckAktifPlayer1);
                 for (int i = 0; i < deckAktifList.getLength(); i++) {
                     Node node = deckAktifList.item(i);
@@ -444,19 +446,18 @@ public class XMLLoader implements Plugin {
                         // Deck
                         deckPlayer1State.addCardToActiveDeck(card, col);
 
-                        // System.out
-                        // .println("Lokasi: " +
-                        // element.getElementsByTagName("lokasi").item(0).getTextContent());
-                        // System.out.println("Kartu: " +
-                        // element.getElementsByTagName("kartu").item(0).getTextContent());
+                        // DEBUG
+                        System.out.println(card.getName() + " " + kartu + " " + lokasi);
                     }
                 }
 
                 // Parsing kartuLadang for player1
                 // Jumlah kartu ladang
-                CardSlot[][] cardSlotsPlayer1State = new CardSlot[4][5];
+                Land landPlayer1State = new Land(4, 5);
                 Node jumlahKartuLadangPlayer1Node = player1Element.getElementsByTagName("jumlahKartuLadang").item(0);
                 int jumlahKartuLadangPlayer1 = Integer.parseInt(jumlahKartuLadangPlayer1Node.getTextContent());
+                // DEBUG
+                System.out.println("Player 1 Jumlah Kartu Ladang: " + jumlahKartuLadangPlayer1);
 
                 // Parsing kartu ladang
                 NodeList kartuLadangList = player1Element.getElementsByTagName("kartuLadang").item(0).getChildNodes();
@@ -464,15 +465,6 @@ public class XMLLoader implements Plugin {
                     Node node = kartuLadangList.item(i);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
                         Element element = (Element) node;
-                        // System.out
-                        // .println("Lokasi: " +
-                        // element.getElementsByTagName("lokasi").item(0).getTextContent());
-                        // System.out.println("Kartu: " +
-                        // element.getElementsByTagName("kartu").item(0).getTextContent());
-                        // System.out.println("Umur: " +
-                        // element.getElementsByTagName("umur").item(0).getTextContent());
-                        // System.out.println("Jumlah Item Aktif: "
-                        // + element.getElementsByTagName("jumlahItemAktif").item(0).getTextContent());
 
                         // Lokasi
                         Node lokasiNode = element.getElementsByTagName("lokasi").item(0);
@@ -498,19 +490,15 @@ public class XMLLoader implements Plugin {
                         Node itemAktifNode = element.getElementsByTagName("itemAktif").item(0);
                         NodeList itemAktifList = itemAktifNode.getChildNodes();
                         // TODO: TAMBAHIN TEMPAT PENYIMPANAN STATE ITEM DIMANA??
-                        // System.out.print("Item Aktif: ");
                         for (int j = 0; j < itemAktifList.getLength(); j++) {
                             System.out.print(itemAktifList.item(j).getTextContent() + " ");
                         }
-                        // System.out.println();
 
-                        cardSlotsPlayer1State[row][col] = new CardSlot(card);
+                        landPlayer1State.setLandSlot(row, col, card);
                     }
                 }
-                Land landPlayer1State = new Land(4, 5, cardSlotsPlayer1State);
-
+                // Create land & set i
                 Player player1 = new Player(guldenPlayer1, landPlayer1State, deckPlayer1State);
-
                 Game.getInstance().setPlayer1(player1);
             }
 
@@ -521,30 +509,29 @@ public class XMLLoader implements Plugin {
 
             if (player2Node.getNodeType() == Node.ELEMENT_NODE) {
                 Element player2Element = (Element) player2Node;
-                // System.out.println(
-                // "\nPlayer 2 Gulden: " +
-                // player2Element.getElementsByTagName("gulden").item(0).getTextContent());
-                // System.out.println("Player 2 Jumlah Deck: "
-                // +
-                // player2Element.getElementsByTagName("jumlahDeck").item(0).getTextContent());
 
                 // Parsing gulden
                 int guldenPlayer2 = Integer
                         .parseInt(player2Element.getElementsByTagName("gulden").item(0).getTextContent());
+                // DEBUG
+                System.out.println("Player 2 Gulden: " + guldenPlayer2);
 
                 // Parse jumlah dek total
                 int jumlahDeckPlayer2 = Integer
                         .parseInt(player2Element.getElementsByTagName("jumlahDeck").item(0).getTextContent());
+                // DEBUG
+                System.out.println("Player 2 Jumlah Deck: " + jumlahDeckPlayer2);
 
                 // Parse jumlah dek aktif
                 int jumlahDeckAktifPlayer2 = Integer
                         .parseInt(player2Element.getElementsByTagName("jumlahDeckAktif").item(0).getTextContent());
+                // DEBUG
+                System.out.println("Player 2 Jumlah Deck Aktif: " + jumlahDeckAktifPlayer2);
 
                 // Parse deck aktif
                 Node deckAktifPlayer2Node = player2Element.getElementsByTagName("deckAktif").item(0);
                 NodeList deckAktifList = deckAktifPlayer2Node.getChildNodes();
                 // Parsing deckAktif for player1
-                // System.out.println("\nPlayer 2 Deck Aktif:");
                 Deck deckPlayer2State = new Deck(jumlahDeckPlayer2, jumlahDeckAktifPlayer2);
                 for (int i = 0; i < deckAktifList.getLength(); i++) {
                     Node node = deckAktifList.item(i);
@@ -567,18 +554,19 @@ public class XMLLoader implements Plugin {
                         // Deck
                         deckPlayer2State.addCardToActiveDeck(card, col);
 
-                        // System.out
-                        // .println("Lokasi: " +
-                        // element.getElementsByTagName("lokasi").item(0
+                        // DEBUG
+                        System.out.println(card.getName() + " " + kartu + " " + lokasi);
                     }
                 }
 
                 // Parsing kartuLadang for player2
 
                 // Jumlah kartu ladang
-                CardSlot[][] cardSlotsPlayer2State = new CardSlot[4][5];
+                Land landPlayer2State = new Land(4, 5);
                 Node jumlahKartuLadangPlayer2Node = player2Element.getElementsByTagName("jumlahKartuLadang").item(0);
                 int jumlahKartuLadangPlayer2 = Integer.parseInt(jumlahKartuLadangPlayer2Node.getTextContent());
+                // DEBUG
+                System.out.println("Player 2 Jumlah Kartu Ladang: " + jumlahKartuLadangPlayer2);
 
                 // Parsing kartu ladang
                 NodeList kartuLadangList = player2Element.getElementsByTagName("kartuLadang").item(0).getChildNodes();
@@ -587,15 +575,6 @@ public class XMLLoader implements Plugin {
                     Node node = kartuLadangList.item(i);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
                         Element element = (Element) node;
-                        // System.out
-                        // .println("Lokasi: " +
-                        // element.getElementsByTagName("lokasi").item(0).getTextContent());
-                        // System.out.println("Kartu: " +
-                        // element.getElementsByTagName("kartu").item(0).getTextContent());
-                        // System.out.println("Umur: " +
-                        // element.getElementsByTagName("umur").item(0).getTextContent());
-                        // System.out.println("Jumlah Item Aktif: "
-                        // + element.getElementsByTagName("jumlahItemAktif").item(0).getTextContent());
 
                         // Lokasi
                         Node lokasiNode = element.getElementsByTagName("lokasi").item(0);
@@ -627,21 +606,16 @@ public class XMLLoader implements Plugin {
                         }
 
                         // TODO: TAMBAHIN TEMPAT PENYIMPANAN STATE ITEM DIMANA??
-                        cardSlotsPlayer2State[row][col] = new CardSlot(card);
+                        landPlayer2State.setLandSlot(row, col, card);
                     }
                 }
 
-                Land landPlayer2State = new Land(4, 5, cardSlotsPlayer2State);
-
+                // Create player and set it
                 Player player2 = new Player(guldenPlayer2, landPlayer2State, deckPlayer2State);
-
                 Game.getInstance().setPlayer2(player2);
             }
-            //
 
-        } catch (
-
-        Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
