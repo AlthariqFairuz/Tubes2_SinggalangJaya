@@ -381,7 +381,7 @@ public class XMLLoader implements Plugin {
                     int frequency = Integer.parseInt(element.getElementsByTagName("jumlah").item(0).getTextContent());
 
                     // Create obj
-                    ShopItem shopItem = new ShopItem(card.getHarvestProduct(), frequency, price);
+                    ShopItem shopItem = new ShopItem(card.getHarvestProduct(), frequency);
 
                     // Add to shop
                     shopItemsState.add(shopItem);

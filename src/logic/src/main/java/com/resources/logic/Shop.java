@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.resources.logic.product.ProductCard;
 
-public class Shop {
+public class  Shop {
     private static Shop instance;
     private ArrayList<ShopItem> shopItems;
 
@@ -48,6 +48,6 @@ public class Shop {
                 return;
             }
         }
-        shopItems.add(new ShopItem(card, 1, card.getPrice()));
+        shopItems.add(new ShopItem(card, 1));
     }
 }

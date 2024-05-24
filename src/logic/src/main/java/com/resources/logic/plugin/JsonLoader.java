@@ -52,8 +52,7 @@ public class JsonLoader implements Plugin {
         for (ShopItem shopItem : shopItems) {
             ShopItemJson shopItemJson = new ShopItemJson(
                     shopItem.getItem().getName(),
-                    shopItem.getPrice(),
-                    shopItem.getFrequency());
+                    shopItem.getPrice());
             shopItemsJson.add(shopItemJson);
         }
         state.setShopItems(shopItemsJson);
@@ -293,11 +292,12 @@ public class JsonLoader implements Plugin {
         ArrayList<ShopItem> shopItemsState = new ArrayList<>();
         for (int i = 0; i < shopItemCountState; i++) {
             ShopItemJson shopItemJson = state.getShopItems().get(i);
-            ProductCard proudctCardJson = new ProductCard(shopItemJson.getItem(), null, shopItemJson.getHarga());
+            Card card = CardAssets.toCard(shopItemJson.getItem());
+            ProductCard proudctCardJson = new ProductCard(shopItemJson.getItem(), null, card.getPrice());
             ShopItem shopItem = new ShopItem(
                     proudctCardJson,
-                    shopItemJson.getJumlah(),
-                    shopItemJson.getHarga());
+                    shopItemJson.getJumlah()
+                    );
             shopItemsState.add(shopItem);
 
             // DEBUG
