@@ -448,8 +448,5 @@ public class JsonLoader implements Plugin {
         // Set to instance
         Player player2 = new Player(goldPlayer2State, landPlayer2State, deckPlayer2State);
         Game.getInstance().setPlayer2(player2);
-
-        // Set total turns (INITILAIZE STATE)
-        Game.getInstance().setTotalTurns(0);
     }
 }

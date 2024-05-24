@@ -10,14 +10,13 @@ public class Main {
         Game game = Game.getInstance();
 
         // // Test
-        // Plugin jsonLoader = new JsonLoader();
-        // jsonLoader.loadState("state/state.json");
-
-        // jsonLoader.saveState("state/new-state.json");
+        Plugin jsonLoader = new JsonLoader();
+        jsonLoader.loadState("state/state.json");
+        jsonLoader.saveState("state/new-state.json");
 
         // // Test
-        Plugin xmPlugin = new XMLLoader();
-        xmPlugin.loadState("state/new-state.xml");
-        xmPlugin.saveState("state/new-state.xml");
+        // Plugin xmPlugin = new XMLLoader();
+        // xmPlugin.loadState("state/new-state.xml");
+        // xmPlugin.saveState("state/new-state.xml");
     }
 }
