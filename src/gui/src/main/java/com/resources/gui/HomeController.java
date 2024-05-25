@@ -419,18 +419,40 @@ public class HomeController implements Initializable {
     public void nextButtonHandler(MouseEvent event) {
         Game.getInstance().next();
         if (Game.getInstance().getTotalTurns() == HomeController.TotalGameTurns) {
-            Player player1 = Game.getInstance().getPlayer1();
-            Player player2 = Game.getInstance().getPlayer2();
-
-            if (player1.getGold() == player2.getGold()) {
-                System.out.println("Player 1 & Player 2 mencapai Draw");
-            } else if (player1.getGold() > player2.getGold()) {
-                System.out.println("Player 1 menang");
-            } else {
-                System.out.println("Player 2 menang");
-            }
+            showWinner();
         }
         getShuffledCards();
+    }
+
+    public void showWinner() {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("winner.fxml"));
+            Parent root = loader.load();
+
+            // Create the dialog stage
+            Stage winnerStage = new Stage();
+            winnerStage.initModality(Modality.APPLICATION_MODAL);
+            winnerStage.initStyle(StageStyle.TRANSPARENT);
+
+            // Set title and icon
+            Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Logo.jpg")));
+            winnerStage.getIcons().add(icon);
+            winnerStage.setTitle("Game Result");
+
+            // Set the scene to the stage
+            winnerStage.setScene(new Scene(root));
+
+            // Get the controller and call the setWinner method
+            WinnerController winnerController = loader.getController();
+            winnerController.setWinner();
+
+            // Show the dialog and wait until the user closes it
+            winnerStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void getShuffledCards() {
