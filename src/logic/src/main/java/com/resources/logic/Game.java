@@ -7,6 +7,8 @@ public class Game {
     private Player player1;
     private Player player2;
     private int totalTurns;
+    private boolean isPlayer1Turn;
+    private Shop shop;
 
     private Game() {
         this.player1 = new Player();

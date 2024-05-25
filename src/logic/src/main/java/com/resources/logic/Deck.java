@@ -14,17 +14,17 @@ public class Deck {
     private CardSlot[] nonActiveCards; // Size is totalDeckCapacity
     private CardSlot[] ActiveCards; // Size is totalActiveDeckCapacity
 
-    public Deck(int totalDeckSize, int totalActiveDeckSize) {
-        this.totalDeckCapacity = totalDeckSize;
-        this.totalActiveDeckCapacity = totalActiveDeckSize;
+    public Deck(int totalDeckCapacity, int totalActiveDeckCapacity) {
+        this.totalDeckCapacity = totalDeckCapacity;
+        this.totalActiveDeckCapacity = totalActiveDeckCapacity;
 
-        nonActiveCards = new CardSlot[totalDeckSize];
+        nonActiveCards = new CardSlot[totalDeckCapacity];
 
         for (int i = 0; i < nonActiveCards.length; i++) {
             nonActiveCards[i] = new CardSlot();
         }
 
-        ActiveCards = new CardSlot[totalActiveDeckSize];
+        ActiveCards = new CardSlot[totalActiveDeckCapacity];
 
         for (int i = 0; i < ActiveCards.length; i++) {
             ActiveCards[i] = new CardSlot();
@@ -111,6 +111,33 @@ public class Deck {
         if (index >= 0 && index < totalActiveDeckCapacity) {
             // Set card
             ActiveCards[index].setCard(card);
+        }
+    }
+    public int getNonActiveCardsCount() {
+        int count = 0;
+        for (CardSlot c : nonActiveCards) {
+            if (c.hasCard()) {
+                count++;
+            }
+        }
+        return count;
+    }
+    public int getActiveCardsCount() {
+        int count = 0;
+        for (CardSlot c : ActiveCards) {
+            if (c.hasCard()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public void addCardToNonActiveDeck(Card randCard) {
+        for (int i = 0; i < nonActiveCards.length; i++) {
+            if (!nonActiveCards[i].hasCard()) {
+                nonActiveCards[i].setCard(randCard);
+                return;
+            }
         }
     }
 
