@@ -1,10 +1,13 @@
 package com.resources.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.resources.logic.plugin.PluginLoader;
+import com.resources.logic.state.TextLoaderSaver;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -15,18 +18,22 @@ public class SaveController {
     @FXML
     private TextField savTextField;
     @FXML
-    private MenuButton saveMenuButton;
+    private ComboBox saveMenuButton;
 
 
     public void setSave(Stage saveStage) {
         this.save = saveStage;
-        if (PluginLoader.getInstance().getPlugins().isEmpty()) {
+         if (PluginLoader.getInstance().getPlugins().isEmpty()) {
             saveMenuButton.setDisable(true);
         }
         else {
-            MenuItem json = new MenuItem("JSON");
-            MenuItem xml = new MenuItem("XML");
-            saveMenuButton.getItems().addAll(json, xml);
+            List<String> options = new ArrayList<String>();
+            options.add("txt");
+            for (String plugin : PluginLoader.getInstance().getPlugins()) {
+                options.add(plugin.toLowerCase());
+            }
+
+            saveMenuButton.getItems().addAll(options);
         }
 
     }
@@ -40,6 +47,21 @@ public class SaveController {
     
     @FXML
     public void onSaveButtonClicked(MouseEvent event) {
-        // Save the game
+         // Load the game
+        if (savTextField.getText().isEmpty()) {
+            return;
+        }
+        String path = "state/" + savTextField.getText() + "." + saveMenuButton.getSelectionModel().getSelectedItem().toString().toLowerCase();
+        System.out.println(path);
+        String choice = saveMenuButton.getSelectionModel().getSelectedItem().toString().toLowerCase();
+        System.out.println(choice);
+        if (choice.equals("txt")) {
+            TextLoaderSaver instance = new TextLoaderSaver();
+            instance.saveState(path);
+        }
+        else {
+            PluginLoader.getInstance().getPlugin(choice).saveState(path);
+        }
     }
 }
+
