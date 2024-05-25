@@ -2,6 +2,7 @@ package com.resources.logic.plugin;
 
 import java.lang.System;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.NodeList;
 
@@ -183,18 +184,17 @@ public class XMLLoader implements Plugin {
                         cardNode.appendChild(umurNode);
 
                         // Jumlah item aktif
-                        // TODO: STATE INI MASIH BLM JELAS DISIMPEN DIMANA.
                         Element jumlahItemAktifNode = document.createElement("jumlahItemAktif");
-                        int jumlahItemAktif = 5;
+                        int jumlahItemAktif = cardSlot.getCard().getHarvestProduct().getTotalActiveItem();
                         jumlahItemAktifNode.appendChild(document.createTextNode(Integer.toString(jumlahItemAktif)));
                         cardNode.appendChild(jumlahItemAktifNode);
 
                         // Item aktif
                         Element itemAktifNode = document.createElement("itemAktif");
-                        for (int k = 0; k < jumlahItemAktif; k++) {
-                            // TODO: STATE INI MASIH BLM JELAS DISIMPEN DIMANA.
+                        List<String> listItemAktif = cardSlot.getCard().getHarvestProduct().getActiveItems();
+                        for (String item : listItemAktif) {
                             Element itemNode = document.createElement("item");
-                            itemNode.appendChild(document.createTextNode("item"));
+                            itemNode.appendChild(document.createTextNode(item));
                             itemAktifNode.appendChild(itemNode);
                         }
                         // Append item aktif to card
@@ -308,20 +308,20 @@ public class XMLLoader implements Plugin {
                         cardNode.appendChild(umurNode);
 
                         // Jumlah item aktif
-                        // TODO: STATE INI MASIH BLM JELAS DISIMPEN DIMANA.
                         Element jumlahItemAktifNode = document.createElement("jumlahItemAktif");
-                        int jumlahItemAktif = 5;
+                        int jumlahItemAktif = cardSlot.getCard().getHarvestProduct().getTotalActiveItem();
                         jumlahItemAktifNode.appendChild(document.createTextNode(Integer.toString(jumlahItemAktif)));
                         cardNode.appendChild(jumlahItemAktifNode);
 
                         // Item aktif
                         Element itemAktifNode = document.createElement("itemAktif");
-                        for (int k = 0; k < jumlahItemAktif; k++) {
-                            // TODO: STATE INI MASIH BLM JELAS DISIMPEN DIMANA.
+                        List<String> listItemAktif = cardSlot.getCard().getHarvestProduct().getActiveItems();
+                        for (String item : listItemAktif) {
                             Element itemNode = document.createElement("item");
-                            itemNode.appendChild(document.createTextNode("item"));
+                            itemNode.appendChild(document.createTextNode(item));
                             itemAktifNode.appendChild(itemNode);
                         }
+
                         // Append item aktif to card
                         cardNode.appendChild(itemAktifNode);
 
@@ -504,6 +504,8 @@ public class XMLLoader implements Plugin {
                         // Umur
                         Node umurNode = element.getElementsByTagName("umur").item(0);
                         int umur = Integer.parseInt(umurNode.getTextContent());
+                        // Update added weight
+                        card.getHarvestProduct().setAddedWeight(umur);
 
                         // Jumlah item aktif
                         Node jumlahItemAktifNode = element.getElementsByTagName("jumlahItemAktif").item(0);
@@ -512,15 +514,26 @@ public class XMLLoader implements Plugin {
                         // Item aktif
                         Node itemAktifNode = element.getElementsByTagName("itemAktif").item(0);
                         NodeList itemAktifList = itemAktifNode.getChildNodes();
-                        // TODO: TAMBAHIN TEMPAT PENYIMPANAN STATE ITEM DIMANA??
-                        // for (int j = 0; j < itemAktifList.getLength(); j++) {
-                        // System.out.print(itemAktifList.item(j).getTextContent() + " ");
-                        // }
+                        List<String> itemAktif = new ArrayList<>();
+                        for (int j = 0; j < itemAktifList.getLength(); j++) {
+                            Node itemNode = itemAktifList.item(j);
 
+                            // If node
+                            if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                                Element itemElement = (Element) itemNode;
+
+                                // Add item to list
+                                itemAktif.add(itemElement.getTextContent());
+                            }
+                        }
+                        // Set item aktif
+                        card.getHarvestProduct().setActiveItems(itemAktif);
+
+                        // Set card to land
                         landPlayer1State.setLandSlot(row, col, card);
 
                         // DEBUG
-                        System.out.println(kartu + " " + lokasi);
+                        System.out.println(kartu + " " + lokasi + " " + umur + " " + jumlahItemAktif + " " + itemAktif);
                     }
                 }
                 // Create land & set i
@@ -622,6 +635,8 @@ public class XMLLoader implements Plugin {
                         // Umur
                         Node umurNode = element.getElementsByTagName("umur").item(0);
                         int umur = Integer.parseInt(umurNode.getTextContent());
+                        // Update added weight
+                        card.getHarvestProduct().setAddedWeight(umur);
 
                         // Jumlah item aktif
                         Node jumlahItemAktifNode = element.getElementsByTagName("jumlahItemAktif").item(0);
@@ -630,16 +645,28 @@ public class XMLLoader implements Plugin {
                         // Item aktif
                         Node itemAktifNode = element.getElementsByTagName("itemAktif").item(0);
                         NodeList itemAktifList = itemAktifNode.getChildNodes();
-
+                        List<String> itemAktif = new ArrayList<>();
                         for (int j = 0; j < itemAktifList.getLength(); j++) {
-                            // System.out.print(itemAktifList.item(j).getTextContent() + " ");
-                        }
+                            Node itemNode = itemAktifList.item(j);
 
-                        // TODO: TAMBAHIN TEMPAT PENYIMPANAN STATE ITEM DIMANA??
+                            // If node
+                            if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                                Element itemElement = (Element) itemNode;
+
+                                // Add item to list
+                                itemAktif.add(itemElement.getTextContent());
+
+                            }
+                        }
+                        // Set item aktif
+                        card.getHarvestProduct().setActiveItems(itemAktif);
+
+                        // Set card to land
                         landPlayer2State.setLandSlot(row, col, card);
 
                         // DEBUG
-                        System.out.println(card.getName() + " " + lokasi);
+                        System.out.println(card.getName() + " " + lokasi + " " + umur + " " + jumlahItemAktif + " "
+                                + itemAktif);
                     }
                 }
                 // Create player and set it

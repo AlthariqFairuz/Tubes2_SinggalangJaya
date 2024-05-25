@@ -16,7 +16,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button layoutX="13.0" layoutY="383.0" mnemonicParsing="false" onMouseClicked="#onClickBackButtonPluginBox" prefHeight="49.0" prefWidth="1002.0" styleClass="dialog-button" stylesheets="@style.css" text="Upload">
+      <Button layoutX="13.0" layoutY="383.0" mnemonicParsing="false" onMouseClicked="#onUploadButtonClicked" prefHeight="49.0" prefWidth="1002.0" styleClass="dialog-button" stylesheets="@style.css" text="Upload">
          <font>
             <Font name="SansSerif Regular" size="14.0" />
          </font>
