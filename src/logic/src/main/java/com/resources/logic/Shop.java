@@ -7,7 +7,7 @@ import com.resources.logic.product.ProductCard;
 
 public class Shop {
     private static Shop instance;
-    private ArrayList<ShopItem> shopItems;
+    private ArrayList<ShopItem> shopItems = new ArrayList<>();
 
     private Shop() {
         shopItems = new ArrayList<>();
