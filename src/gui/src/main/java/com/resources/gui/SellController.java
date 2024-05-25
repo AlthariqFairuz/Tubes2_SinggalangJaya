@@ -36,6 +36,8 @@ public class SellController {
     }
 
     public void loadSellItems() {
+        sellItems.clear();
+        listSellItem.getChildren().clear();
 
         Shop instance = Shop.getInstance();
         CardSlot[] itemCanBeSold =  Game.getInstance().getCurrentPlayer().getDeck().getActiveCards();
@@ -82,7 +84,17 @@ public class SellController {
             // Set the action for the sell button
             sellButton.setOnMouseClicked(e -> {
                 instance.sellShopItem(item);
-                loadSellItems();
+                for (CardSlot c : Game.getInstance().getCurrentPlayer().getDeck().getActiveCards()) {
+                    if (c.getCard() != null && c.getCard() instanceof ProductCard && c.getCard() == item) {
+                        if (Game.getInstance().getCurrentPlayer().getDeck().isActiveDeckAvailable()) {
+                            Game.getInstance().getCurrentPlayer().addGold(item.getPrice());
+                            c.popCard();
+                            loadSellItems();
+                        } else {
+                            System.out.println("Deck sudah full");
+                        }
+                    }
+                }
             });
         }
     }

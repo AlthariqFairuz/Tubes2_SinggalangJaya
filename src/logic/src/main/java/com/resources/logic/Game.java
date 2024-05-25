@@ -94,9 +94,9 @@ public class Game {
 
     public boolean getIsPlayer1Turn() {
         if (totalTurns % 2 == 1) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 

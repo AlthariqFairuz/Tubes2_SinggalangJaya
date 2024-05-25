@@ -328,9 +328,9 @@ public class HomeController implements Initializable {
             }
             totalInactiveCardsLabel.setText("Deck:\n" + Integer.toString(Game.getInstance().getCurrentPlayer().getDeck().countCardsInNonActiveDeck()) + "/" + Game.getInstance().getCurrentPlayer().getDeck().getTotalDeckCapacity());
             totalTurnsLabel.setText("Turns: " + Integer.toString(Game.getInstance().getTotalTurns()));
-//            if (isAttacked) {
+            scoreLabelPlayer1.setText(String.valueOf(Game.getInstance().getPlayer1().getGold()));
+            scoreLabelPlayer2.setText(String.valueOf(Game.getInstance().getPlayer2().getGold()));
 
-//            }
         }));
         timelineGame.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
         timelineGame.play();
@@ -371,7 +371,7 @@ public class HomeController implements Initializable {
         imageView.setImage(new Image(imageDirectory + "Other/Empty.png"));
     }
 
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+    private static Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null &&
                     GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col &&
@@ -382,7 +382,7 @@ public class HomeController implements Initializable {
         return null;
     }
 
-    private Pair getLocFromGridPane(GridPane gridPane, Node n) {
+    private static Pair getLocFromGridPane(GridPane gridPane, Node n) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null && node == n) {
                 return new Pair(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
