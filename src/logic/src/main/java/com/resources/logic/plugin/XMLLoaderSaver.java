@@ -30,7 +30,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
-public class XMLLoader implements Plugin {
+public class XMLLoaderSaver implements Plugin {
     public String getPluginType() {
         return "XML";
     }
