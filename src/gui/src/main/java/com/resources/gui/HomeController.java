@@ -34,13 +34,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLOutput;
 import java.util.Objects;
+import java.util.Random;
 import java.util.ResourceBundle;
+
+import static com.resources.logic.CardAssets.toCard;
 
 public class HomeController implements Initializable {
     public final static String imageDirectory = "file:/home/azzmi/Desktop/cobarun/Tubes2_SinggalangJaya/src/gui/src/main/resources/com/resources/gui/Cards/";
     public final static int TotalGameTurns = 20;
 
     public static boolean ladangku;
+    public static boolean isAttacked;
+    public final static int COUNTDOWN = 30;
+    public static int countdown = COUNTDOWN;
 
     @FXML
     private Stage stage;
@@ -51,9 +57,16 @@ public class HomeController implements Initializable {
     private Label scoreLabelPlayer1;
     @FXML
     private Label scoreLabelPlayer2;
+    @FXML
+    private Label seranganLabel;
 
     @FXML
     private Timeline timelineGame;
+
+    @FXML
+    private Timeline seranganTimeline;
+    @FXML
+    private Timeline seranganTimeline2;
 
     // Cards
     @FXML
@@ -82,6 +95,7 @@ public class HomeController implements Initializable {
         ladangkuButton.setDisable(true);
         ladangLawanButton.setDisable(false);
         ladangku = true;
+        isAttacked = false;
 
         update_periodically();
 
@@ -314,8 +328,10 @@ public class HomeController implements Initializable {
             }
             totalInactiveCardsLabel.setText("Deck:\n" + Integer.toString(Game.getInstance().getCurrentPlayer().getDeck().countCardsInNonActiveDeck()) + "/" + Game.getInstance().getCurrentPlayer().getDeck().getTotalDeckCapacity());
             totalTurnsLabel.setText("Turns: " + Integer.toString(Game.getInstance().getTotalTurns()));
-        }));
+//            if (isAttacked) {
 
+//            }
+        }));
         timelineGame.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
         timelineGame.play();
 
@@ -418,12 +434,83 @@ public class HomeController implements Initializable {
     @FXML
     public void nextButtonHandler(MouseEvent event) {
         Game.getInstance().next();
+        getShuffledCards();
+        int randomNumber = (int) (Math.random() * 4);
 
+//        if (randomNumber == 0) {
+        bearAttack();
+//        }
         if (Game.getInstance().getTotalTurns() == HomeController.TotalGameTurns) {
             showWinner();
         }
-        getShuffledCards();
+
     }
+
+    public void bearAttack() {
+        System.out.println("Bear attack!");
+
+        Random random = new Random();
+        int bl_x = 1, bl_y = 1;
+        int tr_x = 0, tr_y = 0;
+        while (bl_x > tr_x || bl_y > tr_y || (tr_y - bl_y + 1) * (tr_x - bl_x + 1) > 6) {
+            bl_x = random.nextInt(Game.getInstance().getCurrentPlayer().getLand().getCol());
+            bl_y = random.nextInt(Game.getInstance().getCurrentPlayer().getLand().getRow());
+
+            tr_x = random.nextInt(Game.getInstance().getCurrentPlayer().getLand().getCol());
+            tr_y = random.nextInt(Game.getInstance().getCurrentPlayer().getLand().getRow());
+        }
+
+        for (int col = bl_x; col <= tr_x; col++) {
+            for (int row = bl_y; row <= tr_y; row++) {
+                ImageView imageView = (ImageView) getNodeFromGridPane(cardLandGrid, col, row);
+                imageView.setRotate(30);
+            }
+        }
+
+        nextButton.setDisable(true);
+        ladangLawanButton.setDisable(true);
+        isAttacked = true;
+        countdown = COUNTDOWN;
+
+
+        int finalBl_x = bl_x;
+        int finalBl_y = bl_y;
+        int finalTr_x = tr_x;
+        int finalTr_y = tr_y;
+        seranganTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            countdown--;
+            seranganLabel.setText("Serangan: " + countdown + " s");
+            if (countdown == 0) {
+                System.out.println("Rotate balik");
+                for (int col = finalBl_x; col <= finalTr_x; col++) {
+                    for (int row = finalBl_y; row <= finalTr_y; row++) {
+                        ImageView imageView = (ImageView) getNodeFromGridPane(cardLandGrid, col, row);
+                        imageView.setRotate(0);
+                        CardSlot slot = Game.getInstance().getCurrentPlayer().getLand().getCardSlots()[row][col];
+                        if (slot.hasCard()) {
+                            if (slot.getCard().isTrapSet()) {
+                                if (Game.getInstance().getCurrentPlayer().getDeck().isActiveDeckAvailable()) {
+                                    Game.getInstance().getCurrentPlayer().getDeck().addCardToActiveDeck(toCard("BERUANG"));
+                                } else {
+                                    System.out.println("Beruang tertangkap, tapi deck aktif tidak cukup");
+                                }
+                            } else if (slot.getCard().isProtectedFromBear()) {
+                                System.out.println(slot.getCard().getName() + " terproteksi dari serangan beruang");
+                            } else {
+                                System.out.println("Beruang berhasil melawan " + slot.getCard().getName());
+                                slot.popCard();
+                            }
+                        }
+                    }
+                }
+                nextButton.setDisable(false);
+                ladangLawanButton.setDisable(false);
+            }
+        }));
+        seranganTimeline.setCycleCount(COUNTDOWN);
+        seranganTimeline.play();
+    }
+
 
     public void showWinner() {
         try {

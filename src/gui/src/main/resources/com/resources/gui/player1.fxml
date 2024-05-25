@@ -407,6 +407,11 @@
                                 <Insets left="35.0" right="50.0" />
                             </GridPane.margin>
                         </Button>
+                  <Label fx:id="seranganLabel" alignment="CENTER" prefHeight="105.0" prefWidth="312.0" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="SansSerif Bold" size="32.0" />
+                     </font>
+                  </Label>
                     </children>
                 </GridPane>
                 <HBox layoutX="33.0" layoutY="215.0" prefHeight="96.0" prefWidth="543.0" style="-fx-background-color: #FFE79B; -fx-background-radius: 20;">
