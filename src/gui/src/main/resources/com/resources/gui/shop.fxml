@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -22,6 +23,14 @@
             <DropShadow />
          </effect>
       </Button>
-      <VBox fx:id="listShopItem" layoutX="16.0" layoutY="154.0" prefHeight="466.0" prefWidth="574.0" />
+      <ScrollPane layoutX="19.0" layoutY="146.0" prefHeight="477.0" prefWidth="571.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="571.0" style="-fx-background-color: #FFE79B;">
+               <children>
+                  <VBox fx:id="listShopItem" prefHeight="478.0" prefWidth="571.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

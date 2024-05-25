@@ -106,33 +106,39 @@ public class Deck {
         return count;
     }
 
+    public void setCardToActiveDeck(Card card, int index) {
+        if (index >= 0 && index < totalActiveDeckSize) {
+            // Set card
+            ActiveCards[index].setCard(card);
+        }
+    }
+
     public void shuffle() {
-//         Ada yg keliru sih, jadi aku komen dulu
-        int nonActiveSize = totalDeckCapacity - totalActiveDeckCapacity;
+
+        int nonActiveSize = totalDeckSize - totalActiveDeckSize;
         int activeSize = countEmptySlotsInActiveDeck();
         CardSlot[] temp = new CardSlot[6];
 
         int ptr1 = 0;
-        for(int i=0;i<totalActiveDeckCapacity-activeSize;i++){
+        for (int i = 0; i < totalActiveDeckSize - activeSize; i++) {
             int random = (int) (Math.random() * (nonActiveSize));
-            while(!nonActiveCards[random].hasCard()){
-                random = (int) (Math.random()*(nonActiveSize));
+            while (!nonActiveCards[random].hasCard()) {
+                random = (int) (Math.random() * (nonActiveSize));
             }
-            if(nonActiveCards[random].hasCard()){
+            if (nonActiveCards[random].hasCard()) {
                 temp[ptr1] = nonActiveCards[random];
                 nonActiveCards[random].popCard();
                 ptr1++;
             }
 
-
         }
         int ptr = 0;
-        for(int i=0;i<totalActiveDeckCapacity;i++){
-            if(!ActiveCards[i].hasCard()){
+        for (int i = 0; i < totalActiveDeckSize; i++) {
+            if (!ActiveCards[i].hasCard()) {
                 ActiveCards[i].setCard(temp[ptr].getCard());
                 ptr++;
             }
         }
     }
-    
+
 }

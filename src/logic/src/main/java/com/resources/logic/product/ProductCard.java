@@ -25,4 +25,12 @@ public class ProductCard extends Card {
     public int getAddedWeight() {
         return addedWeight;
     }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public int getAddedWeight() {
+        return addedWeight;
+    }
 }

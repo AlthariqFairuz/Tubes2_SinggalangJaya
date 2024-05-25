@@ -3,11 +3,9 @@ package com.resources.logic;
 import com.resources.logic.product.ProductCard;
 
 public class Game {
-    private static Game instance;
+    private static final Game instance = new Game();
     private Player player1;
     private Player player2;
-    private Shop shop;
-    private boolean isPlayer1Turn;
     private int totalTurns;
 
     private Game() {
@@ -19,9 +17,6 @@ public class Game {
     }
 
     public static Game getInstance() {
-        if (instance == null) {
-            instance = new Game();
-        }
         return instance;
     }
 
@@ -56,7 +51,7 @@ public class Game {
     }
 
     public Player getCurrentPlayer() {
-        if (isPlayer1Turn) {
+        if (getIsPlayer1Turn()) {
             return player1;
         } else {
             return player2;
@@ -64,11 +59,31 @@ public class Game {
     }
 
     public Player getOtherPlayer() {
-        if (isPlayer1Turn) {
+        if (getIsPlayer1Turn()) {
             return player2;
         } else {
             return player1;
         }
+    }
+
+    public boolean getIsPlayer1Turn() {
+        if (totalTurns % 2 == 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void setPlayer1(Player player1) {
+        this.player1 = player1;
+    }
+
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
+    }
+
+    public void setTotalTurns(int totalTurns) {
+        this.totalTurns = totalTurns;
     }
 
     public boolean harvest(CardSlot cardSlot) {

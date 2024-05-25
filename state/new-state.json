@@ -1,0 +1,108 @@
+{
+  "currentTurn": 1,
+  "shopItemCount": 5,
+  "shopItems": [
+    {
+      "item": "SIRIP_HIU",
+      "jumlah": 5
+    },
+    {
+      "item": "SUSU",
+      "jumlah": 2
+    },
+    {
+      "item": "DAGING_DOMBA",
+      "jumlah": 3
+    },
+    {
+      "item": "DAGING_KUDA",
+      "jumlah": 10
+    },
+    {
+      "item": "DAGING_BERUANG",
+      "jumlah": 1
+    }
+  ],
+  "guldenPlayer1": 500,
+  "jumlahDeckPlayer1": 33,
+  "jumlahDeckAktifPlayer1": 3,
+  "deckAktifPlayer1": [
+    {
+      "lokasi": "A01",
+      "kartu": "DOMBA"
+    },
+    {
+      "lokasi": "B01",
+      "kartu": "KUDA"
+    },
+    {
+      "lokasi": "C01",
+      "kartu": "AYAM"
+    }
+  ],
+  "jumlahKartuLadangPlayer1": 3,
+  "kartuLadangPlayer1": [
+    {
+      "lokasi": "A01",
+      "kartu": "DOMBA",
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
+    },
+    {
+      "lokasi": "A02",
+      "kartu": "KUDA",
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
+    },
+    {
+      "lokasi": "A03",
+      "kartu": "AYAM",
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
+    }
+  ],
+  "guldenPlayer2": 500,
+  "jumlahDeckPlayer2": 32,
+  "jumlahDeckAktifPlayer2": 3,
+  "deckAktifPlayer2": [
+    {
+      "lokasi": "A01",
+      "kartu": "DOMBA"
+    },
+    {
+      "lokasi": "B01",
+      "kartu": "KUDA"
+    },
+    {
+      "lokasi": "C01",
+      "kartu": "AYAM"
+    }
+  ],
+  "jumlahKartuLadangPlayer2": 3,
+  "kartuLadangPlayer2": [
+    {
+      "lokasi": "A01",
+      "kartu": "DOMBA",
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
+    },
+    {
+      "lokasi": "A02",
+      "kartu": "KUDA",
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
+    },
+    {
+      "lokasi": "A03",
+      "kartu": "AYAM",
+      "umur": 0,
+      "jumlahItemAktif": 0,
+      "itemAktif": []
+    }
+  ]
+}

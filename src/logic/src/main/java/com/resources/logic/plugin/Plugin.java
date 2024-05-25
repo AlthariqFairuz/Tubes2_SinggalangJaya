@@ -1,11 +1,7 @@
 package com.resources.logic.plugin;
 
-import com.resources.logic.Game;
+import com.resources.logic.state.LoaderSaver;
 
-public interface Plugin {
-    void onLoad();
-
-    void saveState(Game state, String filePath);
-
-    Game loadState(String filePath);
+public interface Plugin extends LoaderSaver {
+    public String getPluginType();
 }

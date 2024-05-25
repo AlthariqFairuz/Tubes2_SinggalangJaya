@@ -11,6 +11,10 @@ public class ShopItem {
         this.frequency = frequency;
     }
 
+    public int getPrice() {
+        return item.getPrice();
+    }
+
     public ProductCard getItem() {
         return item;
     }
