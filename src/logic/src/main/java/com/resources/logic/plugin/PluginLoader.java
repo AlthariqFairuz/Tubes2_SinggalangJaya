@@ -10,11 +10,9 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.lang.reflect.InvocationTargetException;
 
-import com.resources.logic.state.LoaderSaver;
-
 public class PluginLoader {
     // Load a plugin from a JAR file
-    public LoaderSaver loadPlugin(String jarFilePath) {
+    public Plugin loadPlugin(String jarFilePath) {
 
         URLClassLoader classLoader = null;
         JarFile jarFile = null;
@@ -41,16 +39,25 @@ public class PluginLoader {
 
                 // Check if the entry is a class file
                 if (entry.getName().endsWith(".class")) {
+                    System.out.println("Found class file: " + entry.getName());
                     // Get class name
-                    String className = entry.getName().replace("/", ".").replace(".class", "");
+                    // src.logic.targetes.com.resources.logic.plugin.JsonLoader
+                    // get com.resources.logic.plugin.JsonLoader
+                    String parsedClassName = entry.getName().replace("/", ".").replace(".class", "");
+                    int comIdx = parsedClassName.indexOf("com.", 0);
+                    String className = parsedClassName.substring(comIdx);
+                    // DEBUG
+                    System.out.println(className);
 
                     // Load the class
                     Class<?> pluginClass = classLoader.loadClass(className);
 
                     // Check if the class is a plugin
-                    if (LoaderSaver.class.isAssignableFrom(pluginClass)) {
+                    if (Plugin.class.isAssignableFrom(pluginClass)) {
+                        System.out.println("Found plugin class: " + pluginClass.getName());
+
                         // Create an instance of the plugin
-                        LoaderSaver plugin = (LoaderSaver) pluginClass.getDeclaredConstructor().newInstance();
+                        Plugin plugin = (Plugin) pluginClass.getDeclaredConstructor().newInstance();
 
                         // Call the onLoad method of the plugin
                         plugin.onLoad();

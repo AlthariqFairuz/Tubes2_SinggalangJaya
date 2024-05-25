@@ -16,7 +16,6 @@ import com.resources.logic.Shop;
 import com.resources.logic.ShopItem;
 import com.resources.logic.lib.Coordinate;
 import com.resources.logic.product.ProductCard;
-import com.resources.logic.state.LoaderSaver;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,7 +29,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
-public class XMLLoader implements LoaderSaver {
+public class XMLLoader implements Plugin {
+    public String getPluginType() {
+        return "XML";
+    }
+
     public void onLoad() {
         System.out.println("XMLParser loading");
     }

@@ -1,6 +1,8 @@
 package com.resources.logic;
 
 import com.resources.logic.plugin.JsonLoader;
+import com.resources.logic.plugin.Plugin;
+import com.resources.logic.plugin.PluginLoader;
 import com.resources.logic.state.LoaderSaver;
 import com.resources.logic.state.TextLoaderSaver;
 import com.resources.logic.plugin.XMLLoader;
@@ -10,7 +12,7 @@ public class Main {
         // Intiialize game logic
 
         // Test
-        TextLoaderSaver textLoader = new TextLoaderSaver();
+        // TextLoaderSaver textLoader = new TextLoaderSaver();
 
         // textLoader.loadState("state/state.txt");
         // System.out.println("===================================");
@@ -23,8 +25,22 @@ public class Main {
         // jsonLoader.saveState("state/new-state.json");
 
         // // Test
-        LoaderSaver xmPlugin = new XMLLoader();
-        xmPlugin.loadState("state/state.xml");
-        xmPlugin.saveState("state/new-state.xml");
+        // LoaderSaver xmPlugin = new XMLLoader();
+        // xmPlugin.loadState("state/state.xml");
+        // xmPlugin.saveState("state/new-state.xml");
+
+        // Test plugin json
+        PluginLoader plugin = new PluginLoader();
+        Plugin loaded = plugin.loadPlugin("jar/json.jar");
+        System.out.println(loaded.getPluginType());
+        loaded.loadState("state/state.json");
+        loaded.saveState("state/new-state.json");
+
+        // // Test plugin xml
+        // PluginLoader plugin = new PluginLoader();
+        // Plugin loaded = plugin.loadPlugin("jar/xml.jar");
+        // System.out.println(loaded.getPluginType());
+        // loaded.loadState("state/state.xml");
+        // loaded.saveState("state/new-state.xml");
     }
 }
