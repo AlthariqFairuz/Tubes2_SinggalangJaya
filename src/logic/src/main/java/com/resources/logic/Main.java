@@ -29,11 +29,16 @@ public class Main {
         // xmPlugin.saveState("state/new-state.xml");
 
         // Test plugin json
-        PluginLoader plugin = new PluginLoader();
-        Plugin loaded = plugin.loadPlugin("jar/json.jar");
-        System.out.println(loaded.getPluginType());
-        loaded.loadState("state/state.json");
-        loaded.saveState("state/new-state.json");
+        PluginLoader pluginLoader = PluginLoader.getInstance();
+        pluginLoader.loadPlugin("jar/json.jar");
+        System.out.println(pluginLoader.getPlugins());
+        pluginLoader.loadPlugin("jar/xml.jar");
+        System.out.println(pluginLoader.getPlugins());
+
+        // Test json
+        Plugin jsonPlugin = pluginLoader.getPlugin("json");
+        jsonPlugin.loadState("state/state.json");
+        jsonPlugin.saveState("state/new-state.json");
 
         // // Test plugin xml
         // PluginLoader plugin = new PluginLoader();

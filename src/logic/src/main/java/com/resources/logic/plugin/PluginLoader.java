@@ -6,13 +6,68 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.jar.JarFile;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.lang.reflect.InvocationTargetException;
 
+// Singleton
 public class PluginLoader {
+    // Single instance
+    private static final PluginLoader instance = new PluginLoader();
+
+    // Use Hashmap for plugin key=plugin_type, value=plugin
+    private List<Plugin> plugins;
+
+    // Constructor
+    private PluginLoader() {
+        plugins = new ArrayList<>();
+    }
+
+    // Get the single instance
+    public static PluginLoader getInstance() {
+        return instance;
+    }
+
+    // Get all plugins options
+    public List<String> getPlugins() {
+        List<String> pluginNames = new ArrayList<>();
+        for (Plugin plugin : plugins) {
+            pluginNames.add(plugin.getPluginType());
+        }
+        return pluginNames;
+    }
+
+    // Get a plugin by its type
+    public boolean isPluginExist(String pluginType) {
+        for (Plugin plugin : plugins) {
+            if (plugin.getPluginType().equals(pluginType)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Add a plugin
+    public void addPlugin(Plugin newPlugin) {
+        if (!isPluginExist(newPlugin.getPluginType())) {
+            plugins.add(newPlugin);
+        }
+    }
+
+    // Get a plugin
+    public Plugin getPlugin(String pluginType) {
+        for (Plugin plugin : plugins) {
+            if (plugin.getPluginType().equals(pluginType)) {
+                return plugin;
+            }
+        }
+        return null;
+    }
+
     // Load a plugin from a JAR file
-    public Plugin loadPlugin(String jarFilePath) {
+    public void loadPlugin(String jarFilePath) {
 
         URLClassLoader classLoader = null;
         JarFile jarFile = null;
@@ -24,7 +79,7 @@ public class PluginLoader {
             // Get url of the JAR file
             URL url = file.toURI().toURL();
 
-            classLoader = new URLClassLoader(new URL[] { url }, this.getClass().getClassLoader());
+            classLoader = new URLClassLoader(new URL[] { url }, getInstance().getClass().getClassLoader());
 
             // Open the JAR file
             jarFile = new JarFile(file);
@@ -62,8 +117,10 @@ public class PluginLoader {
                         // Call the onLoad method of the plugin
                         plugin.onLoad();
 
-                        // Return the plugin
-                        return plugin;
+                        // Add the plugin to the list of plugins
+                        // System.out.println(plugin.getPluginType());
+                        addPlugin(plugin);
+                        // System.out.println(plugin.getPluginType());
                     }
                 }
             }
@@ -83,7 +140,5 @@ public class PluginLoader {
                 e.printStackTrace();
             }
         }
-
-        return null;
     }
 }

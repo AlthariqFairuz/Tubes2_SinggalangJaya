@@ -26,7 +26,7 @@ import com.resources.logic.product.ProductCard;
 public class JsonLoaderSaver implements Plugin {
     @Override
     public String getPluginType() {
-        return "JSON";
+        return "json";
     }
 
     @Override

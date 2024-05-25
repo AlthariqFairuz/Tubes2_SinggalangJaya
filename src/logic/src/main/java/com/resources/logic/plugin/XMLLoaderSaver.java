@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 
 public class XMLLoaderSaver implements Plugin {
     public String getPluginType() {
-        return "XML";
+        return "xml";
     }
 
     public void onLoad() {
