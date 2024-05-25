@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.resources.logic.Card;
 import com.resources.logic.CardAssets;
@@ -101,19 +102,19 @@ public class TextLoaderSaver implements LoaderSaver {
                         String cardName = cs.getCard().getName();
 
                         // Get umur
-                        int umur = 0;
+                        // Get umur
+                        int umur = cs.getCard().getHarvestProduct().getAddedWeight();
 
                         // Get jumlah item aktif
-                        int jumlahItemAktif = 0;
+                        int jumlahItemAktif = cs.getCard().getHarvestProduct().getTotalActiveItem();
 
                         // List item aktif
-                        ArrayList<ProductCard> listItemAktif = new ArrayList<>();
+                        List<String> listItemAktif = cs.getCard().getHarvestProduct().getActiveItems();
 
                         // Write to file
-                        // TODO: CONNECT PENYIMPANAN EFEK ITEM LADANG
                         writer.write(lokasi + " " + cardName + " " + umur + " " + jumlahItemAktif);
-                        for (ProductCard item : listItemAktif) {
-                            writer.write(" " + item.getName());
+                        for (String item : listItemAktif) {
+                            writer.write(" " + item);
                         }
                         writer.write("\n");
                     }
@@ -171,19 +172,18 @@ public class TextLoaderSaver implements LoaderSaver {
                         String cardName = cs.getCard().getName();
 
                         // Get umur
-                        int umur = 0;
+                        int umur = cs.getCard().getHarvestProduct().getAddedWeight();
 
                         // Get jumlah item aktif
-                        int jumlahItemAktif = 0;
+                        int jumlahItemAktif = cs.getCard().getHarvestProduct().getTotalActiveItem();
 
                         // List item aktif
-                        ArrayList<ProductCard> listItemAktif = new ArrayList<>();
+                        List<String> listItemAktif = cs.getCard().getHarvestProduct().getActiveItems();
 
                         // Write to file
-                        // TODO: CONNECT PENYIMPANAN EFEK ITEM LADANG
                         writer.write(lokasi + " " + cardName + " " + umur + " " + jumlahItemAktif);
-                        for (ProductCard item : listItemAktif) {
-                            writer.write(" " + item.getName());
+                        for (String item : listItemAktif) {
+                            writer.write(" " + item);
                         }
                         writer.write("\n");
                     }
@@ -313,24 +313,28 @@ public class TextLoaderSaver implements LoaderSaver {
 
                 // Umur/berat
                 int umur = Integer.parseInt(kartuLadang[2]);
+                // Update added weight
+                card.getHarvestProduct().setAddedWeight(umur);
 
                 // Jumlah item aktif
                 int jumlahItemAktif = Integer.parseInt(kartuLadang[3]);
 
                 // List item aktif
-                // ArrayList<ProductCard> listItemAktif = new ArrayList<>();
-                // for (int j = 0; j < jumlahItemAktif; j++) {
-                // String itemName = kartuLadang[4 + j];
-                // ProductCard item = (ProductCard) CardAssets.toCard(itemName);
-                // listItemAktif.add(item);
-                // }
+                List<String> listItemAktif = new ArrayList<>();
+                for (int j = 0; j < jumlahItemAktif; j++) {
+                    String itemName = kartuLadang[4 + j];
+                    listItemAktif.add(itemName);
+                }
+                // Update active items
+                card.getHarvestProduct().setActiveItems(listItemAktif);
 
-                // TODO: PENYIMPANAN EFEK ITEM LADANG
+                // Set card to land
                 landPlayer1.setLandSlot(row, col, card);
 
                 // DEBUG
                 System.out.println(
-                        card.getName() + " " + lokasi + " " + umur + " " + jumlahItemAktif + " ");
+                        card.getName() + " " + lokasi + " " + umur + " " + jumlahItemAktif + " "
+                                + card.getHarvestProduct().getActiveItems());
             }
             // Connect to game instance
             Player player1 = new Player(guldenPlayer1, landPlayer1, deckPlayer1);
@@ -410,24 +414,28 @@ public class TextLoaderSaver implements LoaderSaver {
 
                 // Umur/berat
                 int umur = Integer.parseInt(kartuLadang[2]);
+                // Update added weight
+                card.getHarvestProduct().setAddedWeight(umur);
 
                 // Jumlah item aktif
                 int jumlahItemAktif = Integer.parseInt(kartuLadang[3]);
 
                 // List item aktif
-                // ArrayList<ProductCard> listItemAktif = new ArrayList<>();
-                // for (int j = 0; j < jumlahItemAktif; j++) {
-                // String itemName = kartuLadang[4 + j];
-                // ProductCard item = (ProductCard) CardAssets.toCard(itemName);
-                // listItemAktif.add(item);
-                // }
+                List<String> listItemAktif = new ArrayList<>();
+                for (int j = 0; j < jumlahItemAktif; j++) {
+                    String itemName = kartuLadang[4 + j];
+                    listItemAktif.add(itemName);
+                }
+                // Update active items
+                card.setActiveItems(listItemAktif);
 
-                // TODO: PENYIMPANAN EFEK ITEM LADANG
+                // Set card to land
                 landPlayer2.setLandSlot(row, col, card);
 
                 // DEBUG
                 System.out.println(
-                        card.getName() + " " + lokasi + " " + umur + " " + jumlahItemAktif + " ");
+                        card.getName() + " " + lokasi + " " + umur + " " + jumlahItemAktif + " "
+                                + card.getHarvestProduct().getActiveItems());
             }
             // Connect to game instance
             Player player2 = new Player(guldenPlayer2, landPlayer2, deckPlayer2);
