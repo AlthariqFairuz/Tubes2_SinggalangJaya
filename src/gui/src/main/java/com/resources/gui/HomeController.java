@@ -415,7 +415,9 @@ public class HomeController implements Initializable {
         if (Game.getInstance().getTotalTurns() == HomeController.TotalGameTurns) {
             showWinner();
         }
-        getShuffledCards();
+        else{
+            getShuffledCards();
+        }
     }
 
     public void showWinner() {
@@ -439,7 +441,7 @@ public class HomeController implements Initializable {
 
             // Get the controller and call the setWinner method
             WinnerController winnerController = loader.getController();
-            winnerController.setWinner();
+            winnerController.setWinner(winnerStage);
 
             // Show the dialog and wait until the user closes it
             winnerStage.showAndWait();
