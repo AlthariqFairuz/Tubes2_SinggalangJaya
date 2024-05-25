@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import static com.resources.logic.CardAssets.getRandomCard;
+import static com.resources.logic.CardAssets.getRandomCard2;
 
 public class Deck {
     private int totalDeckCapacity; // Selalu 40. Ketika start game, nonActiveDeck terisi penuh oleh 40 kartu yang digenerate secara random.
@@ -44,7 +45,7 @@ public class Deck {
 
     public void seedNonActiveDeck() {
         for (int i = 0; i < totalDeckCapacity; i++) {
-            nonActiveCards[i].setCard(getRandomCard());
+            nonActiveCards[i].setCard(getRandomCard2());
         }
     }
 
@@ -107,38 +108,38 @@ public class Deck {
     }
 
     public void setCardToActiveDeck(Card card, int index) {
-        if (index >= 0 && index < totalActiveDeckSize) {
+        if (index >= 0 && index < totalActiveDeckCapacity) {
             // Set card
             ActiveCards[index].setCard(card);
         }
     }
 
-    public void shuffle() {
-
-        int nonActiveSize = totalDeckSize - totalActiveDeckSize;
-        int activeSize = countEmptySlotsInActiveDeck();
-        CardSlot[] temp = new CardSlot[6];
-
-        int ptr1 = 0;
-        for (int i = 0; i < totalActiveDeckSize - activeSize; i++) {
-            int random = (int) (Math.random() * (nonActiveSize));
-            while (!nonActiveCards[random].hasCard()) {
-                random = (int) (Math.random() * (nonActiveSize));
-            }
-            if (nonActiveCards[random].hasCard()) {
-                temp[ptr1] = nonActiveCards[random];
-                nonActiveCards[random].popCard();
-                ptr1++;
-            }
-
-        }
-        int ptr = 0;
-        for (int i = 0; i < totalActiveDeckSize; i++) {
-            if (!ActiveCards[i].hasCard()) {
-                ActiveCards[i].setCard(temp[ptr].getCard());
-                ptr++;
-            }
-        }
-    }
+//    public void shuffle() {
+//
+//        int nonActiveSize = totalDeckCapacity;
+//        int activeSize = countEmptySlotsInActiveDeck();
+//        CardSlot[] temp = new CardSlot[6];
+//
+//        int ptr1 = 0;
+//        for (int i = 0; i < totalActiveDeckSize - activeSize; i++) {
+//            int random = (int) (Math.random() * (nonActiveSize));
+//            while (!nonActiveCards[random].hasCard()) {
+//                random = (int) (Math.random() * (nonActiveSize));
+//            }
+//            if (nonActiveCards[random].hasCard()) {
+//                temp[ptr1] = nonActiveCards[random];
+//                nonActiveCards[random].popCard();
+//                ptr1++;
+//            }
+//
+//        }
+//        int ptr = 0;
+//        for (int i = 0; i < totalActiveDeckSize; i++) {
+//            if (!ActiveCards[i].hasCard()) {
+//                ActiveCards[i].setCard(temp[ptr].getCard());
+//                ptr++;
+//            }
+//        }
+//    }
 
 }
