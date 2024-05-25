@@ -27,6 +27,11 @@ public abstract class AnimalCard extends Card {
     }
 
     @Override
+    public boolean canHarvestInstantly() {
+        return true;
+    }
+
+    @Override
     public boolean accelerate() {
         this.totalAccelerate++;
         return true;
@@ -49,10 +54,22 @@ public abstract class AnimalCard extends Card {
 
     @Override
     public boolean protectFromBear() {
+        System.out.println("Protecting " + getName() + " from bears");
         if (protectedFromBear) {
             return false;
         } else {
             this.protectedFromBear = true;
+            return true;
+        }
+    }
+
+    @Override
+    public boolean installATrap() {
+        System.out.println("Installing a trap on " + getName());
+        if (isTrapSet()) {
+            return false;
+        } else {
+            this.trapSet = true;
             return true;
         }
     }
@@ -65,20 +82,24 @@ public abstract class AnimalCard extends Card {
     @Override
     public void eat(ProductCard food) {
 //        System.out.print("Before " + getCurrentWeight());
+
         currentWeight += food.getAddedWeight();
 //        System.out.println(", After " + getCurrentWeight());
     }
 
     @Override
-    public void receiveItem(ItemCard card) {
+    public boolean receiveItem(ItemCard card) {
         if (card.getName().equals("ACCELERATE")) {
-            accelerate();
+            return accelerate();
         } else if (card.getName().equals("DELAY")) {
-            delay();
+            return delay();
         } else if (card.getName().equals("PROTECT")) {
-            protectFromBear();
-        } else if (card.getName().equals("HERBIVORE")) {
-
+            return protectFromBear();
+        } else if (card.getName().equals("TRAP")) {
+            return installATrap();
         }
+
+        System.out.println("Can't find the specified item card: " + card.getName());
+        return false;
     }
 }

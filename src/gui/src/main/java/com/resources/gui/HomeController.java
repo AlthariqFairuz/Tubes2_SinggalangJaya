@@ -1,7 +1,9 @@
 package com.resources.gui;
 
 import com.resources.logic.*;
+import com.resources.logic.animal.AnimalCard;
 import com.resources.logic.item.ItemCard;
+import com.resources.logic.plant.PlantCard;
 import com.resources.logic.product.ProductCard;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -207,7 +209,11 @@ public class HomeController implements Initializable {
                         if (ladangku) {
                             if (fromDeck) {
                                 if (!landSlot.hasCard()) {
-                                    landSlot.setCard(sourceSlot.popCard());
+                                    if (sourceSlot.getCard() instanceof ItemCard) {
+                                        System.out.println("Kartu efek item tidak dapat ditaruh di ladang");
+                                    } else {
+                                        landSlot.setCard(sourceSlot.popCard());
+                                    }
                                 } else {
                                     Card destinationCard = landSlot.getCard();
 
@@ -218,10 +224,23 @@ public class HomeController implements Initializable {
                                         } else {
                                             System.out.println("Can't eat that product");
                                         }
+                                    } else if (sourceCard.getName().equals("INSTANT_HARVEST")) {
+                                        if (destinationCard.canHarvestInstantly()) {
+                                            sourceSlot.popCard();
+                                            sourceSlot.setCard(destinationCard.getHarvestProduct());
+                                            landSlot.popCard();
+                                        } else {
+                                            System.out.println("Kartu tidak dapat dipanen");
+                                        }
+                                    } else if (sourceCard.getName().equals("DESTROY")) {
+                                        System.out.println("Tidak bisa destroy lahan sendiri");
                                     } else if (sourceCard instanceof ItemCard) {
                                         if (destinationCard.canReceiveItem((ItemCard) sourceCard)) {
-                                            destinationCard.receiveItem((ItemCard) sourceCard);
-                                            sourceSlot.popCard();
+                                            if (destinationCard.receiveItem((ItemCard) sourceCard)) {
+                                                sourceSlot.popCard();
+                                            } else {
+                                                System.out.println("Kartu efek tidak bisa di apply karena sudah dilakukan atau alasan lain");
+                                            }
                                         } else {
                                             System.out.println("Can't receive that item");
                                         }
@@ -235,23 +254,28 @@ public class HomeController implements Initializable {
                         } else {
                             if (fromDeck) {
                                 if (!landSlot.hasCard()) {
+                                    System.out.println("Tidak bisa menaruh kartu di ladang lawan");
+                                } else {
+                                    if (sourceCard.getName().equals("DESTROY")) {
+                                        if ((landSlot.getCard() instanceof AnimalCard) || (landSlot.getCard() instanceof PlantCard)) {
+                                            if (landSlot.getCard().isProtectedFromBear()) {
+                                                System.out.println("Kartu terprotected sehingga tidak bisa di destroy");
+                                            } else {
+                                                sourceSlot.popCard();
+                                                landSlot.popCard();
+                                            }
+                                        } else {
+                                            System.out.println("Hanya dapat mengdestroy hewan atan tanaman musuh");
 
+                                        }
+                                    } else {
+                                        System.out.println("Anda hanya bisa DESTROY ladang musuh");
+                                    }
                                 }
                             } else {
-
+                                System.out.println("Tidak bisa memindahkan kartu lawan");
                             }
                         }
-
-//                        if (landSlot.hasCard()) {
-////                            System.out.println("Can't move because the destination is not an empty slot");
-//                        } else if (!sourceSlot.hasCard()) {
-////                            System.out.println("Can't move because the source is empty");
-//                        } else {
-////                            System.out.println("Popping " + sourceSlot.getCard().getName());
-//                            landSlot.setCard(sourceSlot.popCard());
-//
-//                        }
-
                         event.setDropCompleted(true);
                         event.consume();
                     }

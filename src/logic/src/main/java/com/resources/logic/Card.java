@@ -40,9 +40,11 @@ public abstract class Card {
         return imageLocation;
     }
 
-    public boolean canHarvest() {
+    public boolean canHarvestInstantly() {
         return false;
     }
+
+    public boolean canHarvest() { return false; }
 
     public ProductCard getHarvestProduct() {
         return harvestProduct;
@@ -83,6 +85,9 @@ public abstract class Card {
     public boolean protectFromBear() {
         return false;
     }
+    public boolean installATrap() {
+        return false;
+    }
 
     public boolean canEat(ProductCard food) {
         return false;
@@ -97,7 +102,7 @@ public abstract class Card {
     }
 
     // Asumsi bisa direceive
-    public void receiveItem(ItemCard item) {
-
+    public boolean receiveItem(ItemCard card) {
+        return false;
     }
 }

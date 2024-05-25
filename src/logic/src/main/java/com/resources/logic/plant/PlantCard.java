@@ -21,6 +21,16 @@ public class PlantCard extends Card {
     }
 
     @Override
+    public boolean canHarvestInstantly() {
+        return true;
+    }
+
+    @Override
+    public boolean canHarvest() {
+        return totalTurns >= harvestTurns;
+    }
+
+    @Override
     public boolean accelerate() {
         this.totalAccelerate++;
         return true;
@@ -47,12 +57,60 @@ public class PlantCard extends Card {
     }
 
     @Override
+    public boolean installATrap() {
+        if (isTrapSet()) {
+            return false;
+        } else {
+            this.trapSet = true;
+            return true;
+        }
+    }
+
+    @Override
     public boolean canReceiveItem(ItemCard card) {
-        return true;
+        if (card.getName().equals("ACCELERATE")) {
+//            return accelerate();
+            return true;
+        } else if (card.getName().equals("DELAY")) {
+//            return delay();
+            return true;
+        } else if (card.getName().equals("PROTECT")) {
+//            return protectFromBear();
+            return true;
+        } else if (card.getName().equals("TRAP")) {
+//            return installATrap();
+            return true;
+        }
+
+
+        System.out.println("Can't find the specified item card: " + card.getName());
+        return false;
     }
 
     @Override
     public boolean canEat(ProductCard food) {
+        return false;
+    }
+
+
+    @Override
+    public boolean receiveItem(ItemCard card) {
+        if (card.getName().equals("ACCELERATE")) {
+            return accelerate();
+//            return true;
+        } else if (card.getName().equals("DELAY")) {
+            return delay();
+//            return true;
+        } else if (card.getName().equals("PROTECT")) {
+            return protectFromBear();
+//            return true;
+        } else if (card.getName().equals("TRAP")) {
+            return installATrap();
+//            return true;
+        }
+
+
+        System.out.println("Can't find the specified item card: " + card.getName());
         return false;
     }
 }
