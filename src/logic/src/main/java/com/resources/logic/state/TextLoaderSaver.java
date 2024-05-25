@@ -257,7 +257,7 @@ public class TextLoaderSaver implements LoaderSaver {
             System.out.println("Jumlah deck aktif player 1: " + jumlahDeckAktifPlayer1);
 
             // Initialize player 1 deck
-            Deck deckPlayer1 = new Deck();
+            Deck deckPlayer1 = new Deck(40, 6);
 
             // Get deck player 1
             for (int i = 0; i < jumlahDeckAktifPlayer1; i++) {
@@ -356,7 +356,7 @@ public class TextLoaderSaver implements LoaderSaver {
             System.out.println("Jumlah deck aktif player 2: " + jumlahDeckAktifPlayer2);
 
             // Initialize deck
-            Deck deckPlayer2 = new Deck();
+            Deck deckPlayer2 = new Deck(40, 6);
 
             // Get deck player 2
             for (int i = 0; i < jumlahDeckAktifPlayer2; i++) {

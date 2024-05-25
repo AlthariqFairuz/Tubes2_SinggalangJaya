@@ -8,7 +8,7 @@ public class Player {
     public Player() {
         this.gold = 0;
         this.land = new Land();
-        this.deck = new Deck();
+        this.deck = new Deck(40, 6);
     }
 
     public Player(int gold, Land land, Deck deck) {

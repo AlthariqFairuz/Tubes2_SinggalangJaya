@@ -441,7 +441,7 @@ public class XMLLoader implements Plugin {
                 Node deckAktifPlayer1Node = player1Element.getElementsByTagName("deckAktif").item(0);
                 NodeList deckAktifList = deckAktifPlayer1Node.getChildNodes();
                 // Parsing deckAktif for player1
-                Deck deckPlayer1State = new Deck();
+                Deck deckPlayer1State = new Deck(40, 6);
                 for (int i = 0; i < deckAktifList.getLength(); i++) {
                     Node node = deckAktifList.item(i);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -558,7 +558,7 @@ public class XMLLoader implements Plugin {
                 Node deckAktifPlayer2Node = player2Element.getElementsByTagName("deckAktif").item(0);
                 NodeList deckAktifList = deckAktifPlayer2Node.getChildNodes();
                 // Parsing deckAktif for player1
-                Deck deckPlayer2State = new Deck();
+                Deck deckPlayer2State = new Deck(40, 6);
                 for (int i = 0; i < deckAktifList.getLength(); i++) {
                     Node node = deckAktifList.item(i);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {

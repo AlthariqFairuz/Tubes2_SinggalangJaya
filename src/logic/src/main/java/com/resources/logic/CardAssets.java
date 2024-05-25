@@ -129,7 +129,7 @@ public class CardAssets {
         }
     }
 
-    public static Card getRandomCard() {
+    public static Card getRandomCard2() {
         // Generates a random card
         // 30% Animal 0
         // 30% Plant 1

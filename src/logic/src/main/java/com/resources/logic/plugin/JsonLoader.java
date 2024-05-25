@@ -330,7 +330,7 @@ public class JsonLoader implements Plugin {
         // Deck
         int deckCountPlayer1State = state.getJumlahDeckPlayer1();
         int activeDeckCountPlayer1State = state.getJumlahDeckAktifPlayer1();
-        Deck deckPlayer1State = new Deck();
+        Deck deckPlayer1State = new Deck(40, 6);
         // DEBUG
         System.out.println(deckCountPlayer1State + " " + activeDeckCountPlayer1State);
 
@@ -415,7 +415,7 @@ public class JsonLoader implements Plugin {
         // DEBUG
         System.out.println(activeDeckCountPlayer2State);
 
-        Deck deckPlayer2State = new Deck();
+        Deck deckPlayer2State = new Deck(40, 6);
 
         // Fill active deck
         for (int i = 0; i < activeDeckCountPlayer2State; i++) {
