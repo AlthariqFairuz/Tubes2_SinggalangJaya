@@ -28,7 +28,11 @@ List the ready features here:
 ```
 https://github.com/AlthariqFairuz/Tubes2_SinggalangJaya.git
 ```
-3. Navigate tp `src` folder and typing
+3. Change directory to the cloned repository
+```
+cd Tubes2_SinggalangJaya
+```
+4. Navigate to `src` folder and typing
 ```
 mvn clean package
 ```
