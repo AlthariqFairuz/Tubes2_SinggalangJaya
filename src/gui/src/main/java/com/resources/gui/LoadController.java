@@ -23,11 +23,7 @@ public class LoadController {
 
     public void setLoad(Stage loadStage) {
         this.load = loadStage;
-        
-        if (PluginLoader.getInstance().getPlugins().isEmpty()) {
-            loadMenuButton.setDisable(true);
-        }
-        else {
+    
             List<String> options = new ArrayList<String>();
             options.add("txt");
             for (String plugin : PluginLoader.getInstance().getPlugins()) {
@@ -35,7 +31,6 @@ public class LoadController {
             }
 
             loadMenuButton.getItems().addAll(options);
-        }
     }
 
     @FXML
@@ -52,7 +47,7 @@ public class LoadController {
         if (loadTextField.getText().isEmpty()) {
             return;
         }
-        String path = "state/" + loadTextField.getText() + "." + loadMenuButton.getSelectionModel().getSelectedItem().toString().toLowerCase();
+        String path = "../state/" + loadTextField.getText() + "." + loadMenuButton.getSelectionModel().getSelectedItem().toString().toLowerCase();
         System.out.println(path);
         String choice = loadMenuButton.getSelectionModel().getSelectedItem().toString().toLowerCase();
         System.out.println(choice);

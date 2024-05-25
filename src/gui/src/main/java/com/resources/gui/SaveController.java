@@ -23,16 +23,10 @@ public class SaveController {
 
     public void setSave(Stage saveStage) {
         this.save = saveStage;
-         if (PluginLoader.getInstance().getPlugins().isEmpty()) {
-            saveMenuButton.setDisable(true);
-        }
-        else {
             List<String> options = new ArrayList<String>();
             options.add("txt");
             for (String plugin : PluginLoader.getInstance().getPlugins()) {
                 options.add(plugin.toLowerCase());
-            }
-
             saveMenuButton.getItems().addAll(options);
         }
 
@@ -51,10 +45,8 @@ public class SaveController {
         if (savTextField.getText().isEmpty()) {
             return;
         }
-        String path = "state/" + savTextField.getText() + "." + saveMenuButton.getSelectionModel().getSelectedItem().toString().toLowerCase();
-        System.out.println(path);
+        String path = "../state/" + savTextField.getText() + "." + saveMenuButton.getSelectionModel().getSelectedItem().toString().toLowerCase();
         String choice = saveMenuButton.getSelectionModel().getSelectedItem().toString().toLowerCase();
-        System.out.println(choice);
         if (choice.equals("txt")) {
             TextLoaderSaver instance = new TextLoaderSaver();
             instance.saveState(path);

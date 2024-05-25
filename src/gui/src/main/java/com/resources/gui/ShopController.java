@@ -55,7 +55,8 @@ public class ShopController { // Assuming you have a VBox in your FXML file to h
             HBox itemBox = new HBox(10); // HBox with spacing 10
             
             // Create an ImageView for the item's image
-            Image itemImage = new Image(item.getItem().getImageLocation());
+            // System.out.println(item.getItem().getImageLocation());
+            Image itemImage = new Image(HomeController.imageDirectory + item.getItem().getImageLocation());
             ImageView itemImageView = new ImageView(itemImage);
             itemImageView.setFitHeight(50); // Set the desired height
             itemImageView.setFitWidth(50);  // Set the desired width
@@ -70,6 +71,10 @@ public class ShopController { // Assuming you have a VBox in your FXML file to h
             quantityLabel.setStyle("-fx-font-style: italic;");
             buyButton.setOnAction(e -> {
                 if (instance.buyShopItem(item.getItem().getName())) {
+                    if (Game.getInstance().getCurrentPlayer().getDeck().isActiveDeckAvailable()){
+                        Game.getInstance().getCurrentPlayer().getDeck().addCardToActiveDeck(item.getItem());
+                        instance.buyShopItem(item.getItem().getName());
+                    }
                     loadShopItems();
                 }
             });

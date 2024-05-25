@@ -59,7 +59,7 @@ public class SellController {
             HBox itemBox = new HBox(10); // HBox with spacing 10
             
             // Create an ImageView for the item's image
-            Image itemImage = new Image(item.getImageLocation());
+            Image itemImage = new Image(HomeController.imageDirectory + item.getImageLocation());
             ImageView itemImageView = new ImageView(itemImage);
             if (itemImageView != null){
                 itemImageView.setFitHeight(50); // Set the desired height
