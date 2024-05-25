@@ -1,14 +1,14 @@
 {
-  "currentTurn": 3,
+  "currentTurn": 1,
   "shopItemCount": 5,
   "shopItems": [
     {
       "item": "SIRIP_HIU",
-      "jumlah": 3
+      "jumlah": 5
     },
     {
       "item": "SUSU",
-      "jumlah": 3
+      "jumlah": 2
     },
     {
       "item": "DAGING_DOMBA",
@@ -16,15 +16,15 @@
     },
     {
       "item": "DAGING_KUDA",
-      "jumlah": 3
+      "jumlah": 10
     },
     {
       "item": "DAGING_BERUANG",
-      "jumlah": 3
+      "jumlah": 1
     }
   ],
   "guldenPlayer1": 500,
-  "jumlahDeckPlayer1": 39,
+  "jumlahDeckPlayer1": 33,
   "jumlahDeckAktifPlayer1": 3,
   "deckAktifPlayer1": [
     {
@@ -32,11 +32,11 @@
       "kartu": "DOMBA"
     },
     {
-      "lokasi": "A02",
+      "lokasi": "B01",
       "kartu": "KUDA"
     },
     {
-      "lokasi": "A03",
+      "lokasi": "C01",
       "kartu": "AYAM"
     }
   ],
@@ -65,7 +65,7 @@
     }
   ],
   "guldenPlayer2": 500,
-  "jumlahDeckPlayer2": 39,
+  "jumlahDeckPlayer2": 32,
   "jumlahDeckAktifPlayer2": 3,
   "deckAktifPlayer2": [
     {
@@ -73,11 +73,11 @@
       "kartu": "DOMBA"
     },
     {
-      "lokasi": "A02",
+      "lokasi": "B01",
       "kartu": "KUDA"
     },
     {
-      "lokasi": "A03",
+      "lokasi": "C01",
       "kartu": "AYAM"
     }
   ],

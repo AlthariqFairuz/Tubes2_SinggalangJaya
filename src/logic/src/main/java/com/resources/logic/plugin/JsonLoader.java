@@ -22,11 +22,17 @@ import com.resources.logic.plugin.json.LadangKartuJson;
 import com.resources.logic.plugin.json.ShopItemJson;
 import com.resources.logic.plugin.json.StateJson;
 import com.resources.logic.product.ProductCard;
+import com.resources.logic.state.LoaderSaver;
 
-public class JsonLoader implements Plugin {
+public class JsonLoader implements LoaderSaver {
     @Override
     public void onLoad() {
         System.out.println("Loading JSON plugin");
+    }
+
+    @Override
+    public void onSave() {
+        System.out.println("Saving JSON plugin");
     }
 
     @Override
@@ -67,12 +73,12 @@ public class JsonLoader implements Plugin {
         state.setGuldenPlayer1(guldenPlayer1);
 
         // Deck count player 1 (total active + inactive)
-        int jumlahDeckPlayer1 = player1.getDeck().getNonActiveCards().length
-                + player1.getDeck().getActiveCards().length;
+        int jumlahDeckPlayer1 = player1.getDeck().getNonActiveCardsCount()
+                + player1.getDeck().getActiveCardsCount();
         state.setJumlahDeckPlayer1(jumlahDeckPlayer1);
 
         // Active deck count player 1
-        int jumlahDeckAktifPlayer1 = player1.getDeck().getActiveCards().length;
+        int jumlahDeckAktifPlayer1 = player1.getDeck().getActiveCardsCount();
         state.setJumlahDeckAktifPlayer1(jumlahDeckAktifPlayer1);
 
         // Deck aktif player 1
@@ -97,6 +103,8 @@ public class JsonLoader implements Plugin {
             index++;
         }
         state.setDeckAktifPlayer1(deckAktifPlayer1);
+        // DEBUG
+        System.out.println("Jumlah kartu aktif player 1: " + deckAktifPlayer1.size());
 
         // Land state player 1
         int jumlahKartuLadangPlayer1 = 0;
@@ -158,13 +166,13 @@ public class JsonLoader implements Plugin {
         state.setGuldenPlayer2(guldenPlayer2);
 
         // Deck count player 2 (total active + inactive)
-        int jumlahDeckPlayer2 = player2.getDeck().getNonActiveCards().length
-                + player2.getDeck().getActiveCards().length;
+        int jumlahDeckPlayer2 = player2.getDeck().getNonActiveCardsCount()
+                + player2.getDeck().getActiveCardsCount();
         // Set deck count player 2
         state.setJumlahDeckPlayer2(jumlahDeckPlayer2);
 
         // Active deck count player 2
-        int jumlahDeckAktifPlayer2 = player2.getDeck().getActiveCards().length;
+        int jumlahDeckAktifPlayer2 = player2.getDeck().getActiveCardsCount();
         // Set active deck count player 2
         state.setJumlahDeckAktifPlayer2(jumlahDeckAktifPlayer2);
 
@@ -199,13 +207,12 @@ public class JsonLoader implements Plugin {
 
         // Kartu ladang player 2
         List<LadangKartuJson> kartuLadangPlayer2 = new ArrayList<>();
+        Land landPlayer2 = player2.getLand();
         // Iterate through all card slots
-        landRow = 4;
-        landCol = 5;
-        for (int i = 0; i < landRow; i++) {
-            for (int j = 0; j < landCol; j++) {
+        for (int i = 0; i < landPlayer2.getRow(); i++) {
+            for (int j = 0; j < landPlayer2.getCol(); j++) {
                 // Get card slot
-                CardSlot cardSlot = player2.getLand().getCardSlots()[i][j];
+                CardSlot cardSlot = landPlayer2.getCardSlots()[i][j];
 
                 // If card exists
                 if (cardSlot.hasCard()) {
@@ -319,7 +326,7 @@ public class JsonLoader implements Plugin {
         // Deck
         int deckCountPlayer1State = state.getJumlahDeckPlayer1();
         int activeDeckCountPlayer1State = state.getJumlahDeckAktifPlayer1();
-        Deck deckPlayer1State = new Deck(deckCountPlayer1State, activeDeckCountPlayer1State);
+        Deck deckPlayer1State = new Deck();
         // DEBUG
         System.out.println(deckCountPlayer1State + " " + activeDeckCountPlayer1State);
 
@@ -337,15 +344,25 @@ public class JsonLoader implements Plugin {
             Card card = CardAssets.toCard(cardName);
 
             // Deck
-            deckPlayer1State.addCardToActiveDeck(card, col);
+            deckPlayer1State.setCardToActiveDeck(card, col);
 
             // DEBUG
             System.out.println(card.getName() + " " + lokasi);
         }
+        // DEBUG
+        System.out.println("Jumlah kartu aktif player 1: " + deckPlayer1State.getActiveCardsCount());
+
+        // Generate nonactive cards in player 1 deck
+        for (int i = 0; i < deckCountPlayer1State - activeDeckCountPlayer1State; i++) {
+            Card randCard = CardAssets.getRandomCard();
+            deckPlayer1State.addCardToNonActiveDeck(randCard);
+        }
+        // DEBUG
+        System.out.println("Jumlah kartu nonaktif player 1: " + deckPlayer1State.getNonActiveCardsCount());
 
         // Land state
         int ladangPlayer1State = state.getJumlahKartuLadangPlayer1();
-        Land landPlayer1State = new Land(4, 5);
+        Land landPlayer1State = new Land();
         for (int i = 0; i < ladangPlayer1State; i++) {
             // Get item
             LadangKartuJson ladangKartuJson = state.getKartuLadangPlayer1().get(i);
@@ -394,8 +411,9 @@ public class JsonLoader implements Plugin {
         // DEBUG
         System.out.println(activeDeckCountPlayer2State);
 
-        Deck deckPlayer2State = new Deck(deckCountPlayer2State, activeDeckCountPlayer2State);
+        Deck deckPlayer2State = new Deck();
 
+        // Fill active deck
         for (int i = 0; i < activeDeckCountPlayer2State; i++) {
             // Get item
             DeckItemJson deckItemJson = state.getDeckAktifPlayer2().get(i);
@@ -410,15 +428,23 @@ public class JsonLoader implements Plugin {
             Card card = CardAssets.toCard(cardName);
 
             // Deck
-            deckPlayer2State.addCardToActiveDeck(card, col);
+            deckPlayer2State.setCardToActiveDeck(card, col);
 
             // DEBUG
             System.out.println(card.getName() + " " + lokasi);
         }
 
+        // Generate nonactive cards in player 2 deck
+        for (int i = 0; i < deckCountPlayer2State - activeDeckCountPlayer2State; i++) {
+            Card randCard = CardAssets.getRandomCard();
+            deckPlayer2State.addCardToNonActiveDeck(randCard);
+        }
+        // DEBUG
+        System.out.println("Jumlah kartu nonaktif player 2: " + deckPlayer2State.getNonActiveCardsCount());
+
         // Land state
         int ladangPlayer2State = state.getJumlahKartuLadangPlayer2();
-        Land landPlayer2State = new Land(4, 5);
+        Land landPlayer2State = new Land();
         for (int i = 0; i < ladangPlayer2State; i++) {
             // Get item
             LadangKartuJson ladangKartuJson = state.getKartuLadangPlayer2().get(i);
@@ -448,8 +474,5 @@ public class JsonLoader implements Plugin {
         // Set to instance
         Player player2 = new Player(goldPlayer2State, landPlayer2State, deckPlayer2State);
         Game.getInstance().setPlayer2(player2);
-
-        // Set total turns (INITILAIZE STATE)
-        Game.getInstance().setTotalTurns(0);
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.resources.logic.product.ProductCard;
 
-public class  Shop {
+public class Shop {
     private static Shop instance;
     private ArrayList<ShopItem> shopItems;
 

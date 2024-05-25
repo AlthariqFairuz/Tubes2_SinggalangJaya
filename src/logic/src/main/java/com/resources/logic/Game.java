@@ -3,7 +3,7 @@ package com.resources.logic;
 import com.resources.logic.product.ProductCard;
 
 public class Game {
-    private static Game instance;
+    private static final Game instance = new Game();
     private Player player1;
     private Player player2;
     private int totalTurns;
@@ -15,9 +15,6 @@ public class Game {
     }
 
     public static Game getInstance() {
-        if (instance == null) {
-            instance = new Game();
-        }
         return instance;
     }
 

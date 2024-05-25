@@ -90,4 +90,41 @@ public class CardAssets {
             return null;
         }
     }
+
+    public static Card getRandomCard() {
+        // Generates a random card
+        // 30% Animal 0
+        // 30% Plant 1
+        // 20% Product 2
+        // 20% Item 3
+        double random = Math.random();
+
+        String[] animalCards = { "HIU_DARAT", "SAPI", "DOMBA", "KUDA", "AYAM", "BERUANG" };
+
+        String[] plantCards = { "BIJI_LABU", "BIJI_JAGUNG", "BIJI_STROBERI" };
+
+        String[] productCards = { "LABU", "JAGUNG", "STROBERI", "SUSU", "TELUR", "SIRIP_HIU", "DAGING_KUDA",
+                "DAGING_DOMBA", "DAGING_BERUANG" };
+
+        String[] itemCards = { "ACCELERATE", "DELAY", "INSTANT_HARVEST", "DESTROY", "PROTECT", "TRAP" };
+
+        if (random < 0.3) {
+            // Random animal
+            int randomIdx = (int) (Math.random() * animalCards.length);
+            return toCard(animalCards[randomIdx]);
+        } else if (random < 0.6) {
+            // Random plant
+            int randomIdx = (int) (Math.random() * plantCards.length);
+            return toCard(plantCards[randomIdx]);
+        } else if (random < 0.8) {
+            // Random product
+            int randomIdx = (int) (Math.random() * productCards.length);
+            return toCard(productCards[randomIdx]);
+        } else {
+            // Random item
+            int randomIdx = (int) (Math.random() * itemCards.length);
+            return toCard(itemCards[randomIdx]);
+        }
+
+    }
 }

@@ -15,6 +15,8 @@ import com.resources.logic.Player;
 import com.resources.logic.Shop;
 import com.resources.logic.ShopItem;
 import com.resources.logic.lib.Coordinate;
+import com.resources.logic.product.ProductCard;
+import com.resources.logic.state.LoaderSaver;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,14 +30,19 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
-public class XMLLoader implements Plugin {
+public class XMLLoader implements LoaderSaver {
     public void onLoad() {
-        System.out.println("XMLParser loaded");
+        System.out.println("XMLParser loading");
+    }
+
+    public void onSave() {
+        System.out.println("XMLParser saving");
     }
 
     public void saveState(String filePath) {
         System.out.println("XMLParser saveState");
         try {
+            // Initialize XML Builder
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
@@ -70,20 +77,16 @@ public class XMLLoader implements Plugin {
                 nameNode.appendChild(document.createTextNode(name));
                 itemNode.appendChild(nameNode);
 
-                // Create harga node
-                Element hargaNode = document.createElement("harga");
-                String harga = Integer.toString(shopItem.getPrice());
-                hargaNode.appendChild(document.createTextNode(harga));
-                itemNode.appendChild(hargaNode);
-
                 // Create jumlah node
                 Element jumlah = document.createElement("jumlah");
                 String jumlahStr = Integer.toString(shopItem.getFrequency());
                 jumlah.appendChild(document.createTextNode(jumlahStr));
                 itemNode.appendChild(jumlah);
 
+                // Append item to shopItems
                 shopItemsNodeList.appendChild(itemNode);
             }
+            // Append shopItems to root
             root.appendChild(shopItemsNodeList);
 
             // Player 1
@@ -96,8 +99,8 @@ public class XMLLoader implements Plugin {
             guldenPlayer1Node.appendChild(document.createTextNode(guldenPlayer1));
             player1Node.appendChild(guldenPlayer1Node);
 
-            int activeCardsPlayer1Count = player1.getDeck().getActiveCards().length;
-            int nonActiveCardsPlayer1Count = player1.getDeck().getNonActiveCards().length;
+            int activeCardsPlayer1Count = player1.getDeck().getActiveCardsCount();
+            int nonActiveCardsPlayer1Count = player1.getDeck().getNonActiveCardsCount();
 
             // Jumlah deck player1
             Element jumlahDeckPlayer1Node = document.createElement("jumlahDeck");
@@ -133,10 +136,12 @@ public class XMLLoader implements Plugin {
                     kartuNode.appendChild(document.createTextNode(kartu));
                     cardNode.appendChild(kartuNode);
 
+                    // Append card to deckAktif
                     deckAktifPlayer1Node.appendChild(cardNode);
                 }
                 index++;
             }
+            // Append deckAktif to player1
             player1Node.appendChild(deckAktifPlayer1Node);
 
             // Kartu ladang player1
@@ -189,20 +194,25 @@ public class XMLLoader implements Plugin {
                             itemNode.appendChild(document.createTextNode("item"));
                             itemAktifNode.appendChild(itemNode);
                         }
+                        // Append item aktif to card
                         cardNode.appendChild(itemAktifNode);
+
+                        // Append card to kartuLadang
+                        kartuLadangPlayer1Node.appendChild(cardNode);
                     }
                 }
             }
+            // Append jumlahKartuLadang to player1
             jumlahKartuLadangPlayer1Node
                     .appendChild(document.createTextNode(Integer.toString(jumlahKartuLadangPlayer1)));
             player1Node.appendChild(jumlahKartuLadangPlayer1Node);
+            // Append kartuLadang to player1
             player1Node.appendChild(kartuLadangPlayer1Node);
+            // Append player1 to root
             root.appendChild(player1Node);
 
             // Player 2
-
-            // DO SIMILIAR LIKE BEFORE
-
+            // Create player2 node
             Element player2Node = document.createElement("player2");
             Player player2 = Game.getInstance().getPlayer2();
 
@@ -212,8 +222,8 @@ public class XMLLoader implements Plugin {
             guldenPlayer2Node.appendChild(document.createTextNode(guldenPlayer2));
             player2Node.appendChild(guldenPlayer2Node);
 
-            int activeCardsPlayer2Count = player2.getDeck().getActiveCards().length;
-            int nonActiveCardsPlayer2Count = player2.getDeck().getNonActiveCards().length;
+            int activeCardsPlayer2Count = player2.getDeck().getActiveCardsCount();
+            int nonActiveCardsPlayer2Count = player2.getDeck().getNonActiveCardsCount();
 
             // Jumlah deck player2
             Element jumlahDeckPlayer2Node = document.createElement("jumlahDeck");
@@ -249,10 +259,12 @@ public class XMLLoader implements Plugin {
                     kartuNode.appendChild(document.createTextNode(kartu));
                     cardNode.appendChild(kartuNode);
 
+                    // Append card to deckAktif
                     deckAktifPlayer2Node.appendChild(cardNode);
                 }
                 index++;
             }
+            // Append deckAktif to player2
             player2Node.appendChild(deckAktifPlayer2Node);
 
             // Kartu ladang player2
@@ -307,14 +319,21 @@ public class XMLLoader implements Plugin {
                             itemNode.appendChild(document.createTextNode("item"));
                             itemAktifNode.appendChild(itemNode);
                         }
+                        // Append item aktif to card
                         cardNode.appendChild(itemAktifNode);
+
+                        // Append card to kartuLadang
+                        kartuLadangPlayer2Node.appendChild(cardNode);
                     }
                 }
             }
+            // Append jumlahKartuLadang to player2
             jumlahKartuLadangPlayer2Node
                     .appendChild(document.createTextNode(Integer.toString(jumlahKartuLadangPlayer2)));
             player2Node.appendChild(jumlahKartuLadangPlayer2Node);
+            // Append kartuLadang to player2
             player2Node.appendChild(kartuLadangPlayer2Node);
+            // Append player2 to root
             root.appendChild(player2Node);
 
             // Write the content into XML file
@@ -343,7 +362,7 @@ public class XMLLoader implements Plugin {
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
 
-            // // Print root element
+            // Print root element
             System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
 
             // Parsing currentTurn
@@ -363,7 +382,7 @@ public class XMLLoader implements Plugin {
             ArrayList<ShopItem> shopItemsState = new ArrayList<>();
             Node shopItemsNode = doc.getElementsByTagName("shopItems").item(0);
             NodeList shopItemsList = shopItemsNode.getChildNodes();
-            for (int i = 0; i < shopItemCount; i++) {
+            for (int i = 0; i < shopItemsList.getLength(); i++) {
                 Node node = shopItemsList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
@@ -378,7 +397,7 @@ public class XMLLoader implements Plugin {
                     int frequency = Integer.parseInt(element.getElementsByTagName("jumlah").item(0).getTextContent());
 
                     // Create obj
-                    ShopItem shopItem = new ShopItem(card.getHarvestProduct(), frequency);
+                    ShopItem shopItem = new ShopItem((ProductCard) card, frequency);
 
                     // Add to shop
                     shopItemsState.add(shopItem);
@@ -386,8 +405,6 @@ public class XMLLoader implements Plugin {
                     // DEBUG
                     System.out.print("Item Name: " +
                             element.getElementsByTagName("name").item(0).getTextContent() + " ");
-                    System.out.print("Harga: " +
-                            element.getElementsByTagName("harga").item(0).getTextContent() + " ");
                     System.out.print("Jumlah: " +
                             element.getElementsByTagName("jumlah").item(0).getTextContent() + " ");
                     System.out.println();
@@ -421,7 +438,7 @@ public class XMLLoader implements Plugin {
                 Node deckAktifPlayer1Node = player1Element.getElementsByTagName("deckAktif").item(0);
                 NodeList deckAktifList = deckAktifPlayer1Node.getChildNodes();
                 // Parsing deckAktif for player1
-                Deck deckPlayer1State = new Deck(jumlahDeckPlayer1, jumlahDeckAktifPlayer1);
+                Deck deckPlayer1State = new Deck();
                 for (int i = 0; i < deckAktifList.getLength(); i++) {
                     Node node = deckAktifList.item(i);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -441,16 +458,22 @@ public class XMLLoader implements Plugin {
                         Card card = CardAssets.toCard(kartu);
 
                         // Deck
-                        deckPlayer1State.addCardToActiveDeck(card, col);
+                        deckPlayer1State.setCardToActiveDeck(card, col);
 
                         // DEBUG
                         System.out.println(card.getName() + " " + kartu + " " + lokasi);
                     }
                 }
 
+                // Generate non-active cards
+                for (int i = 0; i < jumlahDeckPlayer1 - jumlahDeckAktifPlayer1; i++) {
+                    Card randCard = CardAssets.getRandomCard();
+                    deckPlayer1State.addCardToNonActiveDeck(randCard);
+                }
+
                 // Parsing kartuLadang for player1
                 // Jumlah kartu ladang
-                Land landPlayer1State = new Land(4, 5);
+                Land landPlayer1State = new Land();
                 Node jumlahKartuLadangPlayer1Node = player1Element.getElementsByTagName("jumlahKartuLadang").item(0);
                 int jumlahKartuLadangPlayer1 = Integer.parseInt(jumlahKartuLadangPlayer1Node.getTextContent());
                 // DEBUG
@@ -458,11 +481,11 @@ public class XMLLoader implements Plugin {
 
                 // Parsing kartu ladang
                 NodeList kartuLadangList = player1Element.getElementsByTagName("kartuLadang").item(0).getChildNodes();
-                for (int i = 0; i < jumlahKartuLadangPlayer1; i++) {
+                for (int i = 0; i < kartuLadangList.getLength(); i++) {
                     Node node = kartuLadangList.item(i);
+
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
                         Element element = (Element) node;
-
                         // Lokasi
                         Node lokasiNode = element.getElementsByTagName("lokasi").item(0);
                         String lokasi = lokasiNode.getTextContent();
@@ -487,11 +510,14 @@ public class XMLLoader implements Plugin {
                         Node itemAktifNode = element.getElementsByTagName("itemAktif").item(0);
                         NodeList itemAktifList = itemAktifNode.getChildNodes();
                         // TODO: TAMBAHIN TEMPAT PENYIMPANAN STATE ITEM DIMANA??
-                        for (int j = 0; j < itemAktifList.getLength(); j++) {
-                            System.out.print(itemAktifList.item(j).getTextContent() + " ");
-                        }
+                        // for (int j = 0; j < itemAktifList.getLength(); j++) {
+                        // System.out.print(itemAktifList.item(j).getTextContent() + " ");
+                        // }
 
                         landPlayer1State.setLandSlot(row, col, card);
+
+                        // DEBUG
+                        System.out.println(kartu + " " + lokasi);
                     }
                 }
                 // Create land & set i
@@ -529,7 +555,7 @@ public class XMLLoader implements Plugin {
                 Node deckAktifPlayer2Node = player2Element.getElementsByTagName("deckAktif").item(0);
                 NodeList deckAktifList = deckAktifPlayer2Node.getChildNodes();
                 // Parsing deckAktif for player1
-                Deck deckPlayer2State = new Deck(jumlahDeckPlayer2, jumlahDeckAktifPlayer2);
+                Deck deckPlayer2State = new Deck();
                 for (int i = 0; i < deckAktifList.getLength(); i++) {
                     Node node = deckAktifList.item(i);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -549,17 +575,22 @@ public class XMLLoader implements Plugin {
                         Card card = CardAssets.toCard(kartu);
 
                         // Deck
-                        deckPlayer2State.addCardToActiveDeck(card, col);
+                        deckPlayer2State.setCardToActiveDeck(card, col);
 
                         // DEBUG
                         System.out.println(card.getName() + " " + kartu + " " + lokasi);
                     }
                 }
 
-                // Parsing kartuLadang for player2
+                // Generate non-active cards
+                for (int i = 0; i < jumlahDeckPlayer2 - jumlahDeckAktifPlayer2; i++) {
+                    Card randCard = CardAssets.getRandomCard();
+                    deckPlayer2State.addCardToNonActiveDeck(randCard);
+                }
 
+                // Parsing kartuLadang for player2
                 // Jumlah kartu ladang
-                Land landPlayer2State = new Land(4, 5);
+                Land landPlayer2State = new Land();
                 Node jumlahKartuLadangPlayer2Node = player2Element.getElementsByTagName("jumlahKartuLadang").item(0);
                 int jumlahKartuLadangPlayer2 = Integer.parseInt(jumlahKartuLadangPlayer2Node.getTextContent());
                 // DEBUG
@@ -568,7 +599,7 @@ public class XMLLoader implements Plugin {
                 // Parsing kartu ladang
                 NodeList kartuLadangList = player2Element.getElementsByTagName("kartuLadang").item(0).getChildNodes();
 
-                for (int i = 0; i < jumlahKartuLadangPlayer2; i++) {
+                for (int i = 0; i < kartuLadangList.getLength(); i++) {
                     Node node = kartuLadangList.item(i);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
                         Element element = (Element) node;
@@ -598,15 +629,16 @@ public class XMLLoader implements Plugin {
                         NodeList itemAktifList = itemAktifNode.getChildNodes();
 
                         for (int j = 0; j < itemAktifList.getLength(); j++) {
-
-                            System.out.print(itemAktifList.item(j).getTextContent() + " ");
+                            // System.out.print(itemAktifList.item(j).getTextContent() + " ");
                         }
 
                         // TODO: TAMBAHIN TEMPAT PENYIMPANAN STATE ITEM DIMANA??
                         landPlayer2State.setLandSlot(row, col, card);
+
+                        // DEBUG
+                        System.out.println(card.getName() + " " + lokasi);
                     }
                 }
-
                 // Create player and set it
                 Player player2 = new Player(guldenPlayer2, landPlayer2State, deckPlayer2State);
                 Game.getInstance().setPlayer2(player2);
