@@ -8,4 +8,9 @@ public class OmnivoreAnimalCard extends AnimalCard {
     public OmnivoreAnimalCard(String name, String imageLocation, int currentWeight, int harvestWeight, ProductCard harvestProduct) {
         super(name, imageLocation, AnimalType.OMNIVORE, currentWeight, harvestWeight, harvestProduct);
     }
+
+    @Override
+    public boolean canEat(ProductCard food) {
+        return true;
+    }
 }

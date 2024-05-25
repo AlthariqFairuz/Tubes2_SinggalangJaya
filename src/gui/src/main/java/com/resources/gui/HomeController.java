@@ -1,19 +1,27 @@
 package com.resources.gui;
 
 import com.resources.logic.*;
+import com.resources.logic.animal.AnimalCard;
+import com.resources.logic.item.ItemCard;
+import com.resources.logic.plant.PlantCard;
+import com.resources.logic.product.ProductCard;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -21,50 +29,74 @@ import javafx.util.Duration;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLOutput;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class HomeController {
+public class HomeController implements Initializable {
+    public final static String imageDirectory = "file:/home/azzmi/Desktop/cobarun/Tubes2_SinggalangJaya/src/gui/src/main/resources/com/resources/gui/Cards/";
+    public final static int TotalGameTurns = 20;
+
+    public static boolean ladangku;
+
     @FXML
     private Stage stage;
     private Scene scene;
     private Parent root;
 
     @FXML
-    private Label scoreLabelPlayer1; // Add the Label with @FXML annotation
+    private Label scoreLabelPlayer1;
+    @FXML
+    private Label scoreLabelPlayer2;
 
     @FXML
-    private Label scoreLabelPlayer2; // Add the Label with @FXML annotation
-    private Timeline timelinePlayer1;
-    private Timeline timelinePlayer2;
+    private Timeline timelineGame;
 
-    @FXML
-    private ImageView imgActiveCard0, imgActiveCard1, imgActiveCard2, imgActiveCard3, imgActiveCard4, imgActiveCard5; 
-    
-    @FXML
-    private Label cardActiveLabel0, cardActiveLabel1, cardActiveLabel2, cardActiveLabel3, cardActiveLabel4, cardActiveLabel5;
-
+    // Cards
     @FXML
     private GridPane cardLandGrid;
-
     @FXML
-    private Deck deck;
+    private GridPane deck;
 
+    // Buttons
     @FXML
-    private ImageView img_hewan_bear, img_hewan_ayam, img_hewan_cow, img_hewan_hiu, img_hewan_horse, img_hewan_sheep, img_produk_corn, img_produk_daging_beruang, img_produk_daging_domba, img_daging_kuda, img_produk_pumpkin, img_produk_sirip, img_produk_stroberi, img_produk_susu, img_produk_telur, img_tanaman_corn_seed, img_tanaman_pumpkin_seed, img_tanaman_strawberry_seed, img_item_accelerate, img_item_trap, img_item_delay, img_item_destroy, img_item_instant_harvest, img_item_protect;
+    private Button ladangkuButton;
+    @FXML
+    private Button ladangLawanButton;
+    @FXML
+    private Button nextButton;
 
+    // Labels
+    @FXML
+    private Label totalInactiveCardsLabel;
+    @FXML
+    private Label totalTurnsLabel;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("Running initialize...");
 
-    // @Override
-    // public void initialize(URL location, ResourceBundle resources) {
-    //     deck = Game.getInstance().getPlayer1().getDeck();
-    //     initializeScores(); // Call the method to initialize the scores
-    //     // startScoreIncrementing(); // Start the timelines to increment scores every second
-    //     updateActiveCards();
-    //     updateLandCard();
-    // }
+        ladangkuButton.setDisable(true);
+        ladangLawanButton.setDisable(false);
+        ladangku = true;
+
+        update_periodically();
+
+        implementDragAndDrop();
+
+    }
+
+    public Player getCurrentLadangShownPlayer() {
+        if (ladangku) {
+            return Game.getInstance().getCurrentPlayer();
+        } else {
+            return Game.getInstance().getOtherPlayer();
+        }
+    }
+
 
     private void initializeScores() {
         if (scoreLabelPlayer1 != null) {
@@ -76,74 +108,380 @@ public class HomeController {
             scoreLabelPlayer2.setText(String.valueOf(goldPlayer2));
         }
     }
-    
 
-    private void startScoreIncrementing() {
-        // Create a Timeline that increments the score for player 1 every second
-        timelinePlayer1 = new Timeline(new KeyFrame(Duration.seconds(1), event -> incrementScorePlayer1()));
-        timelinePlayer1.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
-        timelinePlayer1.play(); // Start the timeline for player 1
+    public void implementDragAndDrop() {
+        for (int col = 0; col < 6; col++) {
+            ImageView newImageView = (ImageView) getNodeFromGridPane2(deck, col);
+            int finalCol = col;
+            newImageView.setOnDragDetected(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    /* drag was detected, start drag-and-drop gesture*/
+//                    System.out.println("onDragDetected");
+                    Deck currentDeck = Game.getInstance().getCurrentPlayer().getDeck();
+                    if (currentDeck.getActiveCards()[finalCol].hasCard()) {
+//                        System.out.println("Non empty");
+                        Card currentCard = currentDeck.getActiveCards()[finalCol].getCard();
+//                        /* allow any transfer mode */
+                        Dragboard db = newImageView.startDragAndDrop(TransferMode.ANY);
+//
+                        ClipboardContent content = new ClipboardContent();
+                        String contentString = new DragDropContent(currentCard.getName(), -1, finalCol).toString();
+////                        System.out.println(contentString);
+                        content.putString(contentString);
+                        db.setContent(content);
+                    } else {
+//                        System.out.println("Empty");
+                    }
 
-        // Create a Timeline that increments the score for player 2 every second
-        timelinePlayer2 = new Timeline(new KeyFrame(Duration.seconds(1), event -> incrementScorePlayer2()));
-        timelinePlayer2.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
-        timelinePlayer2.play(); // Start the timeline for player 2
-    }
+                    event.consume();
+                }
+            });
+        }
+        for (int col = 0; col < 5; ++col) {
+            for (int row = 0; row < 4; ++row) {
+                ImageView newImageView = (ImageView) getNodeFromGridPane(cardLandGrid, col, row);
 
-    public void onGridOnClick(MouseEvent event) {
-        ImageView clickedImageView = (ImageView) event.getSource();
-        String cardName = "";
-        String imageURL = "";
+                int finalRow = row;
+                int finalCol = col;
+                newImageView.setOnDragDetected(new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent event) {
+                        /* drag was detected, start drag-and-drop gesture*/
+//                    System.out.println("onDragDetected");
+                        if (!ladangku) {
+                            event.consume();
+                        }
+                        Land currentLand = getCurrentLadangShownPlayer().getLand();
+                        if (currentLand.getCardSlots()[finalRow][finalCol].hasCard()) {
+//                            System.out.println(finalRow + " and " + finalCol + " works");
+//                        System.out.println("Non empty");
+                            Card currentCard = currentLand.getCardSlots()[finalRow][finalCol].getCard();
+                            /* allow any transfer mode */
+                            Dragboard db = newImageView.startDragAndDrop(TransferMode.ANY);
 
-        if (clickedImageView == img_hewan_bear) {
-            cardName = "BERUANG";
-            imageURL = "@hewan_bear.png";
-        } else if (clickedImageView == img_hewan_cow) {
-            cardName = "SAPI";
-            imageURL = "@hewan_cow.png";
-        } else if (clickedImageView == img_hewan_horse) {
-            cardName = "KUDA";
-            imageURL = "@hewan_horse.png";
-        } else if (clickedImageView == img_hewan_sheep) {
-            cardName = "DOMBA";
-            imageURL = "@hewan_sheep.png";
-        } else if (clickedImageView == img_produk_corn) {
-            cardName = "JAGUNG";
-            imageURL = "@produk_corn.png";
-        } else if (clickedImageView == img_produk_stroberi) {
-            cardName = "STROBERI";
-            imageURL = "@produk_stroberi.png";
+                            ClipboardContent content = new ClipboardContent();
+                            String contentString = new DragDropContent(currentCard.getName(), finalRow, finalCol).toString();
+//                        System.out.println(contentString);
+                            content.putString(contentString);
+                            db.setContent(content);
+                        } else {
+//                        System.out.println("Empty");
+                        }
+
+                        event.consume();
+                    }
+                });
+
+                newImageView.setOnDragOver(new EventHandler<DragEvent>() {
+                    public void handle(DragEvent event) {
+                        /* data is dragged over the target */
+//                        System.out.println("onDragOver");
+                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                        event.consume();
+                    }
+                });
+
+                newImageView.setOnDragDropped(new EventHandler<DragEvent>() {
+                    public void handle(DragEvent event) {
+//                        System.out.println("onDragDropped");
+                        ImageView sourceImageView = (ImageView) event.getGestureSource();
+                        CardSlot sourceSlot;
+                        boolean fromDeck = false;
+                        if (isOnDeck(sourceImageView)) {
+                            fromDeck = true;
+//                            System.out.println("On deck");
+                            Pair sourceDeck = getLocFromGridPane2(deck, (Node) event.getGestureSource());
+//                            System.out.println("Found at " + sourceDeck.getFirst() + " and " + sourceDeck.getSecond());
+                            sourceSlot = Game.getInstance().getCurrentPlayer().getDeck().getActiveCards()[sourceDeck.getSecond()];
+                        } else {
+//                            System.out.println("On land");
+                            Pair sourceLand = getLocFromGridPane(cardLandGrid, (Node) event.getGestureSource());
+//                            System.out.println("Found at " + sourceLand.getFirst() + " and " + sourceLand.getSecond());
+                            sourceSlot = getCurrentLadangShownPlayer().getLand().getCardSlots()[sourceLand.getFirst()][sourceLand.getSecond()];
+//                            System.out.println("This one... " + Boolean.valueOf(sourceSlot.hasCard()));
+                        }
+
+                        Pair destinationLand = getLocFromGridPane(cardLandGrid, newImageView);
+                        CardSlot landSlot = getCurrentLadangShownPlayer().getLand().getCardSlots()[destinationLand.getFirst()][destinationLand.getSecond()];
+//                        System.out.println("Destionation " + destinationLand.getFirst() + "  " + destinationLand.getSecond());
+                        Card sourceCard = sourceSlot.getCard();
+
+
+                        if (ladangku) {
+                            if (fromDeck) {
+                                if (!landSlot.hasCard()) {
+                                    if (sourceSlot.getCard() instanceof ItemCard) {
+                                        System.out.println("Kartu efek item tidak dapat ditaruh di ladang");
+                                    } else {
+                                        landSlot.setCard(sourceSlot.popCard());
+                                    }
+                                } else {
+                                    Card destinationCard = landSlot.getCard();
+
+                                    if (sourceCard instanceof ProductCard) {
+                                        if (destinationCard.canEat((ProductCard) sourceCard)) {
+                                            destinationCard.eat((ProductCard) sourceCard);
+                                            sourceSlot.popCard();
+                                        } else {
+                                            System.out.println("Can't eat that product");
+                                        }
+                                    } else if (sourceCard.getName().equals("INSTANT_HARVEST")) {
+                                        if (destinationCard.canHarvestInstantly()) {
+                                            sourceSlot.popCard();
+                                            sourceSlot.setCard(destinationCard.getHarvestProduct());
+                                            landSlot.popCard();
+                                        } else {
+                                            System.out.println("Kartu tidak dapat dipanen");
+                                        }
+                                    } else if (sourceCard.getName().equals("DESTROY")) {
+                                        System.out.println("Tidak bisa destroy lahan sendiri");
+                                    } else if (sourceCard instanceof ItemCard) {
+                                        if (destinationCard.canReceiveItem((ItemCard) sourceCard)) {
+                                            if (destinationCard.receiveItem((ItemCard) sourceCard)) {
+                                                sourceSlot.popCard();
+                                            } else {
+                                                System.out.println("Kartu efek tidak bisa di apply karena sudah dilakukan atau alasan lain");
+                                            }
+                                        } else {
+                                            System.out.println("Can't receive that item");
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (!landSlot.hasCard()) {
+                                    landSlot.setCard(sourceSlot.popCard());
+                                }
+                            }
+                        } else {
+                            if (fromDeck) {
+                                if (!landSlot.hasCard()) {
+                                    System.out.println("Tidak bisa menaruh kartu di ladang lawan");
+                                } else {
+                                    if (sourceCard.getName().equals("DESTROY")) {
+                                        if ((landSlot.getCard() instanceof AnimalCard) || (landSlot.getCard() instanceof PlantCard)) {
+                                            if (landSlot.getCard().isProtectedFromBear()) {
+                                                System.out.println("Kartu terprotected sehingga tidak bisa di destroy");
+                                            } else {
+                                                sourceSlot.popCard();
+                                                landSlot.popCard();
+                                            }
+                                        } else {
+                                            System.out.println("Hanya dapat mengdestroy hewan atan tanaman musuh");
+
+                                        }
+                                    } else {
+                                        System.out.println("Anda hanya bisa DESTROY ladang musuh");
+                                    }
+                                }
+                            } else {
+                                System.out.println("Tidak bisa memindahkan kartu lawan");
+                            }
+                        }
+                        event.setDropCompleted(true);
+                        event.consume();
+                    }
+                });
+            }
         }
 
-        Card card = CardAssets.toCard(cardName);
-
-        showDialog(card.getName(), card.getNumber(), card.getImageLocation());
-
     }
 
-    private void showDialog(String cardName, int ageCard, String imageURL) {
+    private void update_periodically() {
+        timelineGame = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
+            for (int col = 0; col < 5; ++col) {
+                for (int row = 0; row < 4; ++row) {
+                    Player selectedPlayer = getCurrentLadangShownPlayer();
+
+                    CardSlot slot = selectedPlayer.getLand().getCardSlots()[row][col];
+                    ImageView newImageView = (ImageView) getNodeFromGridPane(cardLandGrid, col, row);
+                    if (newImageView == null) {
+                        continue;
+                    }
+                    if (slot.hasCard()) {
+                        newImageView.setImage(new Image(imageDirectory + slot.getCard().getImageLocation()));
+                    } else {
+                        newImageView.setImage(new Image(imageDirectory + "Other/Empty.png"));
+                    }
+                }
+            }
+            for (int col = 0; col < 6; col++) {
+                ImageView newImageView = (ImageView) getNodeFromGridPane2(deck, col);
+                CardSlot slot = Game.getInstance().getCurrentPlayer().getDeck().getActiveCards()[col];
+                if (slot.hasCard()) {
+                    newImageView.setImage(new Image(imageDirectory + slot.getCard().getImageLocation()));
+                } else {
+                    newImageView.setImage(new Image(imageDirectory + "Other/Empty.png"));
+                }
+            }
+            totalInactiveCardsLabel.setText("Deck:\n" + Integer.toString(Game.getInstance().getCurrentPlayer().getDeck().countCardsInNonActiveDeck()) + "/" + Game.getInstance().getCurrentPlayer().getDeck().getTotalDeckCapacity());
+            totalTurnsLabel.setText("Turns: " + Integer.toString(Game.getInstance().getTotalTurns()));
+        }));
+
+        timelineGame.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
+        timelineGame.play();
+
+
+//        timelinePlayer2 = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
+////            if (Game.getInstance())
+//            for (int col = 0; col < 5; ++col) {
+//                for (int row = 0; row < 4; ++row) {
+//                    CardSlot slot = Game.getInstance().getPlayer2().getLand().getCardSlots()[row][col];
+//                    ImageView newImageView = (ImageView) getNodeFromGridPane(cardLandGrid, col, row);
+//                    if (newImageView == null) {
+//                        continue;
+//                    }
+//                    if (slot.hasCard()) {
+//                        newImageView.setImage(new Image(imageDirectory + slot.getCard().getImageLocation()));
+//                    } else {
+//                        newImageView.setImage(new Image(imageDirectory + "Other/Empty.png"));
+//                    }
+//                }
+//            }
+//            for (int col = 0; col < 6; col++) {
+//                ImageView newImageView = (ImageView) getNodeFromGridPane2(deck, col);
+//                CardSlot slot = Game.getInstance().getPlayer2().getDeck().getActiveCards()[col];
+//                if (slot.hasCard()) {
+//                    newImageView.setImage(new Image(imageDirectory + slot.getCard().getImageLocation()));
+//                } else {
+//                    newImageView.setImage(new Image(imageDirectory + "Other/Empty.png"));
+//                }
+//            }
+//        }));
+//
+//        timelinePlayer2.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
+//        timelinePlayer2.play(); // Start the timeline for player 2
+    }
+
+    private void deleteImageView(ImageView imageView) {
+        imageView.setImage(new Image(imageDirectory + "Other/Empty.png"));
+    }
+
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null &&
+                    GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col &&
+                    node instanceof ImageView) {
+                return (ImageView) node;
+            }
+        }
+        return null;
+    }
+
+    private Pair getLocFromGridPane(GridPane gridPane, Node n) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getRowIndex(node) != null && GridPane.getColumnIndex(node) != null && node == n) {
+                return new Pair(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+            }
+        }
+
+        return new Pair(-1, -1);
+    }
+
+
+    private Node getNodeFromGridPane2(GridPane gridPane, int col) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) != null && GridPane.getColumnIndex(node) == col &&
+                    node instanceof ImageView) {
+                return (ImageView) node;
+            }
+        }
+        return null;
+    }
+
+    private Pair getLocFromGridPane2(GridPane gridPane, Node n) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) != null && node == n) {
+                return new Pair(0, GridPane.getColumnIndex(node));
+            }
+        }
+        return new Pair(-1, -1);
+    }
+
+    private boolean isOnDeck(ImageView imageView) {
+        for (Node node : deck.getChildren()) {
+            if (node instanceof ImageView && (ImageView) node == imageView) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isOnLand(ImageView imageView) {
+        for (Node node : cardLandGrid.getChildren()) {
+            if (node instanceof ImageView && (ImageView) node == imageView) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    @FXML
+    public void nextButtonHandler(MouseEvent event) {
+        Game.getInstance().next();
+        if (Game.getInstance().getTotalTurns() == HomeController.TotalGameTurns) {
+            Player player1 = Game.getInstance().getPlayer1();
+            Player player2 = Game.getInstance().getPlayer2();
+
+            if (player1.getGold() == player2.getGold()) {
+                System.out.println("Player 1 & Player 2 mencapai Draw");
+            } else if (player1.getGold() > player2.getGold()) {
+                System.out.println("Player 1 menang");
+            } else {
+                System.out.println("Player 2 menang");
+            }
+        }
+        getShuffledCards();
+    }
+
+    public static void getShuffledCards() {
         try {
             // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("dialogbox.fxml"));
+            FXMLLoader loader = new FXMLLoader(HomeController.class.getResource("shuffle.fxml"));
+
+            // Create the dialog stage
+            Stage shuffleStage = new Stage();
+
+            // Set title and icon
+            Image icon = new Image(Objects.requireNonNull(HomeController.class.getResourceAsStream("Logo.jpg")));
+            shuffleStage.getIcons().add(icon);
+            shuffleStage.setTitle("Save");
+
+            shuffleStage.initModality(Modality.WINDOW_MODAL);
+            shuffleStage.initStyle(StageStyle.TRANSPARENT);
+            shuffleStage.setScene(new Scene(loader.load()));
+
+            // Get the controller and set the dialog reference
+            ShuffleController controller = loader.getController();
+            controller.setShuffle(shuffleStage);
+
+            // Show the dialog and wait until the user closes it
+            shuffleStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getCardDescription(CardSlot c) {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(HomeController.class.getResource("dialogbox.fxml"));
 
             // Create the dialog stage
             Stage dialogStage = new Stage();
 
             // Set title and icon
-            Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Logo.jpg")));
+            Image icon = new Image(Objects.requireNonNull(HomeController.class.getResourceAsStream("Logo.jpg")));
             dialogStage.getIcons().add(icon);
-            dialogStage.setTitle("Item");
-
+            dialogStage.setTitle("Deskripsi");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initStyle(StageStyle.TRANSPARENT);
             dialogStage.setScene(new Scene(loader.load()));
 
             // Get the controller and set the dialog reference
             DialogBoxController controller = loader.getController();
-            controller.setAssetName(cardName);
-//            controller.setAssetImage(imageURL);
-            controller.setAgeLabel(ageCard);
             controller.setDialog(dialogStage);
+            controller.setDialogBox(c);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
@@ -154,59 +492,47 @@ public class HomeController {
     }
 
 
-    private void incrementScorePlayer1() {
-        if (scoreLabelPlayer1 != null) {
-            // Get the current score from the label
-            String currentScoreText = scoreLabelPlayer1.getText();
-            try {
-                // Parse the current score to an integer
-                int currentScore = Integer.parseInt(currentScoreText);
-                // Increment the score
-                currentScore++;
-                // Set the updated score back to the label
-                updateLabel(scoreLabelPlayer1, currentScore);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
+    @FXML
+    public void keLadangku(MouseEvent e) {
+        ladangku = true;
+        ladangkuButton.setDisable(true);
+        ladangLawanButton.setDisable(false);
+        nextButton.setDisable(false);
+    }
+
+    @FXML
+    public void keLadangLawan(MouseEvent e) {
+        ladangku = false;
+        ladangkuButton.setDisable(false);
+        ladangLawanButton.setDisable(true);
+        nextButton.setDisable(true);
+    }
+
+
+    //    private void updateLabel(Label label, Integer newScore) {
+//        label.setText(String.valueOf(newScore));
+//    }
+//
+    @FXML
+    public void onGridOnClick(MouseEvent event) {
+
+        ImageView imageView = (ImageView) event.getSource();
+        int row = GridPane.getRowIndex(imageView);
+        int col = GridPane.getColumnIndex(imageView);
+
+        CardSlot cardSlot = getCurrentLadangShownPlayer().getLand().getCardSlots()[row][col];
+//        System.out.println("Clicked on Row: " + row + ", Column: " + col);
+        if (cardSlot.hasCard()) {
+            Card c = cardSlot.getCard();
+            if ((c instanceof AnimalCard) || (c instanceof PlantCard)) {
+                getCardDescription(cardSlot);
+            } else {
+                System.out.println("Not an animal or a plant");
             }
         }
+
     }
 
-    private void incrementScorePlayer2() {
-        if (scoreLabelPlayer2 != null) {
-            // Get the current score from the label
-            String currentScoreText = scoreLabelPlayer2.getText();
-            try {
-                // Parse the current score to an integer
-                int currentScore = Integer.parseInt(currentScoreText);
-                // Increment the score
-                currentScore++;
-                // Set the updated score back to the label
-                updateLabel(scoreLabelPlayer2, currentScore);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void updateLabel(Label label, Integer newScore) {
-        label.setText(String.valueOf(newScore));
-    }
-
-    public void switchToPlayer1(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("player1.fxml")));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToPlayer2(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("player2.fxml")));
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
 
     public void shopClicked(MouseEvent event) {
         try {
@@ -266,7 +592,7 @@ public class HomeController {
         }
     }
 
-    
+
     public void saveClicked(MouseEvent event) {
         try {
             // Load the FXML file
@@ -324,6 +650,9 @@ public class HomeController {
             e.printStackTrace();
         }
     }
+
+
+    // start old
 
 //     private void updateActiveCards() {
 //         Deck deck = Game.getInstance().getPlayer1().getDeck(); // Adjust to get the correct player deck
@@ -389,5 +718,4 @@ public class HomeController {
             e.printStackTrace();
         }
     }
-
 }

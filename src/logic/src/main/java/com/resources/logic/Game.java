@@ -11,11 +11,27 @@ public class Game {
     private Game() {
         this.player1 = new Player();
         this.player2 = new Player();
-        this.totalTurns = 0;
+        this.shop = Shop.getInstance();
+        this.isPlayer1Turn = true;
+        this.totalTurns = 1;
     }
 
     public static Game getInstance() {
         return instance;
+    }
+
+    // Buat testing di awal.
+    public void seed() {
+//        getInstance().getPlayer1().getLand().seed();
+//        getInstance().getPlayer2().getLand().seed();
+
+        getInstance().getPlayer1().getDeck().seedNonActiveDeck();
+        getInstance().getPlayer2().getDeck().seedNonActiveDeck();
+    }
+
+    public void next() {
+        isPlayer1Turn = !isPlayer1Turn;
+        totalTurns++;
     }
 
     public Player getPlayer1() {
@@ -28,6 +44,10 @@ public class Game {
 
     public int getTotalTurns() {
         return totalTurns;
+    }
+
+    public boolean isPlayer1Turn() {
+        return isPlayer1Turn;
     }
 
     public Player getCurrentPlayer() {
@@ -114,5 +134,4 @@ public class Game {
         getCurrentPlayer().getDeck().addCardToActiveDeck(CardAssets.toCard(name));
         return true;
     }
-
 }

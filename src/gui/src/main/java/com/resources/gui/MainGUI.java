@@ -35,6 +35,10 @@ public class MainGUI extends Application {
 
         stage.setScene(scene);
         stage.show();
+
+        // Add
+
+        HomeController.getShuffledCards();
     }
 
     public static void main(String[] args) {

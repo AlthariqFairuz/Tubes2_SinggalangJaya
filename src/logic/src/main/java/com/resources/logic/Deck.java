@@ -1,23 +1,31 @@
 package com.resources.logic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+import static com.resources.logic.CardAssets.getRandomCard;
+
 public class Deck {
-    private int totalDeckSize; // Non-active + active
-    private int totalActiveDeckSize; // Active only
-    private CardSlot[] nonActiveCards; // Size is totalDeckSize - totalActiveCards
-    private CardSlot[] ActiveCards; // Size is totalActiveCards
+    private int totalDeckCapacity; // Selalu 40. Ketika start game, nonActiveDeck terisi penuh oleh 40 kartu yang digenerate secara random.
+    private int totalActiveDeckCapacity; // Selalu 6. Ketika start game, ActiveDeck masih kosong.
+    private CardSlot[] nonActiveCards; // Size is totalDeckCapacity
+    private CardSlot[] ActiveCards; // Size is totalActiveDeckCapacity
 
-    public Deck() {
-        this.totalDeckSize = 40;
-        this.totalActiveDeckSize = 6;
+    public Deck(int totalDeckSize, int totalActiveDeckSize) {
+        this.totalDeckCapacity = totalDeckSize;
+        this.totalActiveDeckCapacity = totalActiveDeckSize;
 
-        nonActiveCards = new CardSlot[totalDeckSize - totalActiveDeckSize];
-        ActiveCards = new CardSlot[totalActiveDeckSize];
+        nonActiveCards = new CardSlot[totalDeckSize];
 
-        for (int i = 0; i < totalDeckSize - totalActiveDeckSize; i++) {
+        for (int i = 0; i < nonActiveCards.length; i++) {
             nonActiveCards[i] = new CardSlot();
         }
 
-        for (int i = 0; i < totalActiveDeckSize; i++) {
+        ActiveCards = new CardSlot[totalActiveDeckSize];
+
+        for (int i = 0; i < ActiveCards.length; i++) {
             ActiveCards[i] = new CardSlot();
         }
     }
@@ -30,9 +38,19 @@ public class Deck {
         return ActiveCards;
     }
 
+    public int getTotalDeckCapacity() {
+        return totalDeckCapacity;
+    }
+
+    public void seedNonActiveDeck() {
+        for (int i = 0; i < totalDeckCapacity; i++) {
+            nonActiveCards[i].setCard(getRandomCard());
+        }
+    }
+
     public int countEmptySlotsInActiveDeck() {
         int count = 0;
-        for (int i = 0; i < totalActiveDeckSize; i++) {
+        for (int i = 0; i < totalActiveDeckCapacity; i++) {
             if (!ActiveCards[i].hasCard()) {
                 count++;
             }
@@ -45,36 +63,42 @@ public class Deck {
     }
 
     public void addCardToActiveDeck(Card card) {
-        for (int i = 0; i < totalActiveDeckSize; i++) {
+        for (int i = 0; i < totalActiveDeckCapacity; i++) {
             if (!ActiveCards[i].hasCard()) {
                 ActiveCards[i].setCard(card);
                 return;
             }
         }
     }
-
-    public void addCardToNonActiveDeck(Card card) {
-        for (int i = 0; i < totalDeckSize - totalActiveDeckSize; i++) {
-            if (!nonActiveCards[i].hasCard()) {
-                nonActiveCards[i].setCard(card);
+    public void deleteCardFromInactiveDeck(Card card) {
+        for (int i = 0; i < nonActiveCards.length; i++) {
+            if (nonActiveCards[i].hasCard() && nonActiveCards[i].getCard() == card) {
+                nonActiveCards[i].setCard(null);
                 return;
             }
         }
+        System.out.println("Fail to delete the card from inactive deck");
     }
 
-    public int getActiveCardsCount() {
-        int count = 0;
-        for (int i = 0; i < totalActiveDeckSize; i++) {
-            if (ActiveCards[i].hasCard()) {
-                count++;
+    public List<Card> getNrandomCardsFromInactiveDeck(int n) {
+        ArrayList<Card> availableCards = new ArrayList<>();
+        for (int i = 0; i < nonActiveCards.length; i++) {
+            if (nonActiveCards[i].hasCard()) {
+                availableCards.add(nonActiveCards[i].getCard());
             }
         }
-        return count;
+        if (n > availableCards.size()) {
+            System.out.println("Error: n is wrong");
+            return null;
+        } else {
+            Collections.shuffle(availableCards, new Random());
+            return availableCards.subList(0, n);
+        }
     }
 
-    public int getNonActiveCardsCount() {
+    public int countCardsInNonActiveDeck() {
         int count = 0;
-        for (int i = 0; i < totalDeckSize - totalActiveDeckSize; i++) {
+        for (int i = 0; i < nonActiveCards.length; i++) {
             if (nonActiveCards[i].hasCard()) {
                 count++;
             }
@@ -115,7 +139,6 @@ public class Deck {
                 ptr++;
             }
         }
-
     }
 
 }
