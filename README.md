@@ -6,7 +6,7 @@
 This project involves the creation of a farm management program. The farm consists of multiple plots arranged in a matrix-like fashion, where each plot can be used for planting crops or housing animals. The program resembles a card game where each card represents an object, such as a plant or an animal. These cards can be placed on the farm or sold at a store if they are in the player's active deck. Additionally, objects on the farm can be destroyed in random bear attacks. The program also features save & load functionality to store and retrieve the program state in a text format. Moreover, the program is extensible, providing plugin support, allowing users to easily add file formats for save & load besides the text format.
 
 
-## Technologies Used
+## Requirements
 - Java JDK 22 or above
 - Maven
 
@@ -24,7 +24,8 @@ List the ready features here:
 
 
 ## Setup
-1. Clone this repository using
+1. Intall all requirements
+2. Clone this repository using
 ```
 https://github.com/AlthariqFairuz/Tubes2_SinggalangJaya.git
 ```
@@ -36,7 +37,7 @@ cd Tubes2_SinggalangJaya
 ```
 mvn clean package
 ```
-4. Running the program with
+5. Running the program with
 ```
 java -jar gui/target/gui-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
