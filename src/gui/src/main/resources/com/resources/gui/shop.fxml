@@ -32,5 +32,13 @@
             </AnchorPane>
         </content>
       </ScrollPane>
+      <Button layoutX="393.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onClickSellButton" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Sell" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="SansSerif Bold" size="16.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
    </children>
 </AnchorPane>

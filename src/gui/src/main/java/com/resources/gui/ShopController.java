@@ -1,14 +1,20 @@
 package com.resources.gui;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import com.resources.logic.CardSlot;
+import com.resources.logic.Game;
 import com.resources.logic.Shop;
 import com.resources.logic.ShopItem;
 import com.resources.logic.product.ProductCard;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -16,7 +22,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ShopController { // Assuming you have a VBox in your FXML file to hold the labels
     private Stage shop;
@@ -53,7 +61,7 @@ public class ShopController { // Assuming you have a VBox in your FXML file to h
             itemImageView.setFitWidth(50);  // Set the desired width
             itemImageView.setPreserveRatio(true); // Preserve the aspect ratio
             Button buyButton = new Button("Buy");
-            buyButton.setStyle("-fx-background-color: #00ff00; -fx-text-fill: #000000;");
+            buyButton.setStyle("-fx-background-color:  #9336B4; -fx-text-fill: #000000;");
 
             // Create Labels for the item's name and price
             Label priceLabel = new Label(item.getPrice() + " gold");
@@ -82,4 +90,35 @@ public class ShopController { // Assuming you have a VBox in your FXML file to h
             shop.close();
         }
     } 
+
+    @FXML
+    public void onClickSellButton(MouseEvent event) {
+       try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("sell.fxml"));
+
+            // Create the dialog stage
+            Stage pluginStage = new Stage();
+
+            // Set title and icon
+            Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Logo.jpg")));
+            pluginStage.getIcons().add(icon);
+            pluginStage.setTitle("Sell");
+
+            pluginStage.initModality(Modality.WINDOW_MODAL);
+            pluginStage.initStyle(StageStyle.TRANSPARENT);
+            pluginStage.setScene(new Scene(loader.load()));
+
+            // Get the controller and set the dialog reference
+            SellController controller = loader.getController();
+            controller.setSell(pluginStage);
+
+            // Show the dialog and wait until the user closes it
+            pluginStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
 }
