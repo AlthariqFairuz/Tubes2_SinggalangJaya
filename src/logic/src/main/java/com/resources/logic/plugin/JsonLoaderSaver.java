@@ -23,7 +23,7 @@ import com.resources.logic.plugin.json.ShopItemJson;
 import com.resources.logic.plugin.json.StateJson;
 import com.resources.logic.product.ProductCard;
 
-public class JsonLoader implements Plugin {
+public class JsonLoaderSaver implements Plugin {
     @Override
     public String getPluginType() {
         return "JSON";
@@ -133,33 +133,34 @@ public class JsonLoader implements Plugin {
 
                     // Get card name
                     String cardName = cardSlot.getCard().getName();
-                    Card card = CardAssets.toCard(cardName);
 
                     // Get age
-                    int age = card.getHarvestProduct().getAddedWeight();
+                    int age = cardSlot.getCard().getHarvestProduct().getAddedWeight();
 
-                    // Get active state coutn
-                    // TODO: MASIH ANEH DESIGNNYA AZMI, DIMANA DAPETIN LIST OF ACTIVE STATES??
-                    int activeCount = 0;
+                    // Get active state count
+                    int activeItemCount = cardSlot.getCard().getHarvestProduct().getTotalActiveItem();
 
                     // Get active
-                    // TODO: MASIH ANEH DESIGNNYA AZMI, DIMANA DAPETIN LIST OF ACTIVE STATES??
-                    List<String> activeItems = new ArrayList<>();
+                    List<String> activeItems = cardSlot.getCard().getHarvestProduct().getActiveItems();
 
                     // Kartu ladang
-                    LadangKartuJson ladangKartuJson = new LadangKartuJson(code, cardName, age, activeCount,
+                    LadangKartuJson ladangKartuJson = new LadangKartuJson(code, cardName, age, activeItemCount,
                             activeItems);
+
+                    // Add to kartu ladang player 1
                     kartuLadangPlayer1.add(ladangKartuJson);
 
                     // DEBUG
-                    System.out.println(card.getName() + " " + code + " " + age + " " + activeCount + " " + activeItems);
+                    System.out.println(
+                            cardSlot.getCard().getName() + " " + code + " " + age + " " + activeItemCount + " "
+                                    + activeItems);
                 }
             }
         }
-        // Set kartu ladang player 1
-        state.setKartuLadangPlayer1(kartuLadangPlayer1);
         // Set jumlah kartu ladang player 1
         state.setJumlahKartuLadangPlayer1(jumlahKartuLadangPlayer1);
+        // Set kartu ladang player 1
+        state.setKartuLadangPlayer1(kartuLadangPlayer1);
 
         // Player 2 state
         Player player2 = Game.getInstance().getPlayer2();
@@ -229,20 +230,28 @@ public class JsonLoader implements Plugin {
 
                     // Get card name
                     String cardName = cardSlot.getCard().getName();
-                    Card card = CardAssets.toCard(cardName);
 
                     // Get age
-                    int age = card.getHarvestProduct().getAddedWeight();
+                    int age = cardSlot.getCard().getHarvestProduct().getAddedWeight();
 
-                    // Get active
-                    // TODO: MASIH ANEH DESIGNNYA AZMI, DIMANA DAPETIN LIST OF ACTIVE STATES??
-                    int activeCount = 0;
+                    // Get active item total count
+                    int activeItemCount = cardSlot.getCard().getHarvestProduct().getTotalActiveItem();
+
+                    // Get active items list
                     List<String> activeItems = new ArrayList<>();
+                    for (String item : cardSlot.getCard().getHarvestProduct().getActiveItems()) {
+                        activeItems.add(item);
+                    }
 
                     // Kartu ladang
-                    LadangKartuJson ladangKartuJson = new LadangKartuJson(code, cardName, age, activeCount,
+                    LadangKartuJson ladangKartuJson = new LadangKartuJson(code, cardName, age, activeItemCount,
                             activeItems);
                     kartuLadangPlayer2.add(ladangKartuJson);
+
+                    // DEBUG
+                    System.out.println(
+                            cardSlot.getCard().getName() + " " + code + " " + age + " " + activeItemCount + " "
+                                    + activeItems);
                 }
             }
         }
@@ -382,19 +391,24 @@ public class JsonLoader implements Plugin {
             Card card = CardAssets.toCard(cardName);
 
             // Get age
-            int age = card.getHarvestProduct().getAddedWeight();
+            int age = ladangKartuJson.getUmur();
+            // Update umur
+            card.getHarvestProduct().setAddedWeight(age);
 
             // Get active count
-            int activeCount = ladangKartuJson.getJumlahItemAktif();
+            // unused
+            // int activeItemCount = ladangKartuJson.getJumlahItemAktif();
 
-            // Get actives
-            List<String> foo = ladangKartuJson.getItemAktif();
-            // TODO: TAMBAHIN TEMPAT PENYIMPANAN STATE ITEM DIMANA??
+            // Get active items
+            List<String> activeItems = ladangKartuJson.getItemAktif();
+            // Set
+            card.getHarvestProduct().setActiveItems(activeItems);
 
             landPlayer1State.setLandSlot(row, col, card);
 
             // DEBUG
-            System.out.println(card.getName() + " " + lokasi + " " + age + " " + activeCount + " " + foo);
+            System.out.println(card.getName() + " " + lokasi + " " + card.getHarvestProduct().getAddedWeight() + " "
+                    + card.getHarvestProduct().getTotalActiveItem() + " " + card.getHarvestProduct().getActiveItems());
         }
         // Set to instance
         Player player1 = new Player(goldPlayer1State, landPlayer1State, deckPlayer1State);
@@ -447,14 +461,15 @@ public class JsonLoader implements Plugin {
         System.out.println("Jumlah kartu nonaktif player 2: " + deckPlayer2State.getNonActiveCardsCount());
 
         // Land state
-        int ladangPlayer2State = state.getJumlahKartuLadangPlayer2();
+        int ladangPlayer2CountState = state.getJumlahKartuLadangPlayer2();
         Land landPlayer2State = new Land();
-        for (int i = 0; i < ladangPlayer2State; i++) {
+        for (int i = 0; i < ladangPlayer2CountState; i++) {
             // Get item
             LadangKartuJson ladangKartuJson = state.getKartuLadangPlayer2().get(i);
 
             // Get coordinate
-            Coordinate co = Coordinate.CodeToCoordinate(ladangKartuJson.getLokasi());
+            String lokasi = ladangKartuJson.getLokasi();
+            Coordinate co = Coordinate.CodeToCoordinate(lokasi);
             int col = co.getCol();
             int row = co.getRow();
 
@@ -463,17 +478,26 @@ public class JsonLoader implements Plugin {
             Card card = CardAssets.toCard(cardName);
 
             // Get age
-            int age = card.getHarvestProduct().getAddedWeight();
+            int age = ladangKartuJson.getUmur();
+            // Update age
+            card.getHarvestProduct().setAddedWeight(age);
 
             // Get active count
-            int activeCount = ladangKartuJson.getJumlahItemAktif();
+            // unused
+            // int activeCount = ladangKartuJson.getJumlahItemAktif();
 
-            // Get active
-            // TODO: TAMBAHIN TEMPAT PENYIMPANAN STATE ITEM DIMANA??
+            // Get active items
+            List<String> activeItems = ladangKartuJson.getItemAktif();
+            // Set
+            card.getHarvestProduct().setActiveItems(activeItems);
+
+            // Set to land
             landPlayer2State.setLandSlot(row, col, card);
 
             // DEBUG
-            System.out.println(card.getName() + " " + ladangKartuJson.getLokasi() + " " + age + " " + activeCount);
+            System.out.println(card.getName() + " " + lokasi + " "
+                    + card.getHarvestProduct().getAddedWeight() + " "
+                    + card.getHarvestProduct().getTotalActiveItem() + " " + card.getHarvestProduct().getActiveItems());
         }
         // Set to instance
         Player player2 = new Player(goldPlayer2State, landPlayer2State, deckPlayer2State);

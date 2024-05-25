@@ -7,8 +7,6 @@ import com.resources.logic.plant.PlantCard;
 import com.resources.logic.product.ProductCard;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,18 +19,13 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLOutput;
 import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -41,7 +34,7 @@ import static com.resources.logic.CardAssets.toCard;
 
 public class HomeController implements Initializable {
     public final static String imageDirectory = "file:/home/azzmi/Desktop/cobarun/Tubes2_SinggalangJaya/src/gui/src/main/resources/com/resources/gui/Cards/";
-    public final static int TotalGameTurns = 20;
+    public final static int TotalGameTurns = 21;
 
     public static boolean ladangku;
     public static boolean isAttacked;
@@ -434,16 +427,16 @@ public class HomeController implements Initializable {
     @FXML
     public void nextButtonHandler(MouseEvent event) {
         Game.getInstance().next();
-        getShuffledCards();
-        int randomNumber = (int) (Math.random() * 4);
 
-//        if (randomNumber == 0) {
-        bearAttack();
-//        }
         if (Game.getInstance().getTotalTurns() == HomeController.TotalGameTurns) {
             showWinner();
+        } else {
+            getShuffledCards();
+            int randomNumber = (int) (Math.random() * 4);
+            if (randomNumber == 0) {
+                bearAttack();
+            }
         }
-
     }
 
     public void bearAttack() {
@@ -533,7 +526,7 @@ public class HomeController implements Initializable {
 
             // Get the controller and call the setWinner method
             WinnerController winnerController = loader.getController();
-            winnerController.setWinner();
+            winnerController.setWinner(winnerStage);
 
             // Show the dialog and wait until the user closes it
             winnerStage.showAndWait();

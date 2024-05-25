@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="606.0" style="-fx-background-color: #FFE79B; -fx-border-color: black; -fx-border-image-width: 20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.resources.gui.SellController">
+   <children>
+      <Label alignment="CENTER" layoutY="21.0" prefHeight="116.0" prefWidth="606.0" style="-fx-background-color: #9336B4; -fx-background-radius: 5;" text="SELL" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="96.0" />
+         </font>
+      </Label>
+      <Button layoutX="14.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onClickBackButtonSellBox" prefHeight="77.0" prefWidth="198.0" stylesheets="@style.css" text="Exit" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="SansSerif Bold" size="16.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
+      <ScrollPane layoutX="19.0" layoutY="146.0" prefHeight="477.0" prefWidth="571.0">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="571.0" style="-fx-background-color: #FFE79B;">
+               <children>
+                  <VBox fx:id="listSellItem" prefHeight="478.0" prefWidth="571.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
