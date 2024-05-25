@@ -14,7 +14,6 @@ public class MainGUI extends Application {
 
     @FXML
     private TextField player1;
-    private TextField player2;
     @Override
     public void start(Stage stage) throws IOException {
 

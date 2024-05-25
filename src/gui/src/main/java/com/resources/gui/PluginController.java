@@ -46,7 +46,6 @@
             fileName.setText(selectedFile.getAbsolutePath());
             path = selectedFile.getAbsolutePath();
 
-            // Here you can perform any operations with the selected JAR file
         } else {
             // Set text to indicate no file selected
             fileName.setText("No file selected.");
@@ -62,9 +61,8 @@
     public void onUploadButtonClicked(MouseEvent event) {
         if (selectedFile != null) {
             // Load the selected JAR file using the PluginLoader class
-            PluginLoader pluginLoader = new PluginLoader();
-            plugins.add(pluginLoader.loadPlugin(path));
-            
+            PluginLoader instance = PluginLoader.getInstance();
+            instance.loadPlugin(path);
         }
         else {
             // Display an error message if no file is selected
