@@ -418,6 +418,7 @@ public class HomeController implements Initializable {
     @FXML
     public void nextButtonHandler(MouseEvent event) {
         Game.getInstance().next();
+
         if (Game.getInstance().getTotalTurns() == HomeController.TotalGameTurns) {
             showWinner();
         }

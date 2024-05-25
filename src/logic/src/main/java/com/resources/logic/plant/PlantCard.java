@@ -15,6 +15,11 @@ public class PlantCard extends Card {
         this.harvestTurns = harvestTurns;
     }
 
+    public void incrementTotalTurns() {
+        this.totalTurns++;
+    }
+
+
     @Override
     public int getNumber() {
         return totalTurns;

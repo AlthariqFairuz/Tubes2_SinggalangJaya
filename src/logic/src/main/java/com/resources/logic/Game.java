@@ -1,5 +1,6 @@
 package com.resources.logic;
 
+import com.resources.logic.plant.PlantCard;
 import com.resources.logic.product.ProductCard;
 
 public class Game {
@@ -34,6 +35,29 @@ public class Game {
     public void next() {
         isPlayer1Turn = !isPlayer1Turn;
         totalTurns++;
+        CardSlot[][] land1 = player1.getLand().getCardSlots();
+        CardSlot[][] land2 = player2.getLand().getCardSlots();
+
+        for (int i = 0; i < land1.length; i++) {
+            for (int j = 0; j < land1[i].length; j++) {
+                if (land1[i][j].hasCard()) {
+                    Card c = land1[i][j].getCard();
+                    if (c instanceof PlantCard) {
+                        ((PlantCard) c).incrementTotalTurns();
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < land2.length; i++) {
+            for (int j = 0; j < land2[i].length; j++) {
+                if (land2[i][j].hasCard()) {
+                    Card c = land2[i][j].getCard();
+                    if (c instanceof PlantCard) {
+                        ((PlantCard) c).incrementTotalTurns();
+                    }
+                }
+            }
+        }
     }
 
     public Player getPlayer1() {
