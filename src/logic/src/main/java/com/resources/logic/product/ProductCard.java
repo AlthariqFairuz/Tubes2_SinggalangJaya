@@ -12,6 +12,10 @@ public class ProductCard extends Card {
         this.addedWeight = addedWeight;
     }
 
+    public void setAddedWeight(int addedWeight) {
+        this.addedWeight = addedWeight;
+    }
+
     @Override
     public boolean canEat(ProductCard food) {
         return false;
