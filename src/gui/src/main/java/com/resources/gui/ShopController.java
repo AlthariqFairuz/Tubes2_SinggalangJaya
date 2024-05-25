@@ -71,9 +71,16 @@ public class ShopController { // Assuming you have a VBox in your FXML file to h
             quantityLabel.setStyle("-fx-font-style: italic;");
             buyButton.setOnAction(e -> {
                 if (instance.buyShopItem(item.getItem().getName())) {
-                    if (Game.getInstance().getCurrentPlayer().getDeck().isActiveDeckAvailable()){
+                    if (Game.getInstance().getCurrentPlayer().getDeck().isActiveDeckAvailable() && Game.getInstance().getCurrentPlayer().getGold() >= item.getPrice()){
                         Game.getInstance().getCurrentPlayer().getDeck().addCardToActiveDeck(item.getItem());
                         instance.buyShopItem(item.getItem().getName());
+                        Game.getInstance().getCurrentPlayer().addGold(-item.getPrice());
+                    }
+                    else {
+                        Label noItems = new Label("Inventory is full or you don't have enough gold to buy this item.");
+                        noItems.setStyle("-fx-font-size: 20px; -fx-allignment: center; -fx-font-weight: bold;");
+                        listShopItem.getChildren().add(noItems);
+                        return;
                     }
                     loadShopItems();
                 }

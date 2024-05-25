@@ -27,8 +27,8 @@ public class SaveController {
             options.add("txt");
             for (String plugin : PluginLoader.getInstance().getPlugins()) {
                 options.add(plugin.toLowerCase());
+            }
             saveMenuButton.getItems().addAll(options);
-        }
 
     }
 
