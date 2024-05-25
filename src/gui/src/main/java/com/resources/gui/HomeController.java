@@ -40,7 +40,7 @@ public class HomeController implements Initializable {
     public final static String imageDirectory = "file:/home/azzmi/Desktop/cobarun/Tubes2_SinggalangJaya/src/gui/src/main/resources/com/resources/gui/Cards/";
     public final static int TotalGameTurns = 20;
 
-    private boolean ladangku;
+    public static boolean ladangku;
 
     @FXML
     private Stage stage;
@@ -462,6 +462,36 @@ public class HomeController implements Initializable {
         }
     }
 
+    public static void getCardDescription(CardSlot c) {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(HomeController.class.getResource("dialogbox.fxml"));
+
+            // Create the dialog stage
+            Stage dialogStage = new Stage();
+
+            // Set title and icon
+            Image icon = new Image(Objects.requireNonNull(HomeController.class.getResourceAsStream("Logo.jpg")));
+            dialogStage.getIcons().add(icon);
+            dialogStage.setTitle("Deskripsi");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initStyle(StageStyle.TRANSPARENT);
+            dialogStage.setScene(new Scene(loader.load()));
+
+            // Get the controller and set the dialog reference
+            DialogBoxController controller = loader.getController();
+            controller.setDialog(dialogStage);
+            controller.setDialogBox(c);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @FXML
     public void keLadangku(MouseEvent e) {
         ladangku = true;
@@ -485,15 +515,24 @@ public class HomeController implements Initializable {
 //
     @FXML
     public void onGridOnClick(MouseEvent event) {
-//        ImageView imageView = (ImageView) event.getSource();
-//        int row = GridPane.getRowIndex(imageView);
-//        int col = GridPane.getColumnIndex(imageView);
-//        CardSlot cardSlot = Game.getInstance().getCurrentPlayer().getLand().getCardSlots()[row][col];
 
+        ImageView imageView = (ImageView) event.getSource();
+        int row = GridPane.getRowIndex(imageView);
+        int col = GridPane.getColumnIndex(imageView);
+
+        CardSlot cardSlot = getCurrentLadangShownPlayer().getLand().getCardSlots()[row][col];
 //        System.out.println("Clicked on Row: " + row + ", Column: " + col);
-
+        if (cardSlot.hasCard()) {
+            Card c = cardSlot.getCard();
+            if ((c instanceof AnimalCard) || (c instanceof PlantCard)) {
+                getCardDescription(cardSlot);
+            } else {
+                System.out.println("Not an animal or a plant");
+            }
+        }
 
     }
+
 
     public void shopClicked(MouseEvent event) {
         try {

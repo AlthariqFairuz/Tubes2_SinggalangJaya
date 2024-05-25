@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -35,7 +34,7 @@
             <DropShadow />
          </effect>
       </Label>
-      <Button layoutX="134.0" layoutY="329.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="182.0" style="-fx-text-fill: FFFFFF; -fx-background-radius: 20;" styleClass="panen-button" stylesheets="@style.css" text="Panen">
+      <Button fx:id="panenButton" onMouseClicked="#panenKartu" layoutX="134.0" layoutY="329.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="182.0" style="-fx-text-fill: FFFFFF; -fx-background-radius: 20;" styleClass="panen-button" stylesheets="@style.css" text="Panen">
          <font>
             <Font name="SansSerif Regular" size="14.0" />
          </font>
@@ -49,7 +48,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="57.0" layoutY="168.0" prefHeight="36.0" prefWidth="227.0" text="Item aktif :">
+      <Label fx:id="itemAktifLabel" layoutX="57.0" layoutY="168.0" prefHeight="146.0" prefWidth="227.0" text="Item aktif :">
          <font>
             <Font size="16.0" />
          </font>

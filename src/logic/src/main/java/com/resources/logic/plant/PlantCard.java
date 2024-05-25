@@ -27,7 +27,7 @@ public class PlantCard extends Card {
 
     @Override
     public boolean canHarvest() {
-        return totalTurns >= harvestTurns;
+        return getCurrentTotalTurns() >= harvestTurns;
     }
 
     @Override
