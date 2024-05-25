@@ -33,7 +33,14 @@ import java.util.ResourceBundle;
 import static com.resources.logic.CardAssets.toCard;
 
 public class HomeController implements Initializable {
-    public final static String imageDirectory = "file:/home/azzmi/Desktop/cobarun/Tubes2_SinggalangJaya/src/gui/src/main/resources/com/resources/gui/Cards/";
+    public static final String imageDirectory;
+    static {
+        URL resource = HomeController.class.getResource("/com/resources/gui/Cards/");
+        if (resource == null) {
+            throw new IllegalStateException("Image directory not found");
+        }
+        imageDirectory = resource.toExternalForm();
+    }
     public final static int TotalGameTurns = 21;
 
     public static boolean ladangku;
